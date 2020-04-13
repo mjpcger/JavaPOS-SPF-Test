@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<!--
+  ~ Copyright 2020 Martin Conrad
+  ~ <p>
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ <p>
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ <p>
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Label?>
+<AnchorPane fx:controller="SPF_Test.Controller" xmlns:fx="http://javafx.com/fxml" prefHeight="600" prefWidth="1000">
+  <children>
+    <Pane prefHeight="600" prefWidth="1000">
+      <Text layoutX="10" layoutY="25" text="Device Category:" />
+      <ComboBox fx:id="DeviceCategory" layoutX="110" layoutY="5" prefHeight="30" prefWidth="160" />
+      <Text layoutX="280" layoutY="25" text="Logical Name:" />
+      <ComboBox fx:id="LogicalName" layoutX="370" layoutY="5" prefHeight="30" prefWidth="160" onAction="#handleSetLogicalName"/>
+      <Text fx:id="Usage" layoutX="540" layoutY="25"/>
+      <Separator layoutX="0" layoutY="45" prefWidth="1000" orientation="HORIZONTAL" />
+      <AnchorPane fx:id="DevicePane" prefWidth="990" prefHeight="550" layoutX="5" layoutY="50" />
+    </Pane>
+  </children>
+</AnchorPane>

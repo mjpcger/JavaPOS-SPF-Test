@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  ~ Copyright 2020 Martin Conrad
+  ~ <p>
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ <p>
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ <p>
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="SPF_Test.LineDisplayController"
+            prefHeight="540.0" prefWidth="980.0">
+    <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutX="0" layoutY="5" onAction="#setDeviceEnabled"/>
+    <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="110" layoutY="5" onAction="#setFreezeEvents"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="210" layoutY="0" onAction="#setPowerNotify"/>
+    <Label text="PowerNotify" layoutX="360" layoutY="5"/>
+    <TableView fx:id="Properties" layoutX="570" layoutY="0" prefWidth="410" prefHeight="115"/>
+    <Button text="Open" layoutX="0" layoutY="35" onAction="#open" prefWidth="70"/>
+    <Button text="Claim" layoutX="80" layoutY="35" onAction="#claim" prefWidth="70"/>
+    <ComboBox fx:id="claim_timeout" prefWidth="70" layoutX="80" layoutY="60" promptText="timeout" editable="true"/>
+    <Button text="Release" layoutX="160" layoutY="35" onAction="#release" prefWidth="70"/>
+    <Button text="Close" layoutX="240" layoutY="35" onAction="#close" prefWidth="70"/>
+    <Button text="CheckHealth" layoutX="320" layoutY="35" onAction="#checkHealth" prefWidth="90"/>
+    <ComboBox fx:id="CH_level" prefWidth="90" layoutX="320" layoutY="60" promptText="level" editable="true"/>
+    <Button text="DirectIO" layoutX="420" layoutY="35" onAction="#directIO" prefWidth="140"/>
+    <TextField fx:id="DIO_command" prefWidth="70" layoutX="420" layoutY="60" promptText="command"/>
+    <TextField fx:id="DIO_data" prefWidth="70" layoutX="490" layoutY="60" promptText="data"/>
+    <TextField fx:id="DIO_obj" prefWidth="140" layoutX="420" layoutY="85" promptText="obj"/>
+    <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
+    <Label layoutX="0" layoutY="530">
+        <font>
+            <Font fx:id="smalfont" size="8.0" />
+        </font>
+    </Label>
+    <CheckBox fx:id="CursorUpdate" layoutX="0" layoutY="90" onAction="#setCursorUpdate" text="CursorUpdate"/>
+    <CheckBox fx:id="MapCharacterSet" layoutX="160" layoutY="90" onAction="#setMapCharacterSet" text="MapCharacterSet"/>
+    <TabPane layoutX="0" layoutY="116" prefWidth="980" prefHeight="421" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Specific Properties And Methods">
+            <AnchorPane prefHeight="409" prefWidth="980">
+                <Label text="ScreenMode:" layoutX="0" layoutY="5" prefWidth="115" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="ScreenMode" layoutX="120" layoutY="0" prefWidth="115" editable="true" onAction="#setScreenMode"/>
+                <Label text="CharacterSet:" layoutX="0" layoutY="32" prefWidth="115" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="CharacterSet" layoutX="120" layoutY="27" prefWidth="115" editable="true" onAction="#setCharacterSet"/>
+                <Label text="BlinkRate:" layoutX="0" layoutY="65" prefWidth="115" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="BlinkRate" layoutX="120" layoutY="60" prefWidth="115"/>
+                <Label text="DeviceBrightness:" layoutX="0" layoutY="92" prefWidth="115" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="DeviceBrightness" layoutX="120" layoutY="87" prefWidth="115"/>
+                <Label text="InterCharacterWait:" layoutX="0" layoutY="119" prefWidth="115" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="InterCharacterWait" layoutX="120" layoutY="114" prefWidth="115"/>
+                <Label text="CurrentWindow:" layoutX="0" layoutY="152" prefWidth="115" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="CurrentWindow" layoutX="120" layoutY="147" prefWidth="115" editable="true" onAction="#setCurrentWindow"/>
+                <Label text="CursorType:" layoutX="0" layoutY="185" prefWidth="115" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="CursorType" layoutX="120" layoutY="180" prefWidth="115" editable="true" onAction="#setCursorType"/>
+                <Label text="CursorRow:" layoutX="0" layoutY="212" prefWidth="115" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="CursorRow" layoutX="120" layoutY="207" prefWidth="115"/>
+                <Label text="CursorColumn:" layoutX="0" layoutY="239" prefWidth="115" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="CursorColumn" layoutX="120" layoutY="234" prefWidth="115"/>
+                <Label text="MarqueeType:" layoutX="0" layoutY="272" prefWidth="115" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="MarqueeType" layoutX="120" layoutY="267" prefWidth="115" editable="true" onAction="#setMarqueeType"/>
+                <Label text="MarqueeFormat:" layoutX="0" layoutY="299" prefWidth="115" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="MarqueeFormat" layoutX="120" layoutY="294" prefWidth="115" editable="true" onAction="#setMarqueeFormat"/>
+                <Label text="MarqueeUnitWait:" layoutX="0" layoutY="326" prefWidth="115" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="MarqueeUnitWait" layoutX="120" layoutY="321" prefWidth="115"/>
+                <Label text="MarqueeRepeatWait:" layoutX="0" layoutY="353" prefWidth="115" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="MarqueeRepeatWait" layoutX="120" layoutY="348" prefWidth="115"/>
+                <TabPane layoutX="250" layoutY="0" prefWidth="730" prefHeight="406" tabClosingPolicy="UNAVAILABLE">
+                    <Tab text="Text Methods">
+                        <AnchorPane prefHeight="394" prefWidth="730">
+                            <Button text="ClearText" layoutX="0" layoutY="0" prefWidth="140" onAction="#clearText"/>
+                            <Button text="DisplayText" layoutX="145" layoutY="0" prefWidth="140" prefHeight="75" onAction="#displayText"/>
+                            <Button text="DisplayTextAt" layoutX="290" layoutY="0" prefWidth="140" onAction="#displayTextAt"/>
+                            <ComboBox fx:id="DTA_row" layoutX="290" layoutY="25" editable="true" prefWidth="140" promptText="row"/>
+                            <ComboBox fx:id="DTA_column" layoutX="290" layoutY="50" editable="true" prefWidth="140" promptText="column"/>
+                            <TextArea fx:id="DT_data" layoutX="145" layoutY="75" prefWidth="285" prefHeight="55" promptText="data for displayText and displayTextAt.
+Type \n, \r \e or \\ for NL, CR, ESC or \."/>
+                            <ComboBox fx:id="DT_attribute" layoutX="145" layoutY="130" editable="true" prefWidth="285" promptText="attribute for displayText and displayTextAt"/>
+                            <Button text="ScrollText" layoutX="435" layoutY="0" prefWidth="140" onAction="#scrollText"/>
+                            <ComboBox fx:id="ST_direction" layoutX="435" layoutY="25" prefWidth="140" editable="true" promptText="direction"/>
+                            <TextField fx:id="ST_units" layoutX="435" layoutY="50" prefWidth="140" promptText="units"/>
+                            <Button text="ReadCharacterAtCursor" layoutX="580" layoutY="0" prefWidth="140" onAction="#readCharacterAtCursor"/>
+                            <TextField fx:id="RCAC_cursorData" layoutX="580" layoutY="25" prefWidth="140" promptText="cursorData"/>
+                       </AnchorPane>
+                    </Tab>
+                    <Tab text="Window Methods">
+                        <AnchorPane prefHeight="394" prefWidth="730">
+                            <Button text="CreateWindow" layoutX="0" layoutY="0" prefWidth="140" onAction="#createWindow"/>
+                            <TextField fx:id="CW_viewportRow" layoutX="0" layoutY="25" prefWidth="140" promptText="viewportRow"/>
+                            <TextField fx:id="CW_viewportColumn" layoutX="0" layoutY="50" prefWidth="140" promptText="viewportColumn"/>
+                            <TextField fx:id="CW_viewportHeight" layoutX="0" layoutY="75" prefWidth="140" promptText="viewportHeight"/>
+                            <TextField fx:id="CW_viewportWidth" layoutX="0" layoutY="100" prefWidth="140" promptText="viewportWidth"/>
+                            <TextField fx:id="CW_windowHeight" layoutX="0" layoutY="125" prefWidth="140" promptText="windowHeight"/>
+                            <TextField fx:id="CW_windowWidth" layoutX="0" layoutY="150" prefWidth="140" promptText="windowWidth"/>
+                            <Button text="DestroyWindow" layoutX="145" layoutY="0" prefWidth="140" onAction="#destroyWindow"/>
+                            <Button text="RefreshWindow" layoutX="290" layoutY="0" prefWidth="140" onAction="#refreshWindow"/>
+                            <TextField fx:id="RW_window" layoutX="290" layoutY="25" prefWidth="140" promptText="window"/>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="Descriptor, Bitmap and Glyph Methods">
+                        <AnchorPane prefHeight="394" prefWidth="730">
+                            <Button text="ClearDescriptors" layoutX="0" layoutY="0" prefWidth="140" onAction="#clearDescriptors"/>
+                            <Button text="SetDescriptor" layoutX="145" layoutY="0" prefWidth="140" onAction="#setDescriptor"/>
+                            <TextField fx:id="SD_descriptor" layoutX="145" layoutY="25" prefWidth="140" promptText="descriptor"/>
+                            <ComboBox fx:id="SD_attribute" layoutX="145" layoutY="50" prefWidth="140" promptText="attribute" editable="true"/>
+                            <Button text="DefineGlyph" layoutX="290" layoutY="0" prefWidth="140" onAction="#defineGlyph"/>
+                            <TextField fx:id="DG_glyphCode" layoutX="290" layoutY="25" prefWidth="140" promptText="glyphCode"/>
+                            <TextField fx:id="DG_glyph" layoutX="290" layoutY="50" prefWidth="140" promptText="glyph (hex)"/>
+                            <Button text="SetBitmap" layoutX="435" layoutY="0" prefWidth="140" onAction="#setBitmap"/>
+                            <TextField fx:id="SB_bitmapNumber" layoutX="435" layoutY="25" prefWidth="140" promptText="bitmapNumber"/>
+                            <TextField fx:id="SB_fileName" layoutX="435" layoutY="50" prefWidth="115" promptText="fileName"/>
+                            <Button onAction="#browseSBName" layoutX="550" layoutY="50" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                            <ComboBox fx:id="SB_width" layoutX="435" layoutY="75" prefWidth="140" promptText="width" editable="true"/>
+                            <ComboBox fx:id="SB_alignmentX" layoutX="435" layoutY="100" prefWidth="140" promptText="alignmentX" editable="true"/>
+                            <ComboBox fx:id="SB_alignmentY" layoutX="435" layoutY="125" prefWidth="140" promptText="alignmentY" editable="true"/>
+                            <Button text="DisplayBitmap" layoutX="580" layoutY="0" prefWidth="140" onAction="#displayBitmap"/>
+                            <TextField fx:id="DB_fileName" layoutX="580" layoutY="25" prefWidth="115" promptText="fileName"/>
+                            <Button onAction="#browseDBName" layoutX="695" layoutY="25" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                            <ComboBox fx:id="DB_width" layoutX="580" layoutY="50" prefWidth="140" promptText="width" editable="true"/>
+                            <ComboBox fx:id="DB_alignmentX" layoutX="580" layoutY="75" prefWidth="140" promptText="alignmentX" editable="true"/>
+                            <ComboBox fx:id="DB_alignmentY" layoutX="580" layoutY="100" prefWidth="140" promptText="alignmentY" editable="true"/>
+                        </AnchorPane>
+                    </Tab>
+                </TabPane>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Maintenance Methods">
+            <AnchorPane prefHeight="409" prefWidth="980">
+                <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
+                <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <TextField fx:id="CFV_result" layoutX="0" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
+                <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
+                <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
+                <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
+                <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
+                <TextArea fx:id="_statisticsBuffer" layoutX="330" layoutY="30" prefWidth="350" prefHeight="75" promptText="statisticsBuffer"/>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+</AnchorPane>

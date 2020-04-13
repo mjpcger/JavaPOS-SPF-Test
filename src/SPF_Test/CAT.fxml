@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  ~ Copyright 2020 Martin Conrad
+  ~ <p>
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ <p>
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ <p>
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="SPF_Test.CATController"
+            prefHeight="540.0" prefWidth="980.0">
+    <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutX="0" layoutY="5" onAction="#setDeviceEnabled"/>
+    <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="110" layoutY="5" onAction="#setFreezeEvents"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="210" layoutY="0" onAction="#setPowerNotify"/>
+    <Label text="PowerNotify" layoutX="360" layoutY="5"/>
+    <ComboBox fx:id="CurrencyDigits" layoutX="435" layoutY="0" onAction="#setCurrencyDigits" prefWidth="50"/>
+    <Label text="Currency Digits" layoutX="490" layoutY="5"/>
+    <TableView fx:id="Properties" layoutX="570" layoutY="0" prefWidth="410" prefHeight="134"/>
+    <Button text="Open" layoutX="0" layoutY="35" onAction="#open" prefWidth="70"/>
+    <Button text="Claim" layoutX="80" layoutY="35" onAction="#claim" prefWidth="70"/>
+    <ComboBox fx:id="claim_timeout" prefWidth="70" layoutX="80" layoutY="60" promptText="timeout" editable="true"/>
+    <Button text="Release" layoutX="160" layoutY="35" onAction="#release" prefWidth="70"/>
+    <Button text="Close" layoutX="240" layoutY="35" onAction="#close" prefWidth="70"/>
+    <Button text="CheckHealth" layoutX="320" layoutY="35" onAction="#checkHealth" prefWidth="90"/>
+    <ComboBox fx:id="CH_level" prefWidth="90" layoutX="320" layoutY="60" promptText="level" editable="true"/>
+    <Button text="DirectIO" layoutX="420" layoutY="35" onAction="#directIO" prefWidth="140"/>
+    <TextField fx:id="DIO_command" prefWidth="70" layoutX="420" layoutY="60" promptText="command"/>
+    <TextField fx:id="DIO_data" prefWidth="70" layoutX="490" layoutY="60" promptText="data"/>
+    <TextField fx:id="DIO_obj" prefWidth="140" layoutX="420" layoutY="85" promptText="obj"/>
+    <Button text="ClearOutput" layoutX="0" layoutY="95" onAction="#clearOutput" prefWidth="150"/>
+    <CheckBox fx:id="AsyncMode" text="AsyncMode" layoutX="160" layoutY="100" onAction="#setAsyncMode"/>
+    <CheckBox fx:id="TrainingMode" layoutX="260" layoutY="100" text="TrainingMode" onAction="#setTrainingMode"/>
+    <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
+    <Label layoutX="0" layoutY="530">
+        <font>
+            <Font fx:id="smalfont" size="8.0" />
+        </font>
+    </Label>
+    <Label layoutX="0" layoutY="530">
+        <font>
+            <Font fx:id="boldfont" name="System Bold" size="12.0" />
+        </font>
+    </Label>
+    <TabPane layoutX="0" layoutY="135" prefWidth="980" prefHeight="405" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Authorization Methods" onSelectionChanged="#authorizationSelection">
+            <AnchorPane fx:id="AuthorizeAnchor" prefHeight="380" prefWidth="980">
+                <Label text="Methods" underline="true" layoutX="0" layoutY="5" prefWidth="145" alignment="CENTER"/>
+                <Button layoutX="0" layoutY="30" onAction="#authorizeCompletion" text="AuthorizeCompletion" prefWidth="145"/>
+                <Button layoutX="0" layoutY="55" onAction="#authorizePreSales" text="AuthorizePreSales" prefWidth="145"/>
+                <Button layoutX="0" layoutY="80" onAction="#authorizeRefund" text="AuthorizeRefund" prefWidth="145"/>
+                <Button layoutX="0" layoutY="105" onAction="#authorizeSales" text="AuthorizeSales" prefWidth="145"/>
+                <Button layoutX="0" layoutY="130" onAction="#authorizeVoid" text="AuthorizeVoid" prefWidth="145"/>
+                <Button layoutX="0" layoutY="155" onAction="#authorizeVoidPreSales" text="AuthorizeVoidPreSales" prefWidth="145"/>
+                <Label text="Parameters" underline="true" layoutX="0" layoutY="195" prefWidth="145" alignment="CENTER"/>
+                <TextField fx:id="A_sequenceNumber" layoutX="0" layoutY="230" prefWidth="145" promptText="sequenceNumber"/>
+                <TextField fx:id="A_amount" layoutX="0" layoutY="255" prefWidth="145" promptText="amount"/>
+                <TextField fx:id="A_taxOthers" layoutX="0" layoutY="280" prefWidth="145" promptText="taxOthers"/>
+                <ComboBox fx:id="A_timeout" layoutX="0" layoutY="305" prefWidth="145" promptText="timeout" editable="true"/>
+                <Label text="Authorization Specific Properties" underline="true" layoutX="155" layoutY="5"/>
+                <Label text="AccountNumber" layoutX="155" layoutY="30"/>
+                <TextField fx:id="AccountNumber" layoutX="270" layoutY="25" prefWidth="145" editable="false"/>
+                <Label text="Balance" layoutX="155" layoutY="55"/>
+                <TextField fx:id="Balance" layoutX="270" layoutY="50" prefWidth="145" editable="false"/>
+                <Label text="SettledAmount" layoutX="155" layoutY="80"/>
+                <TextField fx:id="SettledAmount" layoutX="270" layoutY="75" prefWidth="145" editable="false"/>
+                <Label text="ApprovalCode" layoutX="155" layoutY="105"/>
+                <TextField fx:id="ApprovalCode" layoutX="270" layoutY="100" prefWidth="145" editable="false"/>
+                <Label text="CardCompanyID" layoutX="155" layoutY="130"/>
+                <TextField fx:id="CardCompanyID" layoutX="270" layoutY="125" prefWidth="145" editable="false"/>
+                <Label text="CenterResultCode" layoutX="155" layoutY="155"/>
+                <TextField fx:id="CenterResultCode" layoutX="270" layoutY="150" prefWidth="145" editable="false"/>
+                <Label text="LogStatus" layoutX="155" layoutY="180"/>
+                <TextField fx:id="LogStatus" layoutX="270" layoutY="175" prefWidth="145" editable="false"/>
+                <Label text="SequenceNumber" layoutX="155" layoutY="205"/>
+                <TextField fx:id="SequenceNumber" layoutX="270" layoutY="200" prefWidth="145" editable="false"/>
+                <Label text="SlipNumber" layoutX="155" layoutY="230"/>
+                <TextField fx:id="SlipNumber" layoutX="270" layoutY="225" prefWidth="145" editable="false"/>
+                <Label text="TransactionType" layoutX="155" layoutY="255"/>
+                <TextField fx:id="TransactionType" layoutX="270" layoutY="250" prefWidth="145" editable="false"/>
+                <Label text="TransactionNumber" layoutX="155" layoutY="280"/>
+                <TextField fx:id="TransactionNumber" layoutX="270" layoutY="275" prefWidth="145" editable="false"/>
+                <Label text="PaymentCondition" layoutX="155" layoutY="305"/>
+                <TextField fx:id="PaymentCondition" layoutX="270" layoutY="300" prefWidth="145" editable="false"/>
+                <Label text="PaymentMedia" layoutX="155" layoutY="330" font="$boldfont"/>
+                <ComboBox fx:id="PaymentMedia" layoutX="270" layoutY="325" prefWidth="145" editable="true" onAction="#setPaymentMedia"/>
+                <Label text="PaymentDetail" layoutX="430" layoutY="30"/>
+                <TextArea fx:id="PaymentDetail" layoutX="605" layoutY="25" prefHeight="115" prefWidth="375" editable="false"/>
+                <Label text="AdditionalSecurityInformation" layoutX="430" layoutY="142" font="$boldfont"/>
+                <TextArea fx:id="AdditionalSecurityInformation" layoutX="605" layoutY="142" prefHeight="115" prefWidth="375"/>
+                <Label text="DirectIOEvent Contents" layoutX="430" layoutY="259"/>
+                <Button text="Clear" layoutX="557" layoutY="254" prefWidth="45" onAction="#clearDirectIOText"/>
+                <TextArea fx:id="A_DirectIOEvent" layoutX="605" layoutY="259" prefHeight="115" prefWidth="375"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Administrative Methods" onSelectionChanged="#administrationSelection">
+            <AnchorPane fx:id="AdministrativeAnchor" prefHeight="380" prefWidth="980">
+                <Button text="AccessDailyLog" layoutX="0" layoutY="0" onAction="#accessDailyLog" prefWidth="110"/>
+                <TextField fx:id="ADL_sequenceNumber" layoutX="0" layoutY="25" promptText="sequenceNumber" prefWidth="110"/>
+                <ComboBox fx:id="ADL_type" layoutX="0" layoutY="50" promptText="type" editable="true" prefWidth="110"/>
+                <ComboBox fx:id="ADL_timeout" layoutX="0" layoutY="75" promptText="timeout" editable="true" prefWidth="110"/>
+                <Button text="CashDeposit" layoutX="120" layoutY="0" onAction="#cashDeposit" prefWidth="110"/>
+                <TextField fx:id="CD_sequenceNumber" layoutX="120" layoutY="25" promptText="sequenceNumber" prefWidth="110"/>
+                <TextField fx:id="CD_amount" layoutX="120" layoutY="50" promptText="amount" prefWidth="110"/>
+                <ComboBox fx:id="CD_timeout" layoutX="120" layoutY="75" promptText="timeout" editable="true" prefWidth="110"/>
+                <Button text="CheckCard " layoutX="240" layoutY="0" onAction="#checkCard" prefWidth="110"/>
+                <TextField fx:id="CC_sequenceNumber" layoutX="240" layoutY="25" promptText="sequenceNumber" prefWidth="110"/>
+                <ComboBox fx:id="CC_timeout" layoutX="240" layoutY="50" promptText="timeout" editable="true" prefWidth="110"/>
+                <Button text="LockTerminal" layoutX="0" layoutY="120" onAction="#lockTerminal" prefWidth="90"/>
+                <Button text="UnlockTerminal" layoutX="100" layoutY="120" onAction="#unlockTerminal" prefWidth="100"/>
+                <Label text="Daily Log" layoutX="470" layoutY="25"/>
+                <TextArea fx:id="DailyLog" layoutX="605" layoutY="25" prefHeight="230" prefWidth="375"/>
+                <Label text="DirectIOEvent Contents" layoutX="470" layoutY="259"/>
+                <TextArea fx:id="B_DirectIOEvent" layoutX="605" layoutY="259" prefHeight="115" prefWidth="375"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Maintenance Methods" onSelectionChanged="#maintenanceSelection">
+            <AnchorPane fx:id="MaintenanceAnchor" prefHeight="380" prefWidth="980">
+                <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
+                <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <TextField fx:id="CFV_result" layoutX="0" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
+                <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
+                <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
+                <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
+                <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
+                <TextArea fx:id="_statisticsBuffer" layoutX="330" layoutY="30" prefWidth="350" prefHeight="75" promptText="statisticsBuffer"/>
+                <Label text="DirectIOEvent Contents" layoutX="430" layoutY="259"/>
+                <TextArea fx:id="C_DirectIOEvent" layoutX="605" layoutY="259" prefHeight="115" prefWidth="375"/>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+</AnchorPane>

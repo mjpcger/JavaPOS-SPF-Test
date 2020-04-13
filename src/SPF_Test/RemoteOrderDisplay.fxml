@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  ~ Copyright 2020 Martin Conrad
+  ~ <p>
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ <p>
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ <p>
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="SPF_Test.RemoteOrderDisplayController"
+            prefHeight="540.0" prefWidth="980.0">
+    <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutX="0" layoutY="5" onAction="#setDeviceEnabled"/>
+    <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="110" layoutY="5" onAction="#setFreezeEvents"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="210" layoutY="0" onAction="#setPowerNotify"/>
+    <Label text="PowerNotify" layoutX="360" layoutY="5"/>
+    <ComboBox fx:id="CurrentUnitID" layoutX="435" layoutY="0" prefWidth="80" editable="true" onAction="#setCurrentUnitID"/>
+    <Label text="CurrentUnitID" layoutX="520" layoutY="5"/>
+    <CheckBox fx:id="DataEventEnabled" text="DataEventEnabled" layoutX="610" layoutY="0" onAction="#setDataEventEnabled"/>
+    <CheckBox fx:id="LockDataEventEnabled" text="Lock DataEventEnabled" layoutX="750" layoutY="0"/>
+    <TableView fx:id="Properties" layoutX="570" layoutY="19" prefWidth="410" prefHeight="200"/>
+    <Button text="Open" layoutX="0" layoutY="35" onAction="#open" prefWidth="70"/>
+    <Button text="Claim" layoutX="80" layoutY="35" onAction="#claim" prefWidth="70"/>
+    <ComboBox fx:id="claim_timeout" prefWidth="70" layoutX="80" layoutY="60" promptText="timeout" editable="true"/>
+    <Button text="Release" layoutX="160" layoutY="35" onAction="#release" prefWidth="70"/>
+    <Button text="Close" layoutX="240" layoutY="35" onAction="#close" prefWidth="70"/>
+    <Button text="CheckHealth" layoutX="320" layoutY="35" onAction="#checkHealth" prefWidth="90"/>
+    <ComboBox fx:id="CH_level" prefWidth="90" layoutX="320" layoutY="60" promptText="level" editable="true"/>
+    <Button text="DirectIO" layoutX="420" layoutY="35" onAction="#directIO" prefWidth="140"/>
+    <TextField fx:id="DIO_command" prefWidth="70" layoutX="420" layoutY="60" promptText="command"/>
+    <TextField fx:id="DIO_data" prefWidth="70" layoutX="490" layoutY="60" promptText="data"/>
+    <TextField fx:id="DIO_obj" prefWidth="140" layoutX="420" layoutY="85" promptText="obj"/>
+    <Button text="ClearInput" layoutX="0" layoutY="90" onAction="#clearInput" prefWidth="110"/>
+    <Button text="ClearOutput" layoutX="120" layoutY="90" onAction="#clearOutput" prefWidth="110"/>
+    <CheckBox fx:id="AsyncMode" text="AsyncMode" layoutX="240" layoutY="95" onAction="#setAsyncMode"/>
+    <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
+    <Label layoutX="0" layoutY="530">
+        <font>
+            <Font fx:id="smalfont" size="8.0" />
+        </font>
+    </Label>
+    <Label layoutX="0" layoutY="530">
+        <font>
+            <Font fx:id="boldfont" name="System Bold" size="12.0" />
+        </font>
+    </Label>
+    <Label text="UnitsOnline: " layoutX="0" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline01" layoutX="75" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline02" layoutX="90" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline03" layoutX="105" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline04" layoutX="120" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline05" layoutX="135" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline06" layoutX="150" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline07" layoutX="165" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline08" layoutX="180" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline09" layoutX="195" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline10" layoutX="210" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline11" layoutX="225" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline12" layoutX="240" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline13" layoutX="255" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline14" layoutX="270" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline15" layoutX="285" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline16" layoutX="300" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline17" layoutX="315" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline18" layoutX="330" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline19" layoutX="345" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline20" layoutX="360" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline21" layoutX="375" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline22" layoutX="390" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline23" layoutX="405" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline24" layoutX="420" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline25" layoutX="435" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline26" layoutX="450" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline27" layoutX="465" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline28" layoutX="480" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline29" layoutX="495" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline30" layoutX="510" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline31" layoutX="525" layoutY="120"/>
+    <CheckBox fx:id="UnitsOnline32" layoutX="540" layoutY="120"/>
+    <Label text="ErrorUnits: " layoutX="0" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits01" layoutX="75" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits02" layoutX="90" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits03" layoutX="105" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits04" layoutX="120" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits05" layoutX="135" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits06" layoutX="150" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits07" layoutX="165" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits08" layoutX="180" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits09" layoutX="195" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits10" layoutX="210" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits11" layoutX="225" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits12" layoutX="240" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits13" layoutX="255" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits14" layoutX="270" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits15" layoutX="285" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits16" layoutX="300" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits17" layoutX="315" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits18" layoutX="330" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits19" layoutX="345" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits20" layoutX="360" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits21" layoutX="375" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits22" layoutX="390" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits23" layoutX="405" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits24" layoutX="420" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits25" layoutX="435" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits26" layoutX="450" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits27" layoutX="465" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits28" layoutX="480" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits29" layoutX="495" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits30" layoutX="510" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits31" layoutX="525" layoutY="145"/>
+    <CheckBox fx:id="ErrorUnits32" layoutX="540" layoutY="145"/>
+    <Label text="EventUnits: " layoutX="0" layoutY="170"/>
+    <CheckBox fx:id="EventUnits01" layoutX="75" layoutY="170"/>
+    <CheckBox fx:id="EventUnits02" layoutX="90" layoutY="170"/>
+    <CheckBox fx:id="EventUnits03" layoutX="105" layoutY="170"/>
+    <CheckBox fx:id="EventUnits04" layoutX="120" layoutY="170"/>
+    <CheckBox fx:id="EventUnits05" layoutX="135" layoutY="170"/>
+    <CheckBox fx:id="EventUnits06" layoutX="150" layoutY="170"/>
+    <CheckBox fx:id="EventUnits07" layoutX="165" layoutY="170"/>
+    <CheckBox fx:id="EventUnits08" layoutX="180" layoutY="170"/>
+    <CheckBox fx:id="EventUnits09" layoutX="195" layoutY="170"/>
+    <CheckBox fx:id="EventUnits10" layoutX="210" layoutY="170"/>
+    <CheckBox fx:id="EventUnits11" layoutX="225" layoutY="170"/>
+    <CheckBox fx:id="EventUnits12" layoutX="240" layoutY="170"/>
+    <CheckBox fx:id="EventUnits13" layoutX="255" layoutY="170"/>
+    <CheckBox fx:id="EventUnits14" layoutX="270" layoutY="170"/>
+    <CheckBox fx:id="EventUnits15" layoutX="285" layoutY="170"/>
+    <CheckBox fx:id="EventUnits16" layoutX="300" layoutY="170"/>
+    <CheckBox fx:id="EventUnits17" layoutX="315" layoutY="170"/>
+    <CheckBox fx:id="EventUnits18" layoutX="330" layoutY="170"/>
+    <CheckBox fx:id="EventUnits19" layoutX="345" layoutY="170"/>
+    <CheckBox fx:id="EventUnits20" layoutX="360" layoutY="170"/>
+    <CheckBox fx:id="EventUnits21" layoutX="375" layoutY="170"/>
+    <CheckBox fx:id="EventUnits22" layoutX="390" layoutY="170"/>
+    <CheckBox fx:id="EventUnits23" layoutX="405" layoutY="170"/>
+    <CheckBox fx:id="EventUnits24" layoutX="420" layoutY="170"/>
+    <CheckBox fx:id="EventUnits25" layoutX="435" layoutY="170"/>
+    <CheckBox fx:id="EventUnits26" layoutX="450" layoutY="170"/>
+    <CheckBox fx:id="EventUnits27" layoutX="465" layoutY="170"/>
+    <CheckBox fx:id="EventUnits28" layoutX="480" layoutY="170"/>
+    <CheckBox fx:id="EventUnits29" layoutX="495" layoutY="170"/>
+    <CheckBox fx:id="EventUnits30" layoutX="510" layoutY="170"/>
+    <CheckBox fx:id="EventUnits31" layoutX="525" layoutY="170"/>
+    <CheckBox fx:id="EventUnits32" layoutX="540" layoutY="170"/>
+    <Label text="units: " layoutX="0" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID01" layoutX="75" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID02" layoutX="90" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID03" layoutX="105" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID04" layoutX="120" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID05" layoutX="135" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID06" layoutX="150" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID07" layoutX="165" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID08" layoutX="180" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID09" layoutX="195" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID10" layoutX="210" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID11" layoutX="225" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID12" layoutX="240" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID13" layoutX="255" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID14" layoutX="270" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID15" layoutX="285" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID16" layoutX="300" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID17" layoutX="315" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID18" layoutX="330" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID19" layoutX="345" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID20" layoutX="360" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID21" layoutX="375" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID22" layoutX="390" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID23" layoutX="405" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID24" layoutX="420" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID25" layoutX="435" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID26" layoutX="450" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID27" layoutX="465" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID28" layoutX="480" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID29" layoutX="495" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID30" layoutX="510" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID31" layoutX="525" layoutY="195"/>
+    <CheckBox fx:id="CurrentUnitID32" layoutX="540" layoutY="195"/>
+    <TabPane layoutX="0" layoutY="220" prefWidth="980" prefHeight="320" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Specific Properties and Methods">
+            <AnchorPane prefHeight="305" prefWidth="980">
+                <Label text="AutoToneDuration" layoutX="0" layoutY="5" prefWidth="110" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="AutoToneDuration" layoutX="115" layoutY="0" prefWidth="100" promptText="AutoToneDuration"/>
+                <Label text="AutoToneFrequency" layoutX="0" layoutY="30" prefWidth="110" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="AutoToneFrequency" layoutX="115" layoutY="25" prefWidth="100" promptText="AutoToneFrequency"/>
+                <Label text="CharacterSet" layoutX="0" layoutY="55" prefWidth="110" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="CharacterSet" layoutX="115" layoutY="50" prefWidth="100" promptText="CharacterSet" editable="true"/>
+                <Button text="Select" layoutX="220" layoutY="50" onAction="#selectCharacterSet"/>
+                <Label text="EventType" layoutX="0" layoutY="80" prefWidth="110" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="EventType" layoutX="115" layoutY="75" prefWidth="100" onAction="#setEventType" promptText="EventType" editable="true"/>
+                <Label text="MapCharacterSet" layoutX="0" layoutY="105" prefWidth="110" alignment="CENTER_RIGHT"/>
+                <CheckBox fx:id="MapCharacterSet" layoutX="115" layoutY="105" onAction="#setMapCharacterSet"/>
+                <Label text="Timeout" layoutX="0" layoutY="130" prefWidth="110" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="Timeout" layoutX="115" layoutY="125" onAction="#setTimeout" prefWidth="100" promptText="Timeout"/>
+                <Label text="VideoMode" layoutX="0" layoutY="155" prefWidth="110" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="VideoMode" layoutX="115" layoutY="150" onAction="#setVideoMode" prefWidth="100" promptText="VideoMode"/>
+                <Label text="Last Event" layoutX="0" layoutY="180" prefWidth="110" alignment="CENTER_RIGHT"/>
+                <Label fx:id="DataEvent" layoutX="115" layoutY="180" font="$boldfont"/>
+                <Label text="Attribute Editor" underline="true" layoutX="0" layoutY="205" prefWidth="320" alignment="CENTER"/>
+                <CheckBox fx:id="AE_blinking" layoutX="0" layoutY="235" text="Blinking" onAction="#setAE_value"/>
+                <ComboBox fx:id="AE_bgcolor" layoutX="80" layoutY="230" promptText="BG Color" prefWidth="100" onAction="#setAE_value"/>
+                <CheckBox fx:id="AE_intensity" layoutX="0" layoutY="265" text="Intensive" onAction="#setAE_value"/>
+                <ComboBox fx:id="AE_fgcolor" layoutX="80" layoutY="260" promptText="FG Color" prefWidth="100" onAction="#setAE_value"/>
+                <Label text="Attribute: " layoutX="190" layoutY="250"/>
+                <Label fx:id="AE_value" layoutX="250" layoutY="250" font="$boldfont" text="0"/>
+                <Separator layoutX="318" layoutY="0" prefHeight="305" orientation="VERTICAL"/>
+                <TabPane layoutX="320" layoutY="0" prefWidth="660" prefHeight="305" tabClosingPolicy="UNAVAILABLE">
+                    <Tab text="Synchronous Methods">
+                        <AnchorPane prefHeight="290" prefWidth="660">
+                            <Button text="ResetVideo" layoutX="10" layoutY="0" onAction="#resetVideo" prefWidth="120"/>
+                            <Button text="FreeVideoRegion" layoutX="140" layoutY="0" onAction="#freeVideoRegion" prefWidth="120"/>
+                            <TextField fx:id="FVR_bufferId" layoutX="140" layoutY="25" prefWidth="120" promptText="bufferId"/>
+                            <Button text="ControlClock" layoutX="270" layoutY="0" onAction="#controlClock" prefWidth="120"/>
+                            <ComboBox fx:id="CCl_function" layoutX="270" layoutY="25" prefWidth="120" editable="true" promptText="function"/>
+                            <ComboBox fx:id="CCl_clockId" layoutX="270" layoutY="50" prefWidth="120" editable="true" promptText="clockId"/>
+                            <TextField fx:id="CCl_hour" layoutX="270" layoutY="75" prefWidth="37" promptText="HH"/>
+                            <Label text=":" layoutX="309" layoutY="80"/>
+                            <TextField fx:id="CCl_min" layoutX="312" layoutY="75" prefWidth="37" promptText="MM"/>
+                            <Label text=":" layoutX="350" layoutY="80"/>
+                            <TextField fx:id="CCl_sec" layoutX="353" layoutY="75" prefWidth="37" promptText="SS"/>
+                            <TextField fx:id="CCl_row" layoutX="270" layoutY="100" prefWidth="60" promptText="Row"/>
+                            <TextField fx:id="CCl_column" layoutX="330" layoutY="100" prefWidth="60" promptText="Column"/>
+                            <ComboBox fx:id="CCl_attribute" layoutX="270" layoutY="125" prefWidth="120" editable="true" promptText="attribute"/>
+                            <ComboBox fx:id="CCl_mode" layoutX="270" layoutY="150" prefWidth="120" editable="true" promptText="mode"/>
+                            <Button text="ControlCursor" layoutX="400" layoutY="0" onAction="#controlCursor" prefWidth="120"/>
+                            <ComboBox fx:id="CCu_function" layoutX="400" layoutY="25" prefWidth="120" editable="true" promptText="function"/>
+                            <Button text="SetCursor" layoutX="530" layoutY="0" onAction="#setCursor" prefWidth="120"/>
+                            <TextField fx:id="SC_row" layoutX="530" layoutY="25" prefWidth="60" promptText="Row"/>
+                            <TextField fx:id="SC_column" layoutX="590" layoutY="25" prefWidth="60" promptText="Column"/>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="Region Manipulation Methods">
+                        <AnchorPane prefHeight="290" prefWidth="660">
+                            <Button text="ClearVideo" layoutX="10" layoutY="0" onAction="#clearVideo" prefWidth="120"/>
+                            <ComboBox fx:id="CV_attribute" layoutX="10" layoutY="25" prefWidth="120" editable="true" promptText="attribute"/>
+                            <Button text="ClearVideoRegion" layoutX="140" layoutY="0" onAction="#clearVideoRegion" prefWidth="120"/>
+                            <TextField fx:id="CVR_row" layoutX="140" layoutY="25" prefWidth="60" promptText="row"/>
+                            <TextField fx:id="CVR_column" layoutX="200" layoutY="25" prefWidth="60" promptText="column"/>
+                            <TextField fx:id="CVR_height" layoutX="140" layoutY="50" prefWidth="60" promptText="height"/>
+                            <TextField fx:id="CVR_width" layoutX="200" layoutY="50" prefWidth="60" promptText="width"/>
+                            <ComboBox fx:id="CVR_attribute" layoutX="140" layoutY="75" prefWidth="120" editable="true" promptText="attribute"/>
+                            <Button text="CopyVideoRegion" layoutX="270" layoutY="0" onAction="#copyVideoRegion" prefWidth="120"/>
+                            <TextField fx:id="CpVR_row" layoutX="270" layoutY="25" prefWidth="60" promptText="row"/>
+                            <TextField fx:id="CpVR_column" layoutX="330" layoutY="25" prefWidth="60" promptText="column"/>
+                            <TextField fx:id="CpVR_height" layoutX="270" layoutY="50" prefWidth="60" promptText="height"/>
+                            <TextField fx:id="CpVR_width" layoutX="330" layoutY="50" prefWidth="60" promptText="width"/>
+                            <TextField fx:id="CpVR_targetRow" layoutX="270" layoutY="75" prefWidth="120" promptText="targetRow"/>
+                            <TextField fx:id="CpVR_targetColumn" layoutX="270" layoutY="100" prefWidth="120" promptText="targetColumn"/>
+                            <Button text="SaveVideoRegion" layoutX="400" layoutY="0" onAction="#saveVideoRegion" prefWidth="120"/>
+                            <TextField fx:id="SVR_row" layoutX="400" layoutY="25" prefWidth="60" promptText="row"/>
+                            <TextField fx:id="SVR_column" layoutX="460" layoutY="25" prefWidth="60" promptText="column"/>
+                            <TextField fx:id="SVR_height" layoutX="400" layoutY="50" prefWidth="60" promptText="height"/>
+                            <TextField fx:id="SVR_width" layoutX="460" layoutY="50" prefWidth="60" promptText="width"/>
+                            <TextField fx:id="SVR_bufferId" layoutX="400" layoutY="75" prefWidth="120" promptText="bufferId"/>
+                            <Button text="RestoreVideoRegion" layoutX="530" layoutY="0" onAction="#restoreVideoRegion" prefWidth="130"/>
+                            <TextField fx:id="RVR_targetRow" layoutX="530" layoutY="25" prefWidth="130" promptText="targetRow"/>
+                            <TextField fx:id="RVR_targetColumn" layoutX="530" layoutY="50" prefWidth="130" promptText="targetColumn"/>
+                            <TextField fx:id="RVR_bufferId" layoutX="530" layoutY="75" prefWidth="130" promptText="bufferId"/>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="Other Methods">
+                        <AnchorPane prefHeight="290" prefWidth="660">
+                            <Button text="DisplayData" layoutX="10" layoutY="0" onAction="#displayData" prefWidth="120"/>
+                            <TextField fx:id="DD_row" layoutX="10" layoutY="25" prefWidth="60" promptText="row"/>
+                            <TextField fx:id="DD_column" layoutX="70" layoutY="25" prefWidth="60" promptText="column"/>
+                            <ComboBox fx:id="DD_attribute" layoutX="10" layoutY="50" prefWidth="120" editable="true" promptText="attribute"/>
+                            <TextField fx:id="DD_data" layoutX="10" layoutY="75" prefWidth="120" promptText="data"/>
+                            <Button text="DrawBox" layoutX="140" layoutY="0" onAction="#drawBox" prefWidth="120"/>
+                            <TextField fx:id="DB_row" layoutX="140" layoutY="25" prefWidth="60" promptText="row"/>
+                            <TextField fx:id="DB_column" layoutX="200" layoutY="25" prefWidth="60" promptText="column"/>
+                            <TextField fx:id="DB_height" layoutX="140" layoutY="50" prefWidth="60" promptText="height"/>
+                            <TextField fx:id="DB_width" layoutX="200" layoutY="50" prefWidth="60" promptText="width"/>
+                            <ComboBox fx:id="DB_attribute" layoutX="140" layoutY="75" prefWidth="120" editable="true" promptText="attribute"/>
+                            <ComboBox fx:id="DB_bordertype" layoutX="140" layoutY="100" prefWidth="120" editable="true" promptText="bordertype"/>
+                            <Button text="TransactionDisplay" layoutX="270" layoutY="0" onAction="#transactionDisplay" prefWidth="120"/>
+                            <ComboBox fx:id="TD_function" layoutX="270" layoutY="25" prefWidth="120" editable="true" promptText="function"/>
+                            <Button text="UpdateVideoRegionAttribute" layoutX="400" layoutY="0" onAction="#updateVideoRegionAttribute" prefWidth="130"/>
+                            <ComboBox fx:id="UVRA_function" layoutX="400" layoutY="25" prefWidth="130" editable="true" promptText="function"/>
+                            <TextField fx:id="UVRA_row" layoutX="400" layoutY="50" prefWidth="65" promptText="row"/>
+                            <TextField fx:id="UVRA_column" layoutX="465" layoutY="50" prefWidth="65" promptText="column"/>
+                            <TextField fx:id="UVRA_height" layoutX="400" layoutY="75" prefWidth="65" promptText="height"/>
+                            <TextField fx:id="UVRA_width" layoutX="465" layoutY="75" prefWidth="65" promptText="width"/>
+                            <ComboBox fx:id="UVRA_attribute" layoutX="400" layoutY="100" prefWidth="130" editable="true" promptText="attribute"/>
+                            <Button text="VideoSound" layoutX="540" layoutY="0" onAction="#videoSound" prefWidth="120"/>
+                            <TextField fx:id="VS_frequency" layoutX="540" layoutY="25" prefWidth="120" promptText="frequency"/>
+                            <ComboBox fx:id="VS_duration" layoutX="540" layoutY="50" prefWidth="120" editable="true" promptText="duration"/>
+                            <TextField fx:id="VS_numberOfCycles" layoutX="540" layoutY="75" prefWidth="120" promptText="numberOfCycles"/>
+                            <ComboBox fx:id="VS_interSoundWait" layoutX="540" layoutY="100" prefWidth="120" editable="true" promptText="interSoundWait"/>
+                        </AnchorPane>
+                    </Tab>
+                </TabPane>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Maintenance Methods">
+            <AnchorPane prefHeight="305" prefWidth="980">
+                <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
+                <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <TextField fx:id="CFV_result" layoutX="0" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
+                <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
+                <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
+                <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
+                <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
+                <TextArea fx:id="_statisticsBuffer" layoutX="330" layoutY="30" prefWidth="350" prefHeight="75" promptText="statisticsBuffer"/>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+</AnchorPane>

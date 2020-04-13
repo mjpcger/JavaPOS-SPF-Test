@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  ~ Copyright 2020 Martin Conrad
+  ~ <p>
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ <p>
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ <p>
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="SPF_Test.ElectronicJournalController"
+            prefHeight="540.0" prefWidth="980.0">
+    <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutX="0" layoutY="5" onAction="#setDeviceEnabled"/>
+    <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="110" layoutY="5" onAction="#setFreezeEvents"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="210" layoutY="0" onAction="#setPowerNotify"/>
+    <Label text="PowerNotify" layoutX="360" layoutY="5"/>
+    <ComboBox fx:id="CurrencyDigits" layoutX="435" layoutY="0" onAction="#setCurrencyDigits" prefWidth="50"/>
+    <Label text="Currency Digits" layoutX="490" layoutY="5"/>
+    <CheckBox fx:id="DataEventEnabled" text="DataEventEnabled" layoutX="580" layoutY="0" onAction="#setDataEventEnabled"/>
+    <CheckBox fx:id="AutoDisable" text="AutoDisable" layoutX="710" layoutY="0" onAction="#setAutoDisable"/>
+    <CheckBox fx:id="AsyncMode" text="AsyncMode" layoutX="810" layoutY="0" onAction="#setAsyncMode"/>
+    <TableView fx:id="Properties" layoutX="570" layoutY="19" prefWidth="410" prefHeight="115"/>
+    <Button text="Open" layoutX="0" layoutY="35" onAction="#open" prefWidth="70"/>
+    <Button text="Claim" layoutX="80" layoutY="35" onAction="#claim" prefWidth="70"/>
+    <ComboBox fx:id="claim_timeout" prefWidth="70" layoutX="80" layoutY="60" promptText="timeout" editable="true"/>
+    <Button text="Release" layoutX="160" layoutY="35" onAction="#release" prefWidth="70"/>
+    <Button text="Close" layoutX="240" layoutY="35" onAction="#close" prefWidth="70"/>
+    <Button text="CheckHealth" layoutX="320" layoutY="35" onAction="#checkHealth" prefWidth="90"/>
+    <ComboBox fx:id="CH_level" prefWidth="90" layoutX="320" layoutY="60" promptText="level" editable="true"/>
+    <Button text="DirectIO" layoutX="420" layoutY="35" onAction="#directIO" prefWidth="140"/>
+    <TextField fx:id="DIO_command" prefWidth="70" layoutX="420" layoutY="60" promptText="command"/>
+    <TextField fx:id="DIO_data" prefWidth="70" layoutX="490" layoutY="60" promptText="data"/>
+    <TextField fx:id="DIO_obj" prefWidth="140" layoutX="420" layoutY="85" promptText="obj"/>
+    <Button text="ClearInput" layoutX="0" layoutY="95" onAction="#clearInput" prefWidth="150"/>
+    <Button text="ClearOutput" layoutX="160" layoutY="95" onAction="#clearOutput" prefWidth="150"/>
+    <CheckBox fx:id="FlagWhenIdle" layoutX="320" layoutY="100" onAction="#setFlagWhenIdle" text="FlagWhenIdle"/>
+    <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
+    <Label layoutX="0" layoutY="530">
+        <font>
+            <Font fx:id="smalfont" size="8.0" />
+        </font>
+    </Label>
+    <TabPane layoutX="0" layoutY="135" prefWidth="980" prefHeight="405" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Specific Properties AndMethods">
+            <AnchorPane prefHeight="390" prefWidth="980">
+                <CheckBox fx:id="StorageEnabled" layoutX="0" layoutY="5" onAction="#setStorageEnabled" text="StorageEnabled"/>
+                <CheckBox fx:id="WaterMark" layoutX="120" layoutY="5" onAction="#setWaterMark" text="WaterMark"/>
+                <ComboBox fx:id="Station" layoutX="240" layoutY="0" onAction="#setStation" promptText="Station" editable="true" prefWidth="110"/>
+                <Label text="Free Medium Space:" layoutX="360" layoutY="5"/>
+                <Label fx:id="MediumFreeSpace" layoutX="480" layoutY="5" text="0"/>
+                <Button text="PrintContentFile" layoutX="0" layoutY="30" prefWidth="110" onAction="#printContentFile"/>
+                <TextField fx:id="PCF_fileName" layoutX="110" layoutY="30" prefWidth="115" promptText="fileName"/>
+                <Button text="▼" layoutX="225" layoutY="30" onAction="#browsePCF_fileName" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button text="SuspendPrintContent" layoutX="500" layoutY="30" prefWidth="130" onAction="#suspendPrintContent"/>
+                <Button text="ResumePrintContent" layoutX="640" layoutY="30" prefWidth="130" onAction="#resumePrintContent"/>
+                <Button text="CancelPrintContent" layoutX="780" layoutY="30" prefWidth="130" onAction="#cancelPrintContent"/>
+                <Button text="PrintContent" layoutX="0" layoutY="60" prefWidth="110" onAction="#printContent"/>
+                <TextField fx:id="PC_fromMarker" layoutX="110" layoutY="60" prefWidth="110" promptText="fromMarker"/>
+                <TextField fx:id="PC_toMarker" layoutX="220" layoutY="60" prefWidth="110" promptText="toMarker"/>
+                <Button text="QueryContent" layoutX="0" layoutY="90" prefWidth="110" onAction="#queryContent"/>
+                <TextField fx:id="QC_fileName" layoutX="110" layoutY="90" prefWidth="115" promptText="fileName"/>
+                <Button text="▼" layoutX="225" layoutY="90" onAction="#browseQC_fileName" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <TextField fx:id="QC_fromMarker" layoutX="250" layoutY="90" prefWidth="110" promptText="fromMarker"/>
+                <TextField fx:id="QC_toMarker" layoutX="360" layoutY="90" prefWidth="110" promptText="toMarker"/>
+                <Button text="SuspendQueryContent" layoutX="500" layoutY="90" prefWidth="130" onAction="#suspendQueryContent"/>
+                <Button text="ResumeQueryContent" layoutX="640" layoutY="90" prefWidth="130" onAction="#resumeQueryContent"/>
+                <Button text="CancelQueryContent" layoutX="780" layoutY="90" prefWidth="130" onAction="#cancelQueryContent"/>
+                <Button text="InitializeMedium" layoutX="0" layoutY="140" prefWidth="110" onAction="#initializeMedium"/>
+                <TextField fx:id="IM_mediumID" layoutX="110" layoutY="140" prefWidth="110" promptText="mediumID"/>
+                <Button text="EraseMedium" layoutX="250" layoutY="140" prefWidth="110" onAction="#eraseMedium"/>
+                <Button text="AddMarker" layoutX="390" layoutY="140" prefWidth="110" onAction="#addMarker"/>
+                <TextField fx:id="AM_marker" layoutX="500" layoutY="140" prefWidth="110" promptText="marker"/>
+                <Label text="marker" layoutX="0" layoutY="195" prefWidth="110" underline="true" alignment="CENTER"/>
+                <TextField fx:id="M_marker" layoutX="0" layoutY="220" prefWidth="110" promptText="marker"/>
+                <Label text="dateTime" layoutX="0" layoutY="250" prefWidth="110" underline="true" alignment="CENTER"/>
+                <TextField fx:id="M_dateTime" layoutX="0" layoutY="275" prefWidth="110" promptText="dateTime"/>
+                <Button text="RetrieveCurrentMarker" layoutX="150" layoutY="205" prefWidth="160" onAction="#retrieveCurrentMarker"/>
+                <ComboBox fx:id="RCM_markerType" layoutX="310" layoutY="205" prefWidth="140" editable="true" promptText="markerType"/>
+                <Button text="RetrieveMarker" layoutX="150" layoutY="235" prefWidth="160" onAction="#retrieveMarker"/>
+                <ComboBox fx:id="RM_markerType" layoutX="310" layoutY="235" prefWidth="140" editable="true" promptText="markerType"/>
+                <TextField fx:id="RM_sessionNumber" layoutX="450" layoutY="235" prefWidth="100" promptText="sessionNumber"/>
+                <TextField fx:id="RM_documentNumber" layoutX="550" layoutY="235" prefWidth="100" promptText="documentNumber"/>
+                <Button text="RetrieveMarkerByDateTime" layoutX="150" layoutY="265" prefWidth="160" onAction="#retrieveMarkerByDateTime"/>
+                <ComboBox fx:id="RMBDT_markerType" layoutX="310" layoutY="265" prefWidth="140" editable="true" promptText="markerType"/>
+                <TextField fx:id="RMBDT_markerNumber" layoutX="450" layoutY="265" prefWidth="100" promptText="markerNumber"/>
+                <Button text="RetrieveMarkersDateTime" layoutX="150" layoutY="295" prefWidth="160" onAction="#retrieveMarkersDateTime"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Maintenance Methods">
+            <AnchorPane prefHeight="390" prefWidth="980">
+                <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
+                <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <TextField fx:id="CFV_result" layoutX="0" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
+                <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
+                <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
+                <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
+                <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
+                <TextArea fx:id="_statisticsBuffer" layoutX="330" layoutY="30" prefWidth="350" prefHeight="75" promptText="statisticsBuffer"/>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+</AnchorPane>

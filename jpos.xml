@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE JposEntries PUBLIC "-//JavaPOS//DTD//EN" "jcl.dtd">
+<JposEntries>
+	<!-- Enter entries for the devices to be tested here, e.g.: -->
+	<JposEntry logicalName="TestCoinDispenser">
+		<creation serviceClass="de.gmxhome.conrad.jpos.jpos_base.coindispenser.CoinDispenserService" factoryClass="SampleCoinDispenser.CoinDispenserFactory"/>
+		<vendor url="http://conrad.gmxhome.de" name="Martin Conrad"/>
+		<jpos version="1.14.1" category="CoinDispenser"/>
+		<product url="http://conrad.gmxhome.de" name="JPOS Services For Standard Coin Dispenser" description="Sample Service For Coin Dispenser Simulator"/>
+		<!--JposDevice required global properties, once for each physical device-->
+		<prop name="LoggerName" value="JposDrawerTest"/>
+		<prop name="LogFilePath" value="logfile.log"/>
+		<prop name="LogLevel" value="trace"/>
+		<!--Optional global property, must only be set once for all devices-->
+		<prop name="LogFilePattern" value=".yyyyMMdd"/>
+		<prop name="LoggerFormat" value="%d{HH:mm:ss,SSS} %-5p [%t]: %m%n"/>
+		<!--Other JposDevice required properties, once for each logical device-->
+		<prop name="DevIndex" value="0"/>
+		<!--Other non JavaPOS required property (mostly vendor properties and bus specific properties i.e. RS232 )-->
+		<prop name="ComPort" value="127.0.0.1:56789"/>
+	</JposEntry>
+</JposEntries>
+
