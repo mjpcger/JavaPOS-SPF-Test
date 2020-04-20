@@ -55,10 +55,153 @@
     </Label>
     <Label layoutX="0" layoutY="530">
         <font>
-            <Font fx:id="largefont" name="System Bold" size="20.0"/>
+            <Font fx:id="boldfont" name="System Bold" size="12.0"/>
         </font>
     </Label>
     <TabPane layoutX="0" layoutY="116" prefWidth="980" prefHeight="424" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Specific Properties">
+            <AnchorPane prefHeight="409" prefWidth="980">
+                <CheckBox fx:id="MapCharacterSet" text="MapCharacterSet" layoutX="0" layoutY="3" onAction="#setMapCharacterSet"/>
+                <CheckBox fx:id="JrnLetterQuality" text="JrnLetterQuality" layoutX="150" layoutY="3" onAction="#setJrnLetterQuality"/>
+                <CheckBox fx:id="RecLetterQuality" text="RecLetterQuality" layoutX="300" layoutY="3" onAction="#setRecLetterQuality"/>
+                <CheckBox fx:id="SlpLetterQuality" text="SlpLetterQuality" layoutX="450" layoutY="3" onAction="#setSlpLetterQuality"/>
+                <Label text="CartridgeNotify" layoutX="0" layoutY="30" prefWidth="155" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="CartridgeNotify" layoutX="160" layoutY="25" onAction="#setCartridgeNotify" prefWidth="100" editable="true"/>
+                <Label text="CharacterSet" layoutX="0" layoutY="60" prefWidth="155" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="CharacterSet" layoutX="160" layoutY="55" onAction="#setCharacterSet" prefWidth="100" editable="true"/>
+                <Label text="MapMode" layoutX="0" layoutY="90" prefWidth="155" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="MapMode" layoutX="160" layoutY="85" onAction="#setMapMode" prefWidth="100" editable="true"/>
+                <Label text="RotateSpecial" layoutX="0" layoutY="120" prefWidth="155" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="RotateSpecial" layoutX="160" layoutY="115" onAction="#setRotateSpecial" prefWidth="100" editable="true"/>
+                <Label text="PageModePrintArea" layoutX="0" layoutY="150" prefWidth="155" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="PageModePrintArea" layoutX="160" layoutY="145" prefWidth="100"/>
+                <Label text="PageModeHorizontalPosition" layoutX="0" layoutY="180" prefWidth="155" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="PageModeHorizontalPosition" layoutX="160" layoutY="175" prefWidth="100"/>
+                <Label text="PageModeVerticalPosition" layoutX="0" layoutY="210" prefWidth="155" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="PageModeVerticalPosition" layoutX="160" layoutY="205" prefWidth="100"/>
+                <Label text="PageModePrintDirection" layoutX="0" layoutY="240" prefWidth="155" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="PageModePrintDirection" layoutX="160" layoutY="235" onAction="#setPageModePrintDirection" prefWidth="100" editable="true"/>
+                <Label text="PageModeStation" layoutX="0" layoutY="270" prefWidth="155" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="PageModeStation" layoutX="160" layoutY="265" onAction="#setPageModeStation" prefWidth="100" editable="true"/>
+                <Label text="Events:" layoutX="0" layoutY="295" prefWidth="255" underline="true" font="$boldfont" alignment="CENTER"/>
+                <TextArea fx:id="EventOutput" layoutX="0" layoutY="314" prefWidth="260" prefHeight="80"/>
+                <Label text="JrnCurrentCartridge" layoutX="265" layoutY="30" prefWidth="125" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="JrnCurrentCartridge" layoutX="395" layoutY="25" onAction="#setJrnCurrentCartridge" prefWidth="100" editable="true"/>
+                <Label text="JrnLineChars" layoutX="265" layoutY="60" prefWidth="125" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="JrnLineChars" layoutX="395" layoutY="55" onAction="#setJrnLineChars" prefWidth="100" editable="true"/>
+                <Label text="JrnLineHeight" layoutX="265" layoutY="90" prefWidth="125" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="JrnLineHeight" layoutX="395" layoutY="85" prefWidth="100"/>
+                <Label text="JrnLineSpacing" layoutX="265" layoutY="120" prefWidth="125" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="JrnLineSpacing" layoutX="395" layoutY="115" prefWidth="100"/>
+                <Label text="RecCurrentCartridge" layoutX="500" layoutY="30" prefWidth="125" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="RecCurrentCartridge" layoutX="630" layoutY="25" onAction="#setRecCurrentCartridge" prefWidth="100" editable="true"/>
+                <Label text="RecLineChars" layoutX="500" layoutY="60" prefWidth="125" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="RecLineChars" layoutX="630" layoutY="55" onAction="#setRecLineChars" prefWidth="100" editable="true"/>
+                <Label text="RecLineHeight" layoutX="500" layoutY="90" prefWidth="125" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="RecLineHeight" layoutX="630" layoutY="85" prefWidth="100"/>
+                <Label text="RecLineSpacing" layoutX="500" layoutY="120" prefWidth="125" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="RecLineSpacing" layoutX="630" layoutY="115" prefWidth="100"/>
+                <Label text="SlpCurrentCartridge" layoutX="735" layoutY="30" prefWidth="125" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="SlpCurrentCartridge" layoutX="865" layoutY="25" onAction="#setSlpCurrentCartridge" prefWidth="100" editable="true"/>
+                <Label text="SlpLineChars" layoutX="735" layoutY="60" prefWidth="125" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="SlpLineChars" layoutX="865" layoutY="55" onAction="#setSlpLineChars" prefWidth="100" editable="true"/>
+                <Label text="SlpLineHeight" layoutX="735" layoutY="90" prefWidth="125" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="SlpLineHeight" layoutX="865" layoutY="85" prefWidth="100"/>
+                <Label text="SlpLineSpacing" layoutX="735" layoutY="120" prefWidth="125" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="SlpLineSpacing" layoutX="865" layoutY="115" prefWidth="100"/>
+                <TabPane layoutX="265" layoutY="145" prefWidth="715" prefHeight="275" tabClosingPolicy="UNAVAILABLE">
+                    <Tab text="Print Basics">
+                        <AnchorPane prefHeight="260" prefWidth="715">
+                            <Button text="PrintImmediate" layoutX="0" layoutY="0" prefWidth="105" onAction="#printImmediate"/>
+                            <ComboBox fx:id="P_station" layoutX="0" layoutY="25" prefWidth="215" editable="true" promptText="station"/>
+                            <Button text="PrintNormal" layoutX="110" layoutY="0" prefWidth="105" onAction="#printNormal"/>
+                            <Button text="SetLogo" layoutX="220" layoutY="0" prefWidth="105" onAction="#setLogo"/>
+                            <ComboBox fx:id="SL_location" layoutX="220" layoutY="25" prefWidth="105" editable="true" promptText="location"/>
+                            <Button text="PrintTwoNormal" layoutX="330" layoutY="0" prefWidth="105" onAction="#printTwoNormal"/>
+                            <ComboBox fx:id="PTN_station" layoutX="330" layoutY="25" prefWidth="105" editable="true" promptText="station"/>
+                            <TextArea fx:id="P_data" layoutX="0" layoutY="50" prefWidth="215" prefHeight="168" promptText="data or data1. Use \n, \r, \e or \\
+for NL, CR, ESC and \, pass binary as pairs of hexadecimal letters between \x (start hex) and \c (start char)"/>
+                            <TextArea fx:id="PTN_data2" layoutX="220" layoutY="50" prefWidth="215" prefHeight="168" promptText="data2. Use \n, \r, \e or \\
+for NL, CR, ESC and \, pass binary as pairs of hexadecimal letters between \x (start hex) and \c (start char)"/>
+                            <Button fx:id="ValidateData" layoutX="440" layoutY="0" prefWidth="105" prefHeight="218" textAlignment="CENTER" onAction="#validateData" >
+                            </Button>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="Print Specials">
+                        <AnchorPane prefHeight="260" prefWidth="715">
+                            <Button text="CutPaper" layoutX="0" layoutY="0" prefWidth="105" onAction="#cutPaper"/>
+                            <TextField fx:id="CP_percentage" layoutX="0" layoutY="25" prefWidth="105" promptText="percentage"/>
+                            <Button text="MarkFeed" layoutX="110" layoutY="0" prefWidth="105" onAction="#markFeed"/>
+                            <ComboBox fx:id="MF_type" layoutX="110" layoutY="25" prefWidth="105" editable="true" promptText="type"/>
+                            <Button text="DrawRuledLine" layoutX="220" layoutY="0" prefWidth="105" onAction="#drawRuledLine"/>
+                            <ComboBox fx:id="DRL_station" layoutX="220" layoutY="25" prefWidth="105" editable="true" promptText="station"/>
+                            <TextField fx:id="DRL_positionList" layoutX="220" layoutY="50" prefWidth="105" promptText="positionList"/>
+                            <ComboBox fx:id="DRL_lineDirection" layoutX="220" layoutY="75" prefWidth="105" editable="true" promptText="lineDirection"/>
+                            <TextField fx:id="DRL_lineWidth" layoutX="220" layoutY="100" prefWidth="105" promptText="lineWidth"/>
+                            <ComboBox fx:id="DRL_lineStyle" layoutX="220" layoutY="125" prefWidth="105" editable="true" promptText="lineStyle"/>
+                            <TextField fx:id="DRL_lineColor" layoutX="220" layoutY="150" prefWidth="105" promptText="lineColor (hex)"/>
+                            <Button text="PrintBarCode" layoutX="330" layoutY="0" prefWidth="105" onAction="#printBarCode"/>
+                            <ComboBox fx:id="PBC_station" layoutX="330" layoutY="25" prefWidth="105" editable="true" promptText="station"/>
+                            <TextField fx:id="PBC_data" layoutX="330" layoutY="50" prefWidth="105" promptText="data"/>
+                            <ComboBox fx:id="PBC_symbology" layoutX="330" layoutY="75" prefWidth="105" editable="true" promptText="symbology"/>
+                            <TextField fx:id="PBC_height" layoutX="330" layoutY="100" prefWidth="105" promptText="height"/>
+                            <TextField fx:id="PBC_width" layoutX="330" layoutY="125" prefWidth="105" promptText="width"/>
+                            <ComboBox fx:id="PBC_alignment" layoutX="330" layoutY="150" prefWidth="105" editable="true" promptText="alignment"/>
+                            <ComboBox fx:id="PBC_textPosition" layoutX="330" layoutY="175" prefWidth="105" editable="true" promptText="textPosition"/>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="Bitmap Printing">
+                        <AnchorPane prefHeight="260" prefWidth="715">
+                            <Button text="PrintBitmap" layoutX="0" layoutY="0" prefWidth="140" onAction="#printBitmap"/>
+                            <ComboBox fx:id="PB_station" layoutX="0" layoutY="25" prefWidth="140" editable="true" promptText="station"/>
+                            <TextField fx:id="PB_fileName" layoutX="0" layoutY="50" prefWidth="115" promptText="fileName"/>
+                            <Button onAction="#browsePBName" layoutX="115" layoutY="50" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                            <ComboBox fx:id="PB_width" layoutX="0" layoutY="75" prefWidth="140" editable="true" promptText="width"/>
+                            <ComboBox fx:id="PB_alignment" layoutX="0" layoutY="100" prefWidth="140" editable="true" promptText="alignment"/>
+                            <Button text="PrintMemoryBitmap" layoutX="145" layoutY="0" prefWidth="140" onAction="#printMemoryBitmap"/>
+                            <ComboBox fx:id="PMB_station" layoutX="145" layoutY="25" prefWidth="140" editable="true" promptText="station"/>
+                            <TextField fx:id="PMB_data" layoutX="145" layoutY="50" prefWidth="115" promptText="file containing data"/>
+                            <Button onAction="#browsePMBName" layoutX="260" layoutY="50" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                            <ComboBox fx:id="PMB_type" layoutX="145" layoutY="75" prefWidth="140" editable="true" promptText="type"/>
+                            <ComboBox fx:id="PMB_width" layoutX="145" layoutY="100" prefWidth="140" editable="true" promptText="width"/>
+                            <ComboBox fx:id="PMB_alignment" layoutX="145" layoutY="125" prefWidth="140" editable="true" promptText="alignment"/>
+                            <Button text="SetBitmap" layoutX="290" layoutY="0" prefWidth="140" onAction="#setBitmap"/>
+                            <ComboBox fx:id="SB_bitmapNumber" layoutX="290" layoutY="25" prefWidth="140" editable="true" promptText="bitmapNumber"/>
+                            <ComboBox fx:id="SB_station" layoutX="290" layoutY="50" prefWidth="140" editable="true" promptText="station"/>
+                            <TextField fx:id="SB_fileName" layoutX="290" layoutY="50" prefWidth="115" promptText="fileName"/>
+                            <Button onAction="#browseSBName" layoutX="405" layoutY="50" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                            <ComboBox fx:id="SB_width" layoutX="290" layoutY="75" prefWidth="140" editable="true" promptText="width"/>
+                            <ComboBox fx:id="SB_alignment" layoutX="290" layoutY="100" prefWidth="140" editable="true" promptText="alignment"/>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="Slip Handling">
+                        <AnchorPane prefHeight="260" prefWidth="715">
+                            <Button text="BeginInsertion" layoutX="0" layoutY="0" prefWidth="105" onAction="#beginInsertion"/>
+                            <ComboBox fx:id="BI_timeout" layoutX="0" layoutY="25" prefWidth="105" editable="true" promptText="timeout"/>
+                            <Button text="EndInsertion" layoutX="110" layoutY="0" prefWidth="105" onAction="#endInsertion"/>
+                            <Button text="BeginRemoval" layoutX="220" layoutY="0" prefWidth="105" onAction="#beginRemoval"/>
+                            <ComboBox fx:id="BR_timeout" layoutX="220" layoutY="25" prefWidth="105" editable="true" promptText="timeout"/>
+                            <Button text="EndRemoval" layoutX="330" layoutY="0" prefWidth="105" onAction="#endRemoval"/>
+                            <Button text="ChangePrintSide" layoutX="440" layoutY="0" prefWidth="105" onAction="#changePrintSide"/>
+                            <ComboBox fx:id="CPS_side" layoutX="440" layoutY="25" prefWidth="105" editable="true" promptText="side"/>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="Print Setup">
+                        <AnchorPane prefHeight="260" prefWidth="715">
+                            <Button text="PageModePrint" layoutX="0" layoutY="0" prefWidth="105" onAction="#pageModePrint"/>
+                            <ComboBox fx:id="PMP_control" layoutX="0" layoutY="25" prefWidth="105" editable="true" promptText="control"/>
+                            <Button text="ClearPrintArea" layoutX="110" layoutY="0" prefWidth="105" onAction="#clearPrintArea"/>
+                            <Button text="RotatePrint" layoutX="220" layoutY="0" prefWidth="105" onAction="#rotatePrint"/>
+                            <ComboBox fx:id="RP_station" layoutX="220" layoutY="25" prefWidth="105" editable="true" promptText="station"/>
+                            <ComboBox fx:id="RP_rotation" layoutX="220" layoutY="50" prefWidth="105" editable="true" promptText="rotation"/>
+                            <Button text="TransactionPrint" layoutX="330" layoutY="0" prefWidth="105" onAction="#transactionPrint"/>
+                            <ComboBox fx:id="TP_station" layoutX="330" layoutY="25" prefWidth="105" editable="true" promptText="station"/>
+                            <ComboBox fx:id="TP_control" layoutX="330" layoutY="50" prefWidth="105" editable="true" promptText="control"/>
+                        </AnchorPane>
+                    </Tab>
+                </TabPane>
+            </AnchorPane>
+        </Tab>
         <Tab text="Maintenance Methods">
             <AnchorPane prefHeight="409" prefWidth="980">
                 <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
@@ -72,7 +215,6 @@
                 <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
                 <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
                 <TextArea fx:id="_statisticsBuffer" layoutX="330" layoutY="30" prefWidth="350" prefHeight="75" promptText="statisticsBuffer"/>
-                <Text text="Under Development" fill="RED" layoutX="400" layoutY="350" font="$largefont"/>
             </AnchorPane>
         </Tab>
     </TabPane>

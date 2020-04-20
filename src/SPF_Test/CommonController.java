@@ -1005,16 +1005,6 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         Properties.getColumns().add(column);
     }
 
-    /**
-     * GUI updater, used to perform GUI updates from threads that are not controlled by JavaFX.
-     */
-    public class GuiUpdater implements Runnable {
-        @Override
-        public void run() {
-            updateGui();
-        }
-    }
-
     @Override
     public void dataOccurred(DataEvent dataEvent) {
         Platform.runLater(new Runnable() {
@@ -1045,7 +1035,12 @@ public class CommonController implements Initializable, Runnable, DataListener, 
 
     @Override
     public void errorOccurred(ErrorEvent errorEvent) {
-        Platform.runLater(new GuiUpdater());
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                preGotError(errorEvent);
+            }
+        });
         String message = retrieveErrorPromptText(errorEvent);
         int doit = JOptionPane.showOptionDialog(null, "Error occurred:\n" + message + "\nClear error?", "Processing Error",JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
         if (doit == JOptionPane.YES_OPTION)
@@ -1075,6 +1070,10 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     public void gotError(ErrorEvent event) {
+        updateGui();
+    }
+
+    public void preGotError(ErrorEvent errorEvent) {
         updateGui();
     }
 
@@ -1118,7 +1117,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         } else {
             if (e instanceof InvocationTargetException)
                 e = ((InvocationTargetException) e).getTargetException();
-            String ret = e.getMessage();
+            String ret = e.getClass().getSimpleName() + ": " + e.getMessage();
             if (e.getCause() != null)
                 ret += "\n" + getFullErrorMessageAndPrintTrace(e.getCause());
             e.printStackTrace();
@@ -1171,6 +1170,123 @@ public class CommonController implements Initializable, Runnable, DataListener, 
                     JposConst.JPOS_EL_INPUT, "EL_INPUT",
                     JposConst.JPOS_EL_INPUT_DATA, "EL_INPUT_DATA",
                     JposConst.JPOS_EL_OUTPUT, "EL_OUTPUT"
+            };
+        }
+    }
+
+    class StatusUpdateValues extends Values {
+        StatusUpdateValues() {
+            ValueList = new Object[]{
+                    JposConst.JPOS_SUE_POWER_ONLINE, "SUE_POWER_ONLINE",
+                    JposConst.JPOS_SUE_POWER_OFF, "SUE_POWER_OFF",
+                    JposConst.JPOS_SUE_POWER_OFFLINE, "SUE_POWER_OFFLINE",
+                    JposConst.JPOS_SUE_POWER_OFF_OFFLINE, "SUE_POWER_OFF_OFFLINE",
+                    JposConst.JPOS_SUE_UF_PROGRESS, "SUE_UF_PROGRESS 0%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 1, "SUE_UF_PROGRESS 1%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 2, "SUE_UF_PROGRESS 2%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 3, "SUE_UF_PROGRESS 3%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 4, "SUE_UF_PROGRESS 4%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 5, "SUE_UF_PROGRESS 5%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 6, "SUE_UF_PROGRESS 6%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 7, "SUE_UF_PROGRESS 7%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 8, "SUE_UF_PROGRESS 8%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 9, "SUE_UF_PROGRESS 9%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 10, "SUE_UF_PROGRESS 10%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 11, "SUE_UF_PROGRESS 11%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 12, "SUE_UF_PROGRESS 12%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 13, "SUE_UF_PROGRESS 13%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 14, "SUE_UF_PROGRESS 14%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 15, "SUE_UF_PROGRESS 15%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 16, "SUE_UF_PROGRESS 16%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 17, "SUE_UF_PROGRESS 17%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 18, "SUE_UF_PROGRESS 18%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 19, "SUE_UF_PROGRESS 19%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 20, "SUE_UF_PROGRESS 20%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 21, "SUE_UF_PROGRESS 21%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 22, "SUE_UF_PROGRESS 22%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 23, "SUE_UF_PROGRESS 23%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 24, "SUE_UF_PROGRESS 24%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 25, "SUE_UF_PROGRESS 25%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 26, "SUE_UF_PROGRESS 26%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 27, "SUE_UF_PROGRESS 27%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 28, "SUE_UF_PROGRESS 28%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 29, "SUE_UF_PROGRESS 29%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 30, "SUE_UF_PROGRESS 30%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 31, "SUE_UF_PROGRESS 31%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 32, "SUE_UF_PROGRESS 32%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 33, "SUE_UF_PROGRESS 33%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 34, "SUE_UF_PROGRESS 34%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 35, "SUE_UF_PROGRESS 35%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 36, "SUE_UF_PROGRESS 36%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 37, "SUE_UF_PROGRESS 37%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 38, "SUE_UF_PROGRESS 38%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 39, "SUE_UF_PROGRESS 39%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 40, "SUE_UF_PROGRESS 40%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 41, "SUE_UF_PROGRESS 41%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 42, "SUE_UF_PROGRESS 42%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 43, "SUE_UF_PROGRESS 43%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 44, "SUE_UF_PROGRESS 44%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 45, "SUE_UF_PROGRESS 45%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 46, "SUE_UF_PROGRESS 46%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 47, "SUE_UF_PROGRESS 47%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 48, "SUE_UF_PROGRESS 48%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 49, "SUE_UF_PROGRESS 49%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 50, "SUE_UF_PROGRESS 50%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 51, "SUE_UF_PROGRESS 51%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 52, "SUE_UF_PROGRESS 52%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 53, "SUE_UF_PROGRESS 53%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 54, "SUE_UF_PROGRESS 54%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 55, "SUE_UF_PROGRESS 55%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 56, "SUE_UF_PROGRESS 56%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 57, "SUE_UF_PROGRESS 57%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 58, "SUE_UF_PROGRESS 58%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 59, "SUE_UF_PROGRESS 59%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 60, "SUE_UF_PROGRESS 60%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 61, "SUE_UF_PROGRESS 61%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 62, "SUE_UF_PROGRESS 62%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 63, "SUE_UF_PROGRESS 63%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 64, "SUE_UF_PROGRESS 64%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 65, "SUE_UF_PROGRESS 65%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 66, "SUE_UF_PROGRESS 66%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 67, "SUE_UF_PROGRESS 67%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 68, "SUE_UF_PROGRESS 68%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 69, "SUE_UF_PROGRESS 69%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 70, "SUE_UF_PROGRESS 70%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 71, "SUE_UF_PROGRESS 71%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 72, "SUE_UF_PROGRESS 72%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 73, "SUE_UF_PROGRESS 73%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 74, "SUE_UF_PROGRESS 74%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 75, "SUE_UF_PROGRESS 75%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 76, "SUE_UF_PROGRESS 76%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 77, "SUE_UF_PROGRESS 77%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 78, "SUE_UF_PROGRESS 78%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 79, "SUE_UF_PROGRESS 79%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 80, "SUE_UF_PROGRESS 80%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 81, "SUE_UF_PROGRESS 81%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 82, "SUE_UF_PROGRESS 82%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 83, "SUE_UF_PROGRESS 83%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 84, "SUE_UF_PROGRESS 84%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 85, "SUE_UF_PROGRESS 85%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 86, "SUE_UF_PROGRESS 86%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 87, "SUE_UF_PROGRESS 87%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 88, "SUE_UF_PROGRESS 88%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 89, "SUE_UF_PROGRESS 89%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 90, "SUE_UF_PROGRESS 90%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 91, "SUE_UF_PROGRESS 91%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 92, "SUE_UF_PROGRESS 92%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 93, "SUE_UF_PROGRESS 93%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 94, "SUE_UF_PROGRESS 94%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 95, "SUE_UF_PROGRESS 95%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 96, "SUE_UF_PROGRESS 96%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 97, "SUE_UF_PROGRESS 97%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 98, "SUE_UF_PROGRESS 98%",
+                    JposConst.JPOS_SUE_UF_PROGRESS + 99, "SUE_UF_PROGRESS 99%",
+                    JposConst.JPOS_SUE_UF_COMPLETE, "SUE_UF_COMPLETE",
+                    JposConst.JPOS_SUE_UF_FAILED_DEV_OK, "SUE_UF_FAILED_DEV_OK",
+                    JposConst.JPOS_SUE_UF_FAILED_DEV_UNRECOVERABLE, "SUE_UF_FAILED_DEV_UNRECOVERABLE",
+                    JposConst.JPOS_SUE_UF_FAILED_DEV_NEEDS_FIRMWARE, "SUE_UF_FAILED_DEV_NEEDS_FIRMWARE",
+                    JposConst.JPOS_SUE_UF_FAILED_DEV_UNKNOWN, "SUE_UF_FAILED_DEV_UNKNOWN",
+                    JposConst.JPOS_SUE_UF_COMPLETE_DEV_NOT_RESTORED, "SUE_UF_COMPLETE_DEV_NOT_RESTORED"
             };
         }
     }
