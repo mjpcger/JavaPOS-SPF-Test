@@ -376,7 +376,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -426,6 +426,8 @@ public class CommonController implements Initializable, Runnable, DataListener, 
          * @param method Method name.
          */
         MethodProcessor(String method) {
+            if (method == null)
+                method = getClass().getSimpleName();
             setName(LogicalDeviceName + " " + method + "Handler");
             synchronized(CommonController.this) {
                 CurrentMethod = this;
@@ -947,9 +949,9 @@ public class CommonController implements Initializable, Runnable, DataListener, 
                     PowerNotify.getItems().add(values.getSymbol(JposConst.JPOS_PN_ENABLED));
                 }
                 try {
-                    PowerNotify.getSelectionModel().select(values.getSymbol((int) Class.forName(Control.getClass().getName()).getMethod("getPowerNotify").invoke(Control)));
+                    PowerNotify.setValue(values.getSymbol((int) Class.forName(Control.getClass().getName()).getMethod("getPowerNotify").invoke(Control)));
                 } catch (Exception e) {
-                    PowerNotify.setValue(null);
+                    PowerNotify.setValue("");
                 }
             }
             if (AsyncMode != null) {
@@ -969,6 +971,15 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             }
             InUpdateGui = false;
         }
+    }
+
+    public void updateGuiLater() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                updateGui();
+            }
+        });
     }
 
     @Override

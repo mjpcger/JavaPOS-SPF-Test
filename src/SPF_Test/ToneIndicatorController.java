@@ -179,7 +179,7 @@ public class ToneIndicatorController extends CommonController {
                 getFullErrorMessageAndPrintTrace(e);
             } catch (NullPointerException e) {
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 

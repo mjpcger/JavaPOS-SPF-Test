@@ -29,7 +29,7 @@
             prefHeight="540.0" prefWidth="980.0">
     <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutX="0" layoutY="5" onAction="#setDeviceEnabled"/>
     <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="120" layoutY="5" onAction="#setFreezeEvents"/>
-    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="240" layoutY="0" onAction="#setPowerNotify"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="240" layoutY="0" editable="true" onAction="#setPowerNotify"/>
     <Label text="PowerNotify" layoutX="390" layoutY="5"/>
     <TableView fx:id="Properties" layoutX="570" layoutY="5" prefWidth="410" prefHeight="110"/>
     <Button text="Open" layoutX="0" layoutY="35" onAction="#open" prefWidth="70"/>

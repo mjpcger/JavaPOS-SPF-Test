@@ -29,7 +29,7 @@
             prefHeight="540.0" prefWidth="980.0">
     <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutX="0" layoutY="5" onAction="#setDeviceEnabled"/>
     <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="110" layoutY="5" onAction="#setFreezeEvents"/>
-    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="210" layoutY="0" onAction="#setPowerNotify"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="210" layoutY="0" editable="true" onAction="#setPowerNotify"/>
     <Label text="PowerNotify" layoutX="360" layoutY="5"/>
     <ComboBox fx:id="CurrentUnitID" layoutX="435" layoutY="0" prefWidth="80" editable="true" onAction="#setCurrentUnitID"/>
     <Label text="CurrentUnitID" layoutX="520" layoutY="5"/>
@@ -208,9 +208,9 @@
                 <Label text="MapCharacterSet" layoutX="0" layoutY="105" prefWidth="110" alignment="CENTER_RIGHT"/>
                 <CheckBox fx:id="MapCharacterSet" layoutX="115" layoutY="105" onAction="#setMapCharacterSet"/>
                 <Label text="Timeout" layoutX="0" layoutY="130" prefWidth="110" alignment="CENTER_RIGHT"/>
-                <ComboBox fx:id="Timeout" layoutX="115" layoutY="125" onAction="#setTimeout" prefWidth="100" promptText="Timeout"/>
+                <ComboBox fx:id="Timeout" layoutX="115" layoutY="125" onAction="#setTimeout" prefWidth="100" promptText="Timeout" editable="true"/>
                 <Label text="VideoMode" layoutX="0" layoutY="155" prefWidth="110" alignment="CENTER_RIGHT"/>
-                <ComboBox fx:id="VideoMode" layoutX="115" layoutY="150" onAction="#setVideoMode" prefWidth="100" promptText="VideoMode"/>
+                <ComboBox fx:id="VideoMode" layoutX="115" layoutY="150" onAction="#setVideoMode" prefWidth="100" promptText="VideoMode" editable="true"/>
                 <Label text="Last Event" layoutX="0" layoutY="180" prefWidth="110" alignment="CENTER_RIGHT"/>
                 <Label fx:id="DataEvent" layoutX="115" layoutY="180" font="$boldfont"/>
                 <Label text="Attribute Editor" underline="true" layoutX="0" layoutY="205" prefWidth="320" alignment="CENTER"/>

@@ -30,10 +30,10 @@
             prefHeight="540.0" prefWidth="980.0">
     <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutX="0" layoutY="5" onAction="#setDeviceEnabled"/>
     <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="108" layoutY="5" onAction="#setFreezeEvents"/>
-    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="206" layoutY="0" onAction="#setPowerNotify"/>
-    <Label text="PowerNotify" layoutX="356" layoutY="5"/>
-    <ComboBox fx:id="CurrencyDigits" layoutX="430" layoutY="0" onAction="#setCurrencyDigits" prefWidth="50"/>
-    <Label text="Currency Digits" layoutX="485" layoutY="5"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="110" layoutX="206" layoutY="0" editable="true" onAction="#setPowerNotify"/>
+    <Label text="PowerNotify" layoutX="322" layoutY="5"/>
+    <CheckBox fx:id="AsyncMode" text="AsyncMode" layoutX="395" layoutY="5" onAction="#setAsyncMode"/>
+    <ComboBox fx:id="CurrencyDigits" layoutX="485" layoutY="0" prefWidth="50" visible="false"/>
     <TableView fx:id="Properties" layoutX="570" layoutY="0" prefWidth="410" prefHeight="115"/>
     <Button text="Open" layoutX="0" layoutY="35" onAction="#open" prefWidth="85"/>
     <Button text="Claim" layoutX="92" layoutY="35" onAction="#claim" prefWidth="70"/>
@@ -47,8 +47,9 @@
     <TextField fx:id="DIO_data" prefWidth="70" layoutX="490" layoutY="60" promptText="data"/>
     <TextField fx:id="DIO_obj" prefWidth="140" layoutX="420" layoutY="85" promptText="obj"/>
     <Button text="ClearOutput" layoutX="0" layoutY="87.5" onAction="#clearOutput" prefWidth="85"/>
-    <CheckBox fx:id="AsyncMode" text="AsyncMode" layoutX="92" layoutY="92.5" onAction="#setAsyncMode"/>
-    <CheckBox fx:id="FlagWhenIdle" layoutX="185" layoutY="92.5" onAction="#setFlagWhenIdle" text="FlagWhenIdle"/>
+    <CheckBox fx:id="CheckTotal" layoutX="92" layoutY="92.5" text="CheckTotal" onAction="#setCheckTotal"/>
+    <CheckBox fx:id="DuplicateReceipt" layoutX="182" layoutY="92.5" text="DuplicateReceipt" onAction="#setDuplicateReceipt"/>
+    <CheckBox fx:id="FlagWhenIdle" layoutX="302" layoutY="92.5" onAction="#setFlagWhenIdle" text="FlagWhenIdle"/>
     <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
     <Label layoutX="0" layoutY="530">
         <font>
@@ -57,10 +58,252 @@
     </Label>
     <Label layoutX="0" layoutY="530">
         <font>
-            <Font fx:id="largefont" name="System Bold" size="20.0"/>
+            <Font fx:id="boldfont" name="System Bold" size="12.0"/>
         </font>
     </Label>
     <TabPane layoutX="0" layoutY="116" prefWidth="980" prefHeight="424" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Specific Properties and Methods">
+            <AnchorPane prefHeight="409" prefWidth="980">
+                <Label text="FiscalReceiptType" layoutX="0" layoutY="5" prefWidth="95" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="FiscalReceiptType" layoutX="100" layoutY="1" prefWidth="150" editable="true" onAction="#setFiscalReceiptType"/>
+                <Label text="FiscalReceiptStation" layoutX="265" layoutY="5"/>
+                <ComboBox fx:id="FiscalReceiptStation" layoutX="375" layoutY="1" prefWidth="95" editable="true" onAction="#setFiscalReceiptStation"/>
+                <Label text="ContractorId" layoutX="485" layoutY="5"/>
+                <ComboBox fx:id="ContractorId" layoutX="555" layoutY="1" prefWidth="110" editable="true" onAction="#setContractorId"/>
+                <Label text="SlipSelection" layoutX="680" layoutY="5"/>
+                <ComboBox fx:id="SlipSelection" layoutX="750" layoutY="1" prefWidth="130" editable="true" onAction="#setSlipSelection"/>
+                <Label text="MessageType" layoutX="0" layoutY="35" prefWidth="95" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="MessageType" layoutX="100" layoutY="30" prefWidth="150" editable="true" onAction="#setMessageType"/>
+                <Label text="AdditionalHeader" layoutX="0" layoutY="64" prefWidth="95" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="AdditionalHeader" layoutX="100" layoutY="59" prefWidth="150"/>
+                <Label text="AdditionalTrailer" layoutX="0" layoutY="93" prefWidth="95" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="AdditionalTrailer" layoutX="100" layoutY="88" prefWidth="150"/>
+                <Label text="ChangeDue" layoutX="0" layoutY="122" prefWidth="95" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="ChangeDue" layoutX="100" layoutY="117" prefWidth="150"/>
+                <Label text="PreLine" layoutX="0" layoutY="151" prefWidth="95" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="PreLine" layoutX="100" layoutY="146" prefWidth="150"/>
+                <Label text="PostLine" layoutX="0" layoutY="180" prefWidth="95" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="PostLine" layoutX="100" layoutY="175" prefWidth="150"/>
+                <Separator layoutX="0" layoutY="205" prefWidth="255" orientation="HORIZONTAL"/>
+                <Separator layoutX="254" layoutY="30" prefHeight="379" orientation="VERTICAL"/>
+                <Label text="PrinterState:" layoutX="0" layoutY="210" font="$boldfont"/>
+                <Label fx:id="PrinterState" layoutX="100" layoutY="210" text="PS_FISCAL_RECEIPT_ENDING"/>
+                <Label text="Events:" layoutX="100" layoutY="233" underline="true" font="$boldfont"/>
+                <TextArea fx:id="EventOutput" layoutX="0" layoutY="254" prefWidth="250" prefHeight="130"/>
+                <TabPane layoutX="255" layoutY="30" prefWidth="725" prefHeight="379" tabClosingPolicy="UNAVAILABLE">
+                    <Tab text="Itemizing Fiscal Receipt">
+                        <AnchorPane prefWidth="725" prefHeight="364">
+                            <Button onAction="#beginFiscalReceipt" layoutX="0" layoutY="0" prefWidth="115" text="BeginFiscalReceipt"/>
+                            <Button layoutX="0" layoutY="25" prefHeight="40" prefWidth="115" disable="true"/>
+                            <CheckBox fx:id="BFR_printHeader" layoutX="5" layoutY="35" text="printHeader"/>
+                            <Button onAction="#printRec" layoutX="120" layoutY="0" prefWidth="120" text="PrintRec..."/>
+                            <ComboBox fx:id="PrintRec" layoutX="120" layoutY="25" prefWidth="120" prefHeight="40" onAction="#setupPrintRec" visibleRowCount="11"/>
+                            <TextField fx:id="PR_description" layoutY="65" layoutX="120" promptText="description" prefWidth="120"/>
+                            <TextField fx:id="PR_price" layoutX="120" layoutY="90" prefWidth="120" promptText="price"/>
+                            <TextField fx:id="PR_amount" layoutX="120" layoutY="115" prefWidth="120" promptText="amount" visible="false"/>
+                            <TextField fx:id="PR_quantity" layoutX="120" layoutY="115" prefWidth="120" promptText="quantity"/>
+                            <TextField fx:id="PR_vatInfo" layoutX="120" layoutY="140" prefWidth="120" promptText="vatInfo"/>
+                            <TextField fx:id="PR_unitPrice" layoutX="120" layoutY="165" prefWidth="120" promptText="unitPrice"/>
+                            <TextField fx:id="PR_unitName" layoutX="120" layoutY="190" prefWidth="120" promptText="unitName"/>
+                            <TextField fx:id="PR_specialTax" layoutX="120" layoutY="215" prefWidth="120" promptText="specialTax" visible="false"/>
+                            <TextField fx:id="PR_specialTaxName" layoutX="120" layoutY="240" prefWidth="120" promptText="specialTaxName" visible="false"/>
+                            <ComboBox fx:id="PR_adjustmentType" layoutX="120" layoutY="65" prefWidth="120" onAction="#setPRAdjustmentType" editable="true" visible="false" promptText="adjustmentType"/>
+                            <Button onAction="#printRecPackage" layoutX="245" layoutY="0" prefWidth="115" text="PrintRecPackage..."/>
+                            <ComboBox fx:id="PrintRecPackage" layoutX="245" layoutY="25" prefWidth="115" prefHeight="40" onAction="#setupPrintRecPackage" visibleRowCount="2"/>
+                            <ComboBox fx:id="PRP_adjustmentType" layoutX="245" layoutY="65" prefWidth="115" editable="true" promptText="adjustmentType"/>
+                            <TextField fx:id="PRP_description" layoutY="90" layoutX="245" promptText="description" prefWidth="115"/>
+                            <TextField fx:id="PRP_vatAdjustment" layoutY="115" layoutX="245" promptText="vatAdjustment" prefWidth="115"/>
+                            <Button onAction="#printRecSubtotal" layoutX="365" layoutY="0" prefWidth="115" text="PrintRecSubtotal..."/>
+                            <ComboBox fx:id="PrintRecSubtotal" layoutX="365" layoutY="25" prefWidth="115" prefHeight="40" onAction="#setupPrintRecSubtotal" visibleRowCount="3"/>
+                            <TextField fx:id="PRS_amount" layoutX="365" layoutY="65" prefWidth="115" promptText="amount"/>
+                            <ComboBox fx:id="PRS_adjustmentType" layoutX="365" layoutY="65" prefWidth="115" onAction="#setPRSAdjustmentType" editable="true" visible="false" promptText="adjustmentType"/>
+                            <TextField fx:id="PRS_description" layoutX="365" layoutY="90" prefWidth="115" promptText="description" visible="false"/>
+                            <TextField fx:id="PRS_adjustment" layoutX="365" layoutY="115" prefWidth="115" promptText="amount" visible="false"/>
+                            <Button onAction="#printRecMessageI" layoutX="485" layoutY="0" prefWidth="115" text="PrintRecMessage"/>
+                            <TextField fx:id="PRMI_message" layoutX="485" layoutY="25" prefWidth="115" prefHeight="40" promptText="message"/>
+                            <Button onAction="#printRecVoid" layoutX="605" layoutY="0" prefWidth="115" text="PrintRecVoid"/>
+                            <ComboBox fx:id="PrintRecVoid" layoutX="605" layoutY="25" prefWidth="115" prefHeight="40" onAction="#setupPrintRecVoid" visibleRowCount="2"/>
+                            <TextField fx:id="PRV_description" layoutX="605" layoutY="65" prefWidth="115" promptText="description"/>
+                            <TextField fx:id="PRV_amount" layoutX="605" layoutY="90" prefWidth="115" promptText="amount" visible="false"/>
+                            <TextField fx:id="PRV_quantity" layoutX="605" layoutY="115" prefWidth="115" promptText="quantity" visible="false"/>
+                            <ComboBox fx:id="PRV_adjustmentType" layoutX="605" layoutY="140" prefWidth="115" onAction="#setPRVAdjustmentType" editable="true" visible="false" promptText="adjustmentType"/>
+                            <TextField fx:id="PRV_adjustment" layoutX="605" layoutY="165" prefWidth="115" promptText="adjustment" visible="false"/>
+                            <TextField fx:id="PRV_vatInfo" layoutX="605" layoutY="190" prefWidth="115" promptText="vatInfo" visible="false"/>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="Finalizing Fiscal Receipt">
+                        <AnchorPane prefWidth="725" prefHeight="364">
+                            <Button onAction="#printRecTotal" layoutX="0" layoutY="0" prefWidth="115" text="PrintRecTotal"/>
+                            <TextField fx:id="PRT_total" layoutX="0" layoutY="25" prefWidth="115" promptText="total"/>
+                            <TextField fx:id="PRT_payment" layoutX="0" layoutY="50" prefWidth="115" promptText="payment"/>
+                            <TextField fx:id="PRT_description" layoutX="0" layoutY="75" prefWidth="115" promptText="description"/>
+                            <ComboBox fx:id="PRT_descriptionIndex" layoutX="0" layoutY="75" prefWidth="115" promptText="description" visible="false"/>
+                            <Button onAction="#printRecNotPaid" layoutX="120" layoutY="0" prefWidth="115" text="PrintRecNotPaid"/>
+                            <TextField fx:id="PRNP_description" layoutX="120" layoutY="25" prefWidth="115" promptText="description"/>
+                            <TextField fx:id="PRNP_amount" layoutX="120" layoutY="50" prefWidth="115" promptText="amount"/>
+                            <Button onAction="#printRecCash" layoutX="240" layoutY="0" prefWidth="115" text="PrintRecCash"/>
+                            <TextField fx:id="PRC_amount" layoutX="240" layoutY="25" prefWidth="115" promptText="amount"/>
+                            <Button onAction="#printRecTaxID" layoutX="360" layoutY="0" prefWidth="115" text="PrintRecTaxID"/>
+                            <TextField fx:id="PRTID_description" layoutX="360" layoutY="25" prefWidth="115" promptText="description"/>
+                            <Button onAction="#printRecMessageF" layoutX="480" layoutY="0" prefWidth="115" text="PrintRecMessage"/>
+                            <TextField fx:id="PRMF_message" layoutX="480" layoutY="25" prefWidth="115" promptText="message"/>
+                            <Button onAction="#endFiscalReceipt" layoutX="600" layoutY="0" prefWidth="115" text="EndFiscalReceipt"/>
+                            <Button layoutX="600" layoutY="25" prefWidth="115" disable="true"/>
+                            <CheckBox fx:id="EFR_printHeader" layoutX="605" layoutY="29" text="printHeader"/>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="Paper Handling">
+                        <AnchorPane prefWidth="725" prefHeight="364">
+                            <Button onAction="#beginInsertion" layoutX="0" layoutY="0" prefWidth="115" text="BeginInsertion"/>
+                            <ComboBox fx:id="BI_timeout" layoutX="0" layoutY="25" prefWidth="115" promptText="timeout" editable="true"/>
+                            <Button onAction="#endInsertion" layoutX="120" layoutY="0" prefWidth="115" text="EndInsertion"/>
+                            <Button onAction="#beginRemoval" layoutX="240" layoutY="0" prefWidth="115" text="BeginRemoval"/>
+                            <ComboBox fx:id="BR_timeout" layoutX="240" layoutY="25" prefWidth="115" promptText="timeout" editable="true"/>
+                            <Button onAction="#endRemoval" layoutX="360" layoutY="0" prefWidth="115" text="EndRemoval"/>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="Report Printing">
+                        <AnchorPane prefWidth="725" prefHeight="364">
+                            <TabPane prefWidth="355" prefHeight="364" layoutX="0" layoutY="0">
+                                <Tab text="Non Fiscal">
+                                    <AnchorPane prefWidth="355" prefHeight="349">
+                                        <Button onAction="#beginNonFiscal" layoutX="0" layoutY="0" prefWidth="115" text="BeginNonFiscal"/>
+                                        <Button onAction="#endNonFiscal" layoutX="120" layoutY="0" prefWidth="115" text="EndNonFiscal"/>
+                                        <Button onAction="#printNormal" layoutX="240" layoutY="0" prefWidth="115" text="PrintNormal"/>
+                                        <ComboBox fx:id="PN_station" layoutX="240" layoutY="25" prefWidth="115" promptText="station" editable="true"/>
+                                        <TextArea fx:id="PN_data" layoutX="240" layoutY="50" prefWidth="115" prefHeight="200" promptText="data. Use \n, \r, \e or \\
+for NL, CR, ESC and \, pass binary as pairs of hexadecimal letters between \x (start hex) and \c (start char)"/>
+                                    </AnchorPane>
+                                </Tab>
+                                <Tab text="Fixed Output">
+                                    <AnchorPane prefWidth="355" prefHeight="349">
+                                        <Button onAction="#beginFixedOutput" layoutX="0" layoutY="0" prefWidth="115" text="BeginFixedOutput"/>
+                                        <ComboBox fx:id="BFO_station" layoutX="0" layoutY="25" prefWidth="115" promptText="station" editable="true"/>
+                                        <TextField fx:id="BFO_documentType" layoutX="0" layoutY="50" prefWidth="115" promptText="documentType"/>
+                                        <Button onAction="#endFixedOutput" layoutX="120" layoutY="0" prefWidth="115" text="EndFixedOutput"/>
+                                        <Button onAction="#printFixedOutput" layoutX="240" layoutY="0" prefWidth="115" text="PrintFixedOutput"/>
+                                        <TextField fx:id="PFO_documentType" layoutX="240" layoutY="25" prefWidth="115" promptText="documentType"/>
+                                        <TextField fx:id="PFO_lineNumber" layoutX="240" layoutY="50" prefWidth="115" promptText="lineNumber"/>
+                                        <TextField fx:id="PFO_data" layoutX="240" layoutY="75" prefWidth="115" promptText="data"/>
+                                    </AnchorPane>
+                                </Tab>
+                                <Tab text="Fiscal Document">
+                                    <AnchorPane prefWidth="355" prefHeight="349">
+                                        <Button onAction="#beginFiscalDocument" layoutX="0" layoutY="0" prefWidth="115" text="BeginFiscalDocument"/>
+                                        <TextField fx:id="BFD_documentAmount" layoutX="0" layoutY="25" prefWidth="115" promptText="documentAmount"/>
+                                        <CheckBox fx:id="BFD_UseFourDigits" layoutX="5" layoutY="60" text="Amount with four digits"/>
+                                        <Button onAction="#endFiscalDocument" layoutX="120" layoutY="0" prefWidth="115" text="EndFiscalDocument"/>
+                                        <Button onAction="#printFiscalDocumentLine" layoutX="240" layoutY="0" prefWidth="115" text="PrintFiscalDocumentLine"/>
+                                        <TextField fx:id="PFDL_documentLine" layoutX="240" layoutY="25" prefWidth="115" promptText="documentLine"/>
+                                    </AnchorPane>
+                                </Tab>
+                                <Tab text="Item List">
+                                    <AnchorPane prefWidth="355" prefHeight="349">
+                                        <Button onAction="#beginItemList" layoutX="0" layoutY="0" prefWidth="115" text="BeginItemList"/>
+                                        <ComboBox fx:id="BIL_vatID" layoutX="0" layoutY="25" prefWidth="115" promptText="vatID" editable="true"/>
+                                        <Button onAction="#endItemList" layoutX="120" layoutY="0" prefWidth="115" text="EndItemList"/>
+                                        <Button onAction="#verifyItem" layoutX="240" layoutY="0" prefWidth="115" text="VerifyItem"/>
+                                        <TextField fx:id="VI_itemName" layoutX="240" layoutY="25" prefWidth="115" promptText="itemName"/>
+                                        <ComboBox fx:id="VI_vatID" layoutX="240" layoutY="50" prefWidth="115" promptText="vatID" editable="true"/>
+                                        <Label fx:id="ILlabel1" layoutX="0" layoutY="100" font="$boldfont" text="To preset vatID values, use button on tab"/>
+                                        <Label fx:id="ILlabel2" layoutX="0" layoutY="125" font="$boldfont" text="Miscellaneous Methods - Data Retrieval, VAT Rates."/>
+                                    </AnchorPane>
+                                </Tab>
+                            </TabPane>
+                            <TabPane prefWidth="365" prefHeight="364" layoutX="360" layoutY="0">
+                                <Tab text="Periodic Reports">
+                                    <AnchorPane prefWidth="365" prefHeight="349">
+                                        <Button onAction="#printReport" layoutX="0" layoutY="0" prefWidth="115" text="PrintReport"/>
+                                        <ComboBox fx:id="PR_reportType" layoutX="0" layoutY="25" prefWidth="115" promptText="reportType" editable="true"/>
+                                        <TextField fx:id="PR_startNum" layoutX="0" layoutY="50" prefWidth="115" promptText="startNum"/>
+                                        <TextField fx:id="PR_endNum" layoutX="0" layoutY="75" prefWidth="115" promptText="endNum"/>
+                                        <Button onAction="#printXReport" layoutX="120" layoutY="0" prefWidth="115" text="PrintXReport"/>
+                                        <Button onAction="#printZReport" layoutX="240" layoutY="0" prefWidth="115" text="PrintZReport"/>
+                                    </AnchorPane>
+                                </Tab>
+                                <Tab text="Special Printouts">
+                                    <AnchorPane prefWidth="365" prefHeight="349">
+                                        <Button onAction="#printPeriodicTotalsReport" layoutX="0" layoutY="0" prefWidth="115" text="PrintPeriodicTotalsReport"/>
+                                        <TextField fx:id="PPTR_date1" layoutX="0" layoutY="25" prefWidth="115" promptText="date1"/>
+                                        <TextField fx:id="PPTR_date2" layoutX="0" layoutY="50" prefWidth="115" promptText="date2"/>
+                                        <Button onAction="#printPowerLossReport" layoutX="120" layoutY="0" prefWidth="115" text="PrintPowerLossReport"/>
+                                        <Button onAction="#printDuplicateReceipt" layoutX="240" layoutY="0" prefWidth="115" text="PrintDuplicateReceipt"/>
+                                    </AnchorPane>
+                                </Tab>
+                            </TabPane>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="Miscellaneous Methods">
+                        <AnchorPane prefWidth="725" prefHeight="364">
+                            <TabPane prefWidth="725" prefHeight="364" layoutX="0" layoutY="0">
+                                <Tab text="Maintenance">
+                                    <AnchorPane prefWidth="725" prefHeight="349">
+                                        <Button onAction="#clearError" layoutX="0" layoutY="0" prefWidth="115" text="ClearError"/>
+                                        <Button onAction="#resetPrinter" layoutX="120" layoutY="0" prefWidth="115" text="ResetPrinter"/>
+                                        <Button onAction="#beginTraining" layoutX="240" layoutY="0" prefWidth="115" text="BeginTraining"/>
+                                        <Button onAction="#endTraining" layoutX="360" layoutY="0" prefWidth="115" text="EndTraining"/>
+                                    </AnchorPane>
+                                </Tab>
+                                <Tab text="Data Retrieval, VAT Rates">
+                                    <AnchorPane prefWidth="725" prefHeight="349">
+                                        <Button onAction="#getData" layoutX="0" layoutY="0" prefWidth="115" text="GetData"/>
+                                        <ComboBox fx:id="GD_dataItem" layoutX="0" layoutY="25" prefWidth="115" promptText="dataItem" onAction="#verifyGDOptArgs" editable="true"/>
+                                        <ComboBox fx:id="GD_optArgs" layoutX="0" layoutY="50" prefWidth="115" promptText="optArgs" editable="true"/>
+                                        <TextField fx:id="GD_data" layoutX="0" layoutY="75" prefWidth="115" promptText="data"/>
+                                        <Button onAction="#getDate" layoutX="120" layoutY="0" prefWidth="115" text="GetDate"/>
+                                        <TextField fx:id="GD_date" layoutX="120" layoutY="25" prefWidth="115" promptText="date"/>
+                                        <Button onAction="#getTotalizer" layoutX="240" layoutY="0" prefWidth="115" text="GetTotalizer"/>
+                                        <ComboBox fx:id="GT_vatID" layoutX="240" layoutY="25" prefWidth="115" promptText="vatID" editable="true"/>
+                                        <ComboBox fx:id="GT_optArgs" layoutX="240" layoutY="50" prefWidth="115" promptText="optArgs" editable="true"/>
+                                        <TextField fx:id="GT_data" layoutX="240" layoutY="75" prefWidth="115" promptText="data"/>
+                                        <Label text="DateType" layoutX="0" layoutY="135" prefWidth="80" alignment="CENTER_RIGHT"/>
+                                        <ComboBox fx:id="DateType" layoutX="85" layoutY="130" prefWidth="105" promptText="DateType" onAction="#setDateType" editable="true"/>
+                                        <Label text="TotalizerType" layoutX="0" layoutY="165" prefWidth="80" alignment="CENTER_RIGHT"/>
+                                        <ComboBox fx:id="TotalizerType" layoutX="85" layoutY="160" prefWidth="105" promptText="TotalizerType" onAction="#setTotalizerType" editable="true"/>
+                                        <Button text="Retrieve Valid VAT IDs" layoutX="0" layoutY="190" prefWidth="140" onAction="#setVatIDs"/>
+                                        <TextField fx:id="RVV_start" layoutX="140" layoutY="190" prefWidth="60" promptText="startID"/>
+                                        <TextField fx:id="RVV_stop" layoutX="200" layoutY="190" prefWidth="60" promptText="stopID"/>
+                                        <TextField fx:id="VatIDs" layoutX="260" layoutY="190" prefWidth="455" promptText="Result (On input: Comma separated list of optArg values to be tried in getVatEntry)"/>
+                                        <Button onAction="#getVatEntry" layoutX="360" layoutY="0" prefWidth="115" text="GetVatEntry"/>
+                                        <ComboBox fx:id="GVE_vatID" layoutX="360" layoutY="25" prefWidth="115" promptText="vatID" editable="true"/>
+                                        <TextField fx:id="GVE_optArgs" layoutX="360" layoutY="50" prefWidth="115" promptText="optArgs"/>
+                                        <TextField fx:id="GVE_vatRate" layoutX="360" layoutY="75" prefWidth="115" promptText="vatRate"/>
+                                        <Button onAction="#setVatValue" layoutX="480" layoutY="0" prefWidth="115" text="SetVatValue"/>
+                                        <ComboBox fx:id="SVV_vatID" layoutX="480" layoutY="25" prefWidth="115" promptText="vatID" editable="true"/>
+                                        <TextField fx:id="SVV_vatRate" layoutX="480" layoutY="50" prefWidth="115" promptText="vatRate"/>
+                                        <CheckBox fx:id="SVV_intRate" layoutX="485" layoutY="80" text="VAT rate as int"/>
+                                        <Button onAction="#setVatTable" layoutX="600" layoutY="0" prefWidth="115" text="SetVatTable"/>
+                                    </AnchorPane>
+                                </Tab>
+                                <Tab text="Settings">
+                                    <AnchorPane prefWidth="355" prefHeight="349">
+                                        <Button onAction="#setCurrency" layoutX="0" layoutY="0" prefWidth="115" text="SetCurrency"/>
+                                        <ComboBox fx:id="SC_newCurrency" layoutX="0" layoutY="25" prefWidth="115" promptText="newCurrency" editable="true"/>
+                                        <Button onAction="#setDate" layoutX="120" layoutY="0" prefWidth="115" text="SetDate"/>
+                                        <TextField fx:id="SD_date" layoutX="120" layoutY="25" prefWidth="115" promptText="date"/>
+                                        <Button onAction="#setStoreFiscalID" layoutX="240" layoutY="0" prefWidth="115" text="SetStoreFiscalID"/>
+                                        <TextField fx:id="SSFID_ID" layoutX="240" layoutY="25" prefWidth="115" promptText="ID"/>
+                                        <Button onAction="#setHeaderLine" layoutX="360" layoutY="0" prefWidth="115" text="SetHeaderLine"/>
+                                        <ComboBox fx:id="SHL_lineNumber" layoutX="360" layoutY="25" prefWidth="115" promptText="lineNumber" editable="true"/>
+                                        <TextField fx:id="SHL_text" layoutX="360" layoutY="50" prefWidth="115" promptText="text"/>
+                                        <Button layoutX="360" layoutY="75" prefWidth="115" disable="true"/>
+                                        <CheckBox fx:id="SHL_doubleWidth" layoutX="365" layoutY="79" text="doubleWidth"/>
+                                        <Button onAction="#setTrailerLine" layoutX="480" layoutY="0" prefWidth="115" text="SetTrailerLine"/>
+                                        <ComboBox fx:id="STL_lineNumber" layoutX="480" layoutY="25" prefWidth="115" promptText="lineNumber" editable="true"/>
+                                        <TextField fx:id="STL_text" layoutX="480" layoutY="50" prefWidth="115" promptText="text"/>
+                                        <Button layoutX="480" layoutY="75" prefWidth="115" disable="true"/>
+                                        <CheckBox fx:id="STL_doubleWidth" layoutX="485" layoutY="79" text="doubleWidth"/>
+                                        <Button onAction="#setPOSID" layoutX="600" layoutY="0" prefWidth="115" text="setPOSID"/>
+                                        <TextField fx:id="SP_POSID" layoutX="600" layoutY="25" prefWidth="115" promptText="POSID"/>
+                                        <TextField fx:id="SP_cashierID" layoutX="600" layoutY="50" prefWidth="115" promptText="cashierID"/>
+                                    </AnchorPane>
+                                </Tab>
+                            </TabPane>
+                        </AnchorPane>
+                    </Tab>
+                </TabPane>
+            </AnchorPane>
+        </Tab>
         <Tab text="Maintenance Methods">
             <AnchorPane prefHeight="409" prefWidth="980">
                 <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
@@ -74,7 +317,6 @@
                 <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
                 <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
                 <TextArea fx:id="_statisticsBuffer" layoutX="330" layoutY="30" prefWidth="350" prefHeight="75" promptText="statisticsBuffer"/>
-                <Text text="Under Development" fill="RED" layoutX="400" layoutY="350" font="$largefont"/>
             </AnchorPane>
         </Tab>
     </TabPane>

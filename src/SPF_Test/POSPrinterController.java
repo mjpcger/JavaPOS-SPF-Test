@@ -20,10 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import jpos.*;
-import jpos.events.ErrorEvent;
-import jpos.events.OutputCompleteEvent;
-import jpos.events.StatusUpdateEvent;
-
+import jpos.events.*;
 import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
@@ -414,57 +411,66 @@ public class POSPrinterController extends CommonController {
                 if (JrnCurrentCartridge.getItems().size() == 0) {
                     Object[] values = JrnCurrentCartridgeRow.getValueConverter().ValueList;
                     for (int i = 0; i < values.length; i += 2) {
-                        if ((val & (int) values[i]) != 0)
+                        if ((val & (int) values[i]) != 0) {
                             JrnCurrentCartridge.getItems().add(values[i + 1].toString());
+                            if (values[i + 1].equals(JrnCurrentCartridgeRow.getValue()))
+                                JrnCurrentCartridge.setValue(values[i + 1].toString());
+                        }
                     }
                 }
-                JrnCurrentCartridge.setValue(JrnCurrentCartridgeRow.getValue());
             }
             if (JrnLineChars.getItems().size() == 0 && !JrnLineCharsListRow.getValue().equals("")) {
                 String[] values = JrnLineCharsListRow.getValue().split(",");
-                for (String symbol : values)
+                for (String symbol : values) {
                     JrnLineChars.getItems().add(symbol);
+                    if (symbol.equals(JrnLineCharsRow.getValue()))
+                        JrnLineChars.setValue(symbol);
+                }
             }
-            if (JrnLineChars.getItems().size() != 0)
-                JrnLineChars.setValue(JrnLineCharsRow.getValue());
             JrnLineHeight.setText(JrnLineHeightRow.getValue());
             JrnLineSpacing.setText(JrnLineSpacingRow.getValue());
             if ((val = CapRecColorRow.getValueConverter().getInteger(CapRecColorRow.getValue())) != null && val != 0) {
                 if (RecCurrentCartridge.getItems().size() == 0) {
                     Object[] values = RecCurrentCartridgeRow.getValueConverter().ValueList;
                     for (int i = 0; i < values.length; i += 2) {
-                        if ((val & (int) values[i]) != 0)
+                        if ((val & (int) values[i]) != 0) {
                             RecCurrentCartridge.getItems().add(values[i + 1].toString());
+                            if (values[i + 1].equals(RecCurrentCartridgeRow.getValue()))
+                                RecCurrentCartridge.setValue(values[i + 1].toString());
+                        }
                     }
                 }
-                RecCurrentCartridge.setValue(RecCurrentCartridgeRow.getValue());
             }
             if (RecLineChars.getItems().size() == 0 && !RecLineCharsListRow.getValue().equals("")) {
                 String[] values = RecLineCharsListRow.getValue().split(",");
-                for (String symbol : values)
+                for (String symbol : values) {
                     RecLineChars.getItems().add(symbol);
+                    if (symbol.equals(RecLineCharsRow.getValue()))
+                        RecLineChars.setValue(symbol);
+                }
             }
-            if (RecLineChars.getItems().size() != 0)
-                RecLineChars.setValue(RecLineCharsRow.getValue());
             RecLineHeight.setText(RecLineHeightRow.getValue());
             RecLineSpacing.setText(RecLineSpacingRow.getValue());
             if ((val = CapSlpColorRow.getValueConverter().getInteger(CapSlpColorRow.getValue())) != null && val != 0) {
                 if (SlpCurrentCartridge.getItems().size() == 0) {
                     Object[] values = SlpCurrentCartridgeRow.getValueConverter().ValueList;
                     for (int i = 0; i < values.length; i += 2) {
-                        if ((val & (int) values[i]) != 0)
+                        if ((val & (int) values[i]) != 0) {
                             SlpCurrentCartridge.getItems().add(values[i + 1].toString());
+                            if (values[i + 1].equals(SlpCurrentCartridgeRow.getValue()))
+                                SlpCurrentCartridge.setValue(values[i + 1].toString());
+                        }
                     }
                 }
-                SlpCurrentCartridge.setValue(SlpCurrentCartridgeRow.getValue());
             }
             if (SlpLineChars.getItems().size() == 0 && !SlpLineCharsListRow.getValue().equals("")) {
                 String[] values = SlpLineCharsListRow.getValue().split(",");
-                for (String symbol : values)
+                for (String symbol : values) {
                     SlpLineChars.getItems().add(symbol);
+                    if (symbol.equals(SlpLineCharsRow.getValue()))
+                        SlpLineChars.setValue(symbol);
+                }
             }
-            if (SlpLineChars.getItems().size() > 0)
-                SlpLineChars.setValue(SlpLineCharsRow.getValue());
             SlpLineHeight.setText(SlpLineHeightRow.getValue());
             SlpLineSpacing.setText(SlpLineSpacingRow.getValue());
             InUpdateGui = false;
@@ -480,6 +486,12 @@ public class POSPrinterController extends CommonController {
             EventOutput.deleteText(0, EventOutput.getText().indexOf("\n") + 1);
         }
         EventOutput.appendText("\n" + logline);
+    }
+
+    @Override
+    public void gotDirectIO(DirectIOEvent event) {
+        super.gotDirectIO(event);
+        output("DIOE: " + event.getEventNumber() + "/" + event.getData() + " [" + event.getObject() + "]");
     }
 
     @Override
@@ -636,10 +648,10 @@ public class POSPrinterController extends CommonController {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setCartridgeNotify(CartridgeNotifyRow.getValueConverter().getInteger(CartridgeNotify.getValue()));
-            } catch (JposException e) {
+            } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -647,10 +659,10 @@ public class POSPrinterController extends CommonController {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setCharacterSet(CharacterSetRow.getValueConverter().getInteger(CharacterSet.getValue()));
-            } catch (JposException e) {
+            } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -658,10 +670,10 @@ public class POSPrinterController extends CommonController {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setMapMode(MapModeRow.getValueConverter().getInteger(MapMode.getValue()));
-            } catch (JposException e) {
+            } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -669,10 +681,10 @@ public class POSPrinterController extends CommonController {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setRotateSpecial(RotateSpecialRow.getValueConverter().getInteger(RotateSpecial.getValue()));
-            } catch (JposException e) {
+            } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -680,10 +692,10 @@ public class POSPrinterController extends CommonController {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setPageModePrintDirection(PageModePrintDirectionRow.getValueConverter().getInteger(PageModePrintDirection.getValue()));
-            } catch (JposException e) {
+            } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -691,10 +703,10 @@ public class POSPrinterController extends CommonController {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setPageModeStation(PageModeStationRow.getValueConverter().getInteger(PageModeStation.getValue()));
-            } catch (JposException e) {
+            } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -702,10 +714,10 @@ public class POSPrinterController extends CommonController {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setJrnCurrentCartridge(JrnCurrentCartridgeRow.getValueConverter().getInteger(JrnCurrentCartridge.getValue()));
-            } catch (JposException e) {
+            } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -716,7 +728,7 @@ public class POSPrinterController extends CommonController {
             } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -724,10 +736,10 @@ public class POSPrinterController extends CommonController {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setRecCurrentCartridge(RecCurrentCartridgeRow.getValueConverter().getInteger(RecCurrentCartridge.getValue()));
-            } catch (JposException e) {
+            } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -738,7 +750,7 @@ public class POSPrinterController extends CommonController {
             } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -746,10 +758,10 @@ public class POSPrinterController extends CommonController {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setSlpCurrentCartridge(SlpCurrentCartridgeRow.getValueConverter().getInteger(SlpCurrentCartridge.getValue()));
-            } catch (JposException e) {
+            } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -760,7 +772,7 @@ public class POSPrinterController extends CommonController {
             } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 

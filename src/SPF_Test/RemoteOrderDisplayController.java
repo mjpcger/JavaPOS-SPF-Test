@@ -663,13 +663,9 @@ public class RemoteOrderDisplayController extends CommonController {
             try {
                 TheBase.setCurrentUnitID(new UnitIDValues().getInteger(CurrentUnitID.getValue()));
             } catch (Exception e) {
-                if (e instanceof JposException) {
-                    getFullErrorMessageAndPrintTrace(e);
-                } else {
-                    JOptionPane.showMessageDialog(null, "No valid UnitID specified.");
-                }
+                getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -699,15 +695,12 @@ public class RemoteOrderDisplayController extends CommonController {
 
     public void setEventType(ActionEvent actionEvent) {
         if (!InUpdateGui) {
-            Integer val = new EventTypeValues().getInteger(EventType.getValue());
-            if (invalid(val, "EventType"))
-                return;
             try {
-                TheBase.setEventType(val);
-            } catch (JposException e) {
+                TheBase.setEventType(new EventTypeValues().getInteger(EventType.getValue()));
+            } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -722,29 +715,23 @@ public class RemoteOrderDisplayController extends CommonController {
 
     public void setTimeout(ActionEvent actionEvent) {
         if (!InUpdateGui) {
-            Integer timeout = new TimeoutValues().getInteger(Timeout.getValue());
-            if (invalid(timeout, "Timeout"))
-                return;
             try {
-                TheBase.setTimeout(timeout);
-            } catch (JposException e) {
+                TheBase.setTimeout(new TimeoutValues().getInteger(Timeout.getValue()));
+            } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
     public void setVideoMode(ActionEvent actionEvent) {
         if (!InUpdateGui) {
-            Integer val = VideoModeRow.getValueConverter().getInteger(VideoMode.getValue());
-            if (invalid(val, "VideoMode"))
-                return;
             try {
-                TheBase.setVideoMode(val);
+                TheBase.setVideoMode(VideoModeRow.getValueConverter().getInteger(VideoMode.getValue()));
             } catch (JposException e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 

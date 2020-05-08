@@ -16,6 +16,7 @@
 
 package SPF_Test;
 
+import com.sun.javafx.cursor.CursorType;
 import javafx.event.ActionEvent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -328,7 +329,7 @@ public class LineDisplayController extends CommonController {
             } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -366,7 +367,7 @@ public class LineDisplayController extends CommonController {
             } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -377,7 +378,7 @@ public class LineDisplayController extends CommonController {
             } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -402,33 +403,33 @@ public class LineDisplayController extends CommonController {
     public void setCursorType(ActionEvent actionEvent) {
         if (!InUpdateGui) {
             try {
-                TheDisplay.setCursorType(new IntValues().getInteger(CursorType.getValue()));
+                TheDisplay.setCursorType(new CursorTypeValues().getInteger(CursorType.getValue()));
             } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
     public void setMarqueeFormat(ActionEvent actionEvent) {
         if (!InUpdateGui) {
             try {
-                TheDisplay.setMarqueeFormat(new IntValues().getInteger(MarqueeFormat.getValue()));
+                TheDisplay.setMarqueeFormat(new MarqueeFormatValues().getInteger(MarqueeFormat.getValue()));
             } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
     public void setMarqueeType(ActionEvent actionEvent) {
         if (!InUpdateGui) {
             try {
-                TheDisplay.setMarqueeType(new IntValues().getInteger(MarqueeType.getValue()));
+                TheDisplay.setMarqueeType(new MarqueeTypeValues().getInteger(MarqueeType.getValue()));
             } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 

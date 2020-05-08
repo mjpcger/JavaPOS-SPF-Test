@@ -29,7 +29,7 @@
             prefHeight="540.0" prefWidth="980.0">
     <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutX="0" layoutY="5" onAction="#setDeviceEnabled"/>
     <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="110" layoutY="5" onAction="#setFreezeEvents"/>
-    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="210" layoutY="0" onAction="#setPowerNotify"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="210" layoutY="0" editable="true" onAction="#setPowerNotify"/>
     <Label text="PowerNotify" layoutX="360" layoutY="5"/>
     <ComboBox fx:id="CurrencyDigits" layoutX="435" layoutY="0" onAction="#setCurrencyDigits" prefWidth="50"/>
     <Label text="Currency Digits" layoutX="490" layoutY="5"/>

@@ -187,14 +187,11 @@ public class CATController extends CommonController {
             TransactionNumber.setText(TransactionNumberRow.getValue());
             PaymentCondition.setText(PaymentConditionRow.getValue());
             if (PaymentMedia.getItems().size() == 0) {
-                PaymentMediaValues pvals = new PaymentMediaValues();
-                PaymentMedia.getItems().add(pvals.getSymbol(CATConst.CAT_MEDIA_UNSPECIFIED));
-                PaymentMedia.getItems().add(pvals.getSymbol(CATConst.CAT_MEDIA_CREDIT));
-                PaymentMedia.getItems().add(pvals.getSymbol(CATConst.CAT_MEDIA_DEBIT));
-                PaymentMedia.getItems().add(pvals.getSymbol(CATConst.CAT_MEDIA_ELECTRONIC_MONEY));
+                Object[] pvals = new PaymentMediaValues().ValueList;
+                for (int i = 1; i < pvals.length; i += 2)
+                    PaymentMedia.getItems().add(pvals[i].toString());
             }
-            if (PaymentMediaRow.getValue() != null && !PaymentMediaRow.getValue().equals(""))
-                PaymentMedia.setValue(PaymentMediaRow.getValue());
+            PaymentMedia.setValue(PaymentMediaRow.getValue());
             PaymentDetail.setText(PaymentDetailRow.getValue());
             AdditionalSecurityInformation.setText(AdditionalSecurityInformationRow.getValue());
             DailyLog.setText(DailyLogRow.getValue());
@@ -358,15 +355,12 @@ public class CATController extends CommonController {
 
     public void setPaymentMedia(ActionEvent actionEvent) {
         if (!InUpdateGui) {
-            Integer val = new PaymentMediaValues().getInteger(PaymentMedia.getValue());
-            if (invalid(val, "PaymentMedia"))
-                return;
             try {
-                TheCAT.setPaymentMedia(val);
+                TheCAT.setPaymentMedia(new PaymentMediaValues().getInteger(PaymentMedia.getValue()));
             } catch (JposException e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 

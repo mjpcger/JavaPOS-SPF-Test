@@ -324,7 +324,7 @@ public class MSRController extends CommonController {
             } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -335,7 +335,7 @@ public class MSRController extends CommonController {
             } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -346,7 +346,7 @@ public class MSRController extends CommonController {
             } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
@@ -357,7 +357,7 @@ public class MSRController extends CommonController {
             } catch (Exception e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            updateGui();
+            updateGuiLater();
         }
     }
 
