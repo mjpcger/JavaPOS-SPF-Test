@@ -55,4 +55,4 @@ Look and marvel:
 
 <img src="https://mjpcger.github.io/JavaPOS-SPF-Test/doc/MethodScreen4.png" alt="Method calls (4)">
 
-For further information, see the Wiki pages.
+A guide how to install JavaPOS-SPF-Test is <a href="https://mjpcger.github.io/JavaPOS-SPF-Test/doc/Install.html">here</a>.
