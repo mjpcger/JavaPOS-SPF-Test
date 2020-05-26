@@ -81,11 +81,15 @@
                 <TextField fx:id="DPC_price" layoutX="800" layoutY="70" prefWidth="90" promptText="price" editable="false"/>
                 <ComboBox fx:id="DPC_timeout" layoutX="890" layoutY="70" prefWidth="90" editable="true" promptText="timeout"/>
                 <Button onAction="#freezeValue" layoutX="0" layoutY="100" text="FreezeValue" prefWidth="170"/>
-                <CheckBox fx:id="FV_itemManualTare" layoutX="175" layoutY="105" text="Manual Tare |"/>
-                <CheckBox fx:id="FV_itemWeightedTare" layoutX="275" layoutY="105" text="Weighted Tare |"/>
-                <CheckBox fx:id="FV_itemPercentTare" layoutX="385" layoutY="105" text="Percent Tare |"/>
-                <CheckBox fx:id="FV_itemUnitPrince" layoutX="485" layoutY="105" text="Unit Price"/>
-                <CheckBox fx:id="FV_freeze" layoutX="575" layoutY="105" text="Freeze"/>
+                <TextField fx:id="FV_item" layoutX="170" layoutY="100" prefWidth="90" promptText="item"/>
+                <Button layoutX="260" layoutY="100" prefWidth="90" disable="true"/>
+                <CheckBox fx:id="FV_freeze" layoutX="265" layoutY="105" text="Freeze"/>
+                <Button layoutX="440" layoutY="100" text="Item Calculator:" alignment="CENTER_LEFT" prefWidth="470" disable="true"/>
+                <CheckBox fx:id="FV_itemManualTare" layoutX="535" layoutY="105" text="Manual Tare"/>
+                <CheckBox fx:id="FV_itemWeightedTare" layoutX="625" layoutY="105" text="Weighted Tare"/>
+                <CheckBox fx:id="FV_itemPercentTare" layoutX="730" layoutY="105" text="Percent Tare"/>
+                <CheckBox fx:id="FV_itemUnitPrince" layoutX="820" layoutY="105" text="Unit Price"/>
+                <Button fx:id="IC_calc" layoutX="900" layoutY="100" text="Calculate" prefWidth="80" onAction="#calulateItem"/>
                 <Button onAction="#readLiveWeightWithTare" layoutX="0" layoutY="130" text="ReadLiveWeightWithTare" prefWidth="170"/>
                 <TextField fx:id="RLWWT_weightData" layoutX="170" layoutY="130" prefWidth="90" promptText="weightData" editable="false"/>
                 <TextField fx:id="RLWWT_tare" layoutX="260" layoutY="130" prefWidth="90" promptText="tare" editable="false"/>

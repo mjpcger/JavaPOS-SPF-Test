@@ -66,6 +66,8 @@ public class ScaleController extends CommonController {
     public TextField SUPWWU_weightNumerator;
     public TextField SUPWWU_weightDenominator;
     public Label SalesPrice;
+    public TextField FV_item;
+    public Button IC_calc;
     private Scale TheScale;
     private PropertyTableRow SalesPriceRow;
     private PropertyTableRow ScaleLiveWeightRow;
@@ -304,6 +306,14 @@ public class ScaleController extends CommonController {
         RW_weightData.setText("");
     }
 
+    public void calulateItem(ActionEvent actionEvent) {
+        int i = FV_itemManualTare.isSelected() ? ScaleConst.SCAL_SFR_MANUAL_TARE : 0;
+        i |= FV_itemWeightedTare.isSelected() ? ScaleConst.SCAL_SFR_WEIGHTED_TARE : 0;
+        i |= FV_itemPercentTare.isSelected() ? ScaleConst.SCAL_SFR_PERCENT_TARE : 0;
+        i |= FV_itemUnitPrince.isSelected() ? ScaleConst.SCAL_SFR_UNITPRICE : 0;
+        FV_item.setText(Integer.toString(i));
+    }
+
     enum DataEventSource {
         DoPriceCalculating,
         ReadLiveWeightWithTare,
@@ -361,16 +371,15 @@ public class ScaleController extends CommonController {
     }
 
     public void freezeValue(ActionEvent actionEvent) {
-        int item = FV_itemManualTare.isSelected() ? ScaleConst.SCAL_SFR_MANUAL_TARE : 0;
-        item |= FV_itemPercentTare.isSelected() ? ScaleConst.SCAL_SFR_PERCENT_TARE : 0;
-        item |= FV_itemUnitPrince.isSelected() ? ScaleConst.SCAL_SFR_UNITPRICE : 0;
-        item |= FV_itemWeightedTare.isSelected() ? ScaleConst.SCAL_SFR_WEIGHTED_TARE : 0;
-        try {
-            TheScale.freezeValue(item, FV_freeze.isSelected());
-        } catch (JposException e) {
-            getFullErrorMessageAndPrintTrace(e);
+        Integer item = new IntValues().getInteger(FV_item.getText());
+        if (!invalid(item, "item")) {
+            try {
+                TheScale.freezeValue(item, FV_freeze.isSelected());
+            } catch (JposException e) {
+                getFullErrorMessageAndPrintTrace(e);
+            }
+            updateGui();
         }
-        updateGui();
     }
 
     class ReadLiveWeightWithTare extends MethodProcessor {
