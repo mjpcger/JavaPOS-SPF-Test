@@ -138,7 +138,7 @@ public class LineDisplayController extends CommonController {
         Properties.getItems().add(new PropertyTableRow("CapBlinkRate", ""));
         Properties.getItems().add(new PropertyTableRow("CapBrightness", ""));
         Properties.getItems().add(new PropertyTableRow("CapCharacterSet", "", new CapCharacterSetValues()));
-        Properties.getItems().add(new PropertyTableRow("CapCursorType", "", new CursorTypeValues()));
+        Properties.getItems().add(new PropertyTableRow("CapCursorType", "", new HexValues()));
         Properties.getItems().add(new PropertyTableRow("CapCustomGlyph", ""));
         Properties.getItems().add(new PropertyTableRow("CapDescriptors", ""));
         Properties.getItems().add(new PropertyTableRow("CapHMarquee", ""));
