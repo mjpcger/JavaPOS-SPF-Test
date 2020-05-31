@@ -94,4 +94,6 @@
             </AnchorPane>
         </Tab>
     </TabPane>
+    <Label text="Events" layoutY="285" layoutX="685" prefWidth="295" underline="true" alignment="CENTER"/>
+    <TextArea fx:id="EventOutput" layoutX="685" layoutY="310" prefWidth="295" prefHeight="225"/>
 </AnchorPane>

@@ -22,6 +22,7 @@ import jpos.*;
 
 import javax.swing.*;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -43,6 +44,7 @@ public class KeylockController extends CommonController {
         TheLock = (Keylock) Control;
         TheLock.addDirectIOListener(this);
         TheLock.addStatusUpdateListener(this);
+        StatusUpdateEventStatusValueConverter = new KStatusUpdateValues();
         Properties.getItems().add(new PropertyTableRow("Claimed", ""));
         Properties.getItems().add(new PropertyTableRow("CheckHealthText", ""));
         Properties.getItems().add(KeylockTypeEntry = new PropertyTableRow("CapKeylockType", "", new CapKeylockTypeValues()));
@@ -151,6 +153,15 @@ public class KeylockController extends CommonController {
         WFKC_keyPositionValues() {
             ValueList[0] = KeylockConst.LOCK_KP_ANY;
             ValueList[1] = "KP_ANY";
+        }
+    }
+
+    private class KStatusUpdateValues extends StatusUpdateValues {
+        KStatusUpdateValues() {
+            super();
+            Object[] kvalues = new KeyPositionValues().ValueList;
+            ValueList = Arrays.copyOf(ValueList, ValueList.length + kvalues.length);
+            System.arraycopy(kvalues, 0, ValueList, ValueList.length - kvalues.length, kvalues.length);
         }
     }
 }

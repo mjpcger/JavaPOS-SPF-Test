@@ -51,9 +51,11 @@
             <Font fx:id="smalfont" size="8.0" />
         </font>
     </Label>
-    <TabPane layoutX="0" layoutY="135" prefWidth="980" prefHeight="405" tabClosingPolicy="UNAVAILABLE">
+    <Label text="Events" layoutY="140" layoutX="690" prefWidth="290" underline="true" alignment="CENTER"/>
+    <TextArea fx:id="EventOutput" layoutX="690" layoutY="165" prefWidth="290" prefHeight="375"/>
+    <TabPane layoutX="0" layoutY="135" prefWidth="680" prefHeight="405" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Specific Methods">
-            <AnchorPane prefHeight="390" prefWidth="980">
+            <AnchorPane prefHeight="390" prefWidth="680">
                 <Button text="DispenseChange" layoutX="0" layoutY="5" prefWidth="120" onAction="#dispenseChange"/>
                 <TextField fx:id="DC_amount" layoutX="120" layoutY="5" prefWidth="60" promptText="amount"/>
                 <Button text="AdjustCashCounts" layoutX="0" layoutY="40" prefWidth="120" onAction="#adjustCashCounts"/>
@@ -65,7 +67,7 @@
             </AnchorPane>
         </Tab>
         <Tab text="Maintenance Methods">
-            <AnchorPane prefHeight="390" prefWidth="980">
+            <AnchorPane prefHeight="390" prefWidth="680">
                 <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
                 <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
                 <Button onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>

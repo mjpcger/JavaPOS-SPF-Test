@@ -19,6 +19,7 @@ package SPF_Test;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import jpos.*;
+import jpos.events.DataEvent;
 
 import javax.swing.*;
 import java.net.URL;
@@ -79,6 +80,11 @@ public class ScannerController extends CommonController {
                     ? "" : ScanDataTypeRow.getValue());
             InUpdateGui = false;
         }
+    }
+
+    @Override
+    String getLogString(DataEvent event) {
+        return "Data: " + ScanDataRow.getValue();
     }
 
     public void setDecodeData(ActionEvent actionEvent) {

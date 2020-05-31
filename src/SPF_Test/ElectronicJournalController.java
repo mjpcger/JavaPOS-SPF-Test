@@ -24,6 +24,7 @@ import jpos.*;
 import javax.swing.*;
 import java.io.File;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -68,8 +69,11 @@ public class ElectronicJournalController extends CommonController {
         TheJournal = (ElectronicJournal) Control;
         TheJournal.addDirectIOListener(this);
         TheJournal.addStatusUpdateListener(this);
+        StatusUpdateEventStatusValueConverter = new EJouStatusUpdateValues();
         TheJournal.addDataListener(this);
+        DataEventStatusValueConverter.ValueList[1] = "Query Completed.";
         TheJournal.addErrorListener(this);
+        ErrorCodeExtendedValueConverter = new ExtendedErrorCodeValues();
         TheJournal.addOutputCompleteListener(this);
         Properties.getItems().add(new PropertyTableRow("Claimed", ""));
         Properties.getItems().add(new PropertyTableRow("CheckHealthText", ""));
@@ -446,6 +450,37 @@ public class ElectronicJournalController extends CommonController {
                     ElectronicJournalConst.EJ_MT_DOCUMENT, "MT_DOCUMENT",
                     ElectronicJournalConst.EJ_MT_HEAD, "MT_HEAD",
                     ElectronicJournalConst.EJ_MT_TAIL, "MT_TAIL"
+            };
+        }
+    }
+
+    private class EJouStatusUpdateValues extends StatusUpdateValues {
+        EJouStatusUpdateValues() {
+            super();
+            Object[] ejouvalues = new Object[]{
+                    ElectronicJournalConst.EJ_SUE_MEDIUM_NEAR_FULL, "SUE_MEDIUM_NEAR_FULL",
+                    ElectronicJournalConst.EJ_SUE_MEDIUM_FULL, "SUE_MEDIUM_FULL",
+                    ElectronicJournalConst.EJ_SUE_MEDIUM_REMOVED, "SUE_MEDIUM_REMOVED",
+                    ElectronicJournalConst.EJ_SUE_MEDIUM_INSERTED, "SUE_MEDIUM_INSERTED",
+                    ElectronicJournalConst.EJ_SUE_SUSPENDED, "SUE_SUSPENDED",
+                    ElectronicJournalConst.EJ_SUE_IDLE, "SUE_IDLE"
+            };
+            ValueList = Arrays.copyOf(ValueList, ValueList.length + ejouvalues.length);
+            System.arraycopy(ejouvalues, 0, ValueList, ValueList.length - ejouvalues.length, ejouvalues.length);
+        }
+    }
+
+    private class ExtendedErrorCodeValues extends Values {
+        ExtendedErrorCodeValues() {
+            ValueList = new Object[]{
+                    ElectronicJournalConst.JPOS_EEJ_EXISTING, "EEJ_EXISTING",
+                    ElectronicJournalConst.JPOS_EEJ_MEDIUM_FULL, "EEJ_MEDIUM_FULL",
+                    ElectronicJournalConst.JPOS_EEJ_MULTIPLE_MARKER, "EEJ_MULTIPLE_MARKER",
+                    ElectronicJournalConst.JPOS_EEJ_UNINITIALIZED_MEDIUM, "EEJ_UNINITIALIZED_MEDIUM",
+                    ElectronicJournalConst.JPOS_EEJ_CORRUPTED_MEDIUM, "EEJ_CORRUPTED_MEDIUM",
+                    ElectronicJournalConst.JPOS_EEJ_UNKNOWN_DATAFORMAT, "EEJ_UNKNOWN_DATAFORMAT",
+                    ElectronicJournalConst.JPOS_EEJ_NOT_ENOUGH_SPACE, "EEJ_NOT_ENOUGH_SPACE",
+                    ElectronicJournalConst.JPOS_EEJ_MULTIPLE_MARKERS, "EEJ_MULTIPLE_MARKERS"
             };
         }
     }

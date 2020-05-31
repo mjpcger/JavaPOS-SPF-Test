@@ -30,6 +30,7 @@ import jpos.events.DirectIOEvent;
 
 import javax.swing.*;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -99,8 +100,10 @@ public class CATController extends CommonController {
         TheCAT = (CAT) Control;
         TheCAT.addDirectIOListener(this);
         TheCAT.addStatusUpdateListener(this);
+        StatusUpdateEventStatusValueConverter = new CATStatusUpdateValues();
         TheCAT.addOutputCompleteListener(this);
         TheCAT.addErrorListener(this);
+        ErrorCodeExtendedValueConverter = new ErrorCodeExtendedValues();
         Properties.getItems().add(new PropertyTableRow("Claimed", ""));
         Properties.getItems().add(new PropertyTableRow("CheckHealthText", ""));
         Properties.getItems().add(AccountNumberRow = new PropertyTableRow("AccountNumber", ""));
@@ -164,6 +167,7 @@ public class CATController extends CommonController {
         formatDecimalOnFocusLost(A_taxOthers);
         formatDecimalOnFocusLost(CD_amount);
         ErrorCodeExtendedValueConverter = new ErrorCodeExtendedValues();
+        clearDirectIOText(null);
         updateGui();
     }
 
@@ -643,12 +647,7 @@ public class CATController extends CommonController {
     @Override
     public void gotDirectIO(DirectIOEvent ev) {
         super.gotDirectIO(ev);
-        String add = "\n" + ev.getEventNumber() + " - " + ev.getData();
-        String[] object = ev.getObject().toString().split("\n");
-        for (String line : object) {
-            add += "\n  " + line;
-        }
-        String h = A_DirectIOEvent.getText() + add;
+        String h = A_DirectIOEvent.getText() + "\n" + getLogString(ev);
         A_DirectIOEvent.setText(h);
         B_DirectIOEvent.setText(h);
         C_DirectIOEvent.setText(h);
@@ -665,6 +664,15 @@ public class CATController extends CommonController {
                     CATConst.JPOS_ECAT_DEFICIENT, "ECAT_DEFICIENT",
                     CATConst.JPOS_ECAT_OVERDEPOSIT, "ECAT_OVERDEPOSIT"
             };
+        }
+    }
+
+    private class CATStatusUpdateValues extends StatusUpdateValues {
+        CATStatusUpdateValues() {
+            super();
+            Object[] catvalues = new LogStatusValues().ValueList;
+            ValueList = Arrays.copyOf(ValueList, ValueList.length + catvalues.length);
+            System.arraycopy(catvalues, 0, ValueList, ValueList.length - catvalues.length, catvalues.length);
         }
     }
 }

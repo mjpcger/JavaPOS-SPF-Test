@@ -19,6 +19,7 @@ package SPF_Test;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import jpos.*;
+import jpos.events.DataEvent;
 
 import javax.swing.*;
 import java.net.URL;
@@ -61,6 +62,7 @@ public class MICRController extends CommonController {
         TheMicr.addStatusUpdateListener(this);
         TheMicr.addDataListener(this);
         TheMicr.addErrorListener(this);
+        ErrorCodeExtendedValueConverter = new ErrorCodeExtendedValues();
         Properties.getItems().add(new PropertyTableRow("Claimed", ""));
         Properties.getItems().add(new PropertyTableRow("CheckHealthText", ""));
         Properties.getItems().add(AccountNumberRow = new PropertyTableRow("AccountNumber", ""));
@@ -105,6 +107,11 @@ public class MICRController extends CommonController {
             TransitNumber.setText(TransitNumberRow.getValue());
             InUpdateGui = false;
         }
+    }
+
+    @Override
+    String getLogString(DataEvent event) {
+        return RawDataRow.getValue();
     }
 
     private class BeginInsertionHandler extends MethodProcessor {

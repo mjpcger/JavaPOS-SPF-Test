@@ -113,6 +113,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     public TextField CFV_result;
     public TextField UF_firmwareFileName;
     public TextArea _statisticsBuffer;
+    public TextArea EventOutput;
     public Label MethodActive;
     public ComboBox<ByteConversion> ByteArrayConversion;
     public ComboBox<Integer> CurrencyDigits;
@@ -1016,6 +1017,19 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         Properties.getColumns().add(column);
     }
 
+    int RowCount = 0;
+
+    void output(String logline) {
+        if (EventOutput != null) {
+            EventOutput.setDisable(false);
+            if (++RowCount > 1000) {
+                --RowCount;
+                EventOutput.deleteText(0, EventOutput.getText().indexOf("\n") + 1);
+            }
+            EventOutput.appendText(RowCount == 1 ? logline : "\n" + logline);
+        }
+    }
+
     @Override
     public void dataOccurred(DataEvent dataEvent) {
         Platform.runLater(new Runnable() {
@@ -1026,8 +1040,15 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         });
     }
 
+    Values DataEventStatusValueConverter = new DataEventStatusValues();
+
     public void gotData(DataEvent event) {
         updateGui();
+        output("DE: " + getLogString(event));
+    }
+
+    String getLogString(DataEvent event) {
+        return DataEventStatusValueConverter.getSymbol(event.getStatus());
     }
 
     @Override
@@ -1042,6 +1063,16 @@ public class CommonController implements Initializable, Runnable, DataListener, 
 
     public void gotDirectIO(DirectIOEvent event) {
         updateGui();
+        output("DIOE: " + getLogString(event));
+    }
+
+    String getLogString(DirectIOEvent event) {
+        String add = event.getEventNumber() + " - " + event.getData() + ":";
+        String[] object = event.getObject().toString().split("\n");
+        for (String line : object) {
+            add += "\n  " + line;
+        }
+        return add;
     }
 
     @Override
@@ -1052,7 +1083,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
                 preGotError(errorEvent);
             }
         });
-        String message = retrieveErrorPromptText(errorEvent);
+        String message = getLogString(errorEvent);
         int doit = JOptionPane.showOptionDialog(null, "Error occurred:\n" + message + "\nClear error?", "Processing Error",JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
         if (doit == JOptionPane.YES_OPTION)
             errorEvent.setErrorResponse(JposConst.JPOS_ER_CLEAR);
@@ -1066,7 +1097,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
 
     Values ErrorCodeExtendedValueConverter = new IntValues();
 
-    String retrieveErrorPromptText(ErrorEvent errorEvent) {
+    String getLogString(ErrorEvent errorEvent) {
         String errorcodes = new ErrorLocusValues().getSymbol(errorEvent.getErrorLocus());
         errorcodes += " - " + new ErrorCodeValues().getSymbol(errorEvent.getErrorCode());
         if (errorEvent.getErrorCodeExtended() != 0) {
@@ -1076,7 +1107,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
                 errorcodes += " - " + errorEvent.getErrorCodeExtended();
         }
         if (errorEvent instanceof JposErrorEvent && !((JposErrorEvent)errorEvent).Message.equals(""))
-            errorcodes += "\n" + ((JposErrorEvent)errorEvent).Message;
+            errorcodes += "\n   " + ((JposErrorEvent)errorEvent).Message;
         return errorcodes;
     }
 
@@ -1084,36 +1115,50 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         updateGui();
     }
 
-    public void preGotError(ErrorEvent errorEvent) {
+    public void preGotError(ErrorEvent event) {
         updateGui();
+        output("EE: " + getLogString(event));
     }
 
     @Override
-    public void outputCompleteOccurred(OutputCompleteEvent outputCompleteEvent) {
+    public void outputCompleteOccurred(OutputCompleteEvent event) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                gotOutputComplete(outputCompleteEvent);
+                gotOutputComplete(event);
             }
         });
     }
 
-    public void gotOutputComplete(OutputCompleteEvent outputCompleteEvent) {
+    public void gotOutputComplete(OutputCompleteEvent event) {
         updateGui();
+        output("OC: " + getLogString(event));
+    }
+
+    String getLogString(OutputCompleteEvent event) {
+        return "ID = " + event.getOutputID();
     }
 
     @Override
-    public void statusUpdateOccurred(StatusUpdateEvent statusUpdateEvent) {
+    public void statusUpdateOccurred(StatusUpdateEvent event) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                gotStatusUpdate(statusUpdateEvent);
+                gotStatusUpdate(event);
             }
         });
     }
 
-    public void gotStatusUpdate(StatusUpdateEvent statusUpdateEvent) {
+    Values StatusUpdateEventStatusValueConverter = new StatusUpdateValues();
+
+    public void gotStatusUpdate(StatusUpdateEvent event) {
         updateGui();
+        output("SUE: " + getLogString(event));
+    }
+
+    String getLogString(StatusUpdateEvent event) {
+        String symbol = StatusUpdateEventStatusValueConverter.getSymbol(event.getStatus());
+        return symbol.substring(symbol.indexOf("SUE_") == 0 ? 4 : 0);
     }
 
     private boolean InExceptionHandling = false;
@@ -1333,6 +1378,14 @@ public class CommonController implements Initializable, Runnable, DataListener, 
                 }
             }
             return (Integer) obj;
+        }
+    }
+
+    private class DataEventStatusValues extends Values {
+        DataEventStatusValues() {
+            ValueList = new Object[]{
+                    0, ""
+            };
         }
     }
 }

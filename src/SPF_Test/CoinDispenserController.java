@@ -22,6 +22,7 @@ import jpos.*;
 
 import javax.swing.*;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -47,6 +48,7 @@ public class CoinDispenserController extends CommonController {
         TheDispenser = (CoinDispenser) Control;
         TheDispenser.addDirectIOListener(this);
         TheDispenser.addStatusUpdateListener(this);
+        StatusUpdateEventStatusValueConverter = new CDStatusUpdateValues();
         Properties.getItems().add(new PropertyTableRow("Claimed", ""));
         Properties.getItems().add(new PropertyTableRow("CheckHealthText", ""));
         Properties.getItems().add(new PropertyTableRow("CapEmptySensor", ""));
@@ -116,6 +118,15 @@ public class CoinDispenserController extends CommonController {
                     CoinDispenserConst.COIN_STATUS_NEAREMPTY, "STATUS_NEAREMPTY",
                     CoinDispenserConst.COIN_STATUS_JAM, "STATUS_JAM"
             };
+        }
+    }
+
+    private class CDStatusUpdateValues extends StatusUpdateValues {
+        CDStatusUpdateValues() {
+            super();
+            Object[] cdvalues = new DispenserStatusValues().ValueList;
+            ValueList = Arrays.copyOf(ValueList, ValueList.length + cdvalues.length);
+            System.arraycopy(cdvalues, 0, ValueList, ValueList.length - cdvalues.length, cdvalues.length);
         }
     }
 }

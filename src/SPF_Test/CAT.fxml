@@ -59,9 +59,11 @@
             <Font fx:id="boldfont" name="System Bold" size="12.0" />
         </font>
     </Label>
-    <TabPane layoutX="0" layoutY="135" prefWidth="980" prefHeight="405" tabClosingPolicy="UNAVAILABLE">
+    <Label text="Events" layoutY="140" layoutX="760" prefWidth="220" underline="true" alignment="CENTER"/>
+    <TextArea fx:id="EventOutput" layoutX="760" layoutY="165" prefWidth="220" prefHeight="375"/>
+    <TabPane layoutX="0" layoutY="135" prefWidth="755" prefHeight="405" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Authorization Methods" onSelectionChanged="#authorizationSelection">
-            <AnchorPane fx:id="AuthorizeAnchor" prefHeight="380" prefWidth="980">
+            <AnchorPane fx:id="AuthorizeAnchor" prefHeight="380" prefWidth="755">
                 <Label text="Methods" underline="true" layoutX="0" layoutY="5" prefWidth="145" alignment="CENTER"/>
                 <Button layoutX="0" layoutY="30" onAction="#authorizeCompletion" text="AuthorizeCompletion" prefWidth="145"/>
                 <Button layoutX="0" layoutY="55" onAction="#authorizePreSales" text="AuthorizePreSales" prefWidth="145"/>
@@ -74,7 +76,7 @@
                 <TextField fx:id="A_amount" layoutX="0" layoutY="255" prefWidth="145" promptText="amount"/>
                 <TextField fx:id="A_taxOthers" layoutX="0" layoutY="280" prefWidth="145" promptText="taxOthers"/>
                 <ComboBox fx:id="A_timeout" layoutX="0" layoutY="305" prefWidth="145" promptText="timeout" editable="true"/>
-                <Label text="Authorization Specific Properties" underline="true" layoutX="155" layoutY="5"/>
+                <Label text="Authorization Specific Properties" underline="true" layoutX="155" layoutY="0" prefWidth="610" alignment="CENTER"/>
                 <Label text="AccountNumber" layoutX="155" layoutY="30"/>
                 <TextField fx:id="AccountNumber" layoutX="270" layoutY="25" prefWidth="145" editable="false"/>
                 <Label text="Balance" layoutX="155" layoutY="55"/>
@@ -101,17 +103,17 @@
                 <TextField fx:id="PaymentCondition" layoutX="270" layoutY="300" prefWidth="145" editable="false"/>
                 <Label text="PaymentMedia" layoutX="155" layoutY="330" font="$boldfont"/>
                 <ComboBox fx:id="PaymentMedia" layoutX="270" layoutY="325" prefWidth="145" editable="true" onAction="#setPaymentMedia"/>
-                <Label text="PaymentDetail" layoutX="430" layoutY="30"/>
-                <TextArea fx:id="PaymentDetail" layoutX="605" layoutY="25" prefHeight="115" prefWidth="375" editable="false"/>
-                <Label text="AdditionalSecurityInformation" layoutX="430" layoutY="142" font="$boldfont"/>
-                <TextArea fx:id="AdditionalSecurityInformation" layoutX="605" layoutY="142" prefHeight="115" prefWidth="375"/>
-                <Label text="DirectIOEvent Contents" layoutX="430" layoutY="259"/>
-                <Button text="Clear" layoutX="557" layoutY="254" prefWidth="45" onAction="#clearDirectIOText"/>
-                <TextArea fx:id="A_DirectIOEvent" layoutX="605" layoutY="259" prefHeight="115" prefWidth="375"/>
+                <Label text="PaymentDetail" layoutX="425" layoutY="25" prefWidth="330" underline="true" alignment="CENTER"/>
+                <TextArea fx:id="PaymentDetail" layoutX="425" layoutY="45" prefHeight="95" prefWidth="330" editable="false"/>
+                <Label text="AdditionalSecurityInformation" layoutX="425" layoutY="140" font="$boldfont" prefWidth="330" alignment="CENTER" underline="true"/>
+                <TextArea fx:id="AdditionalSecurityInformation" layoutX="425" layoutY="157" prefHeight="95" prefWidth="330"/>
+                <Label text="DirectIOEvent Contents" layoutX="500" layoutY="259" underline="true"/>
+                <Button text="Clear" layoutX="635" layoutY="253" prefWidth="45" onAction="#clearDirectIOText"/>
+                <TextArea fx:id="A_DirectIOEvent" layoutX="425" layoutY="279" prefHeight="95" prefWidth="330"/>
             </AnchorPane>
         </Tab>
         <Tab text="Administrative Methods" onSelectionChanged="#administrationSelection">
-            <AnchorPane fx:id="AdministrativeAnchor" prefHeight="380" prefWidth="980">
+            <AnchorPane fx:id="AdministrativeAnchor" prefHeight="380" prefWidth="755">
                 <Button text="AccessDailyLog" layoutX="0" layoutY="0" onAction="#accessDailyLog" prefWidth="110"/>
                 <TextField fx:id="ADL_sequenceNumber" layoutX="0" layoutY="25" promptText="sequenceNumber" prefWidth="110"/>
                 <ComboBox fx:id="ADL_type" layoutX="0" layoutY="50" promptText="type" editable="true" prefWidth="110"/>
@@ -125,14 +127,14 @@
                 <ComboBox fx:id="CC_timeout" layoutX="240" layoutY="50" promptText="timeout" editable="true" prefWidth="110"/>
                 <Button text="LockTerminal" layoutX="0" layoutY="120" onAction="#lockTerminal" prefWidth="90"/>
                 <Button text="UnlockTerminal" layoutX="100" layoutY="120" onAction="#unlockTerminal" prefWidth="100"/>
-                <Label text="Daily Log" layoutX="470" layoutY="25"/>
-                <TextArea fx:id="DailyLog" layoutX="605" layoutY="25" prefHeight="230" prefWidth="375"/>
-                <Label text="DirectIOEvent Contents" layoutX="470" layoutY="259"/>
-                <TextArea fx:id="B_DirectIOEvent" layoutX="605" layoutY="259" prefHeight="115" prefWidth="375"/>
+                <Label text="Daily Log" layoutX="360" layoutY="5" prefWidth="330" underline="true" alignment="CENTER"/>
+                <TextArea fx:id="DailyLog" layoutX="360" layoutY="25" prefHeight="230" prefWidth="330"/>
+                <Label text="DirectIOEvent Contents" layoutX="360" layoutY="259" prefWidth="330" underline="true" alignment="CENTER"/>
+                <TextArea fx:id="B_DirectIOEvent" layoutX="360" layoutY="279" prefHeight="95" prefWidth="330"/>
             </AnchorPane>
         </Tab>
         <Tab text="Maintenance Methods" onSelectionChanged="#maintenanceSelection">
-            <AnchorPane fx:id="MaintenanceAnchor" prefHeight="380" prefWidth="980">
+            <AnchorPane fx:id="MaintenanceAnchor" prefHeight="380" prefWidth="755">
                 <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
                 <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
                 <Button onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
@@ -144,8 +146,8 @@
                 <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
                 <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
                 <TextArea fx:id="_statisticsBuffer" layoutX="330" layoutY="30" prefWidth="350" prefHeight="75" promptText="statisticsBuffer"/>
-                <Label text="DirectIOEvent Contents" layoutX="430" layoutY="259"/>
-                <TextArea fx:id="C_DirectIOEvent" layoutX="605" layoutY="259" prefHeight="115" prefWidth="375"/>
+                <Label text="DirectIOEvent Contents" layoutX="340" layoutY="115" prefWidth="330" underline="true" alignment="CENTER"/>
+                <TextArea fx:id="C_DirectIOEvent" layoutX="340" layoutY="135" prefHeight="95" prefWidth="330"/>
             </AnchorPane>
         </Tab>
     </TabPane>

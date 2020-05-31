@@ -43,17 +43,17 @@
     <TextField fx:id="DIO_command" prefWidth="70" layoutX="420" layoutY="60" promptText="command"/>
     <TextField fx:id="DIO_data" prefWidth="70" layoutX="490" layoutY="60" promptText="data"/>
     <TextField fx:id="DIO_obj" prefWidth="140" layoutX="420" layoutY="85" promptText="obj"/>
-    <Label layoutX="690" layoutY="160" text="Drawer State:"/>
-    <Label fx:id="DrawerState" layoutX="770" layoutY="160"/>
+    <Label text="Events" layoutY="125" layoutX="690" prefWidth="290" underline="true" alignment="CENTER"/>
+    <TextArea fx:id="EventOutput" layoutX="690" layoutY="150" prefWidth="290" prefHeight="390"/>
     <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
     <Label layoutX="0" layoutY="530">
         <font>
             <Font fx:id="smalfont" size="8.0" />
         </font>
     </Label>
-    <TabPane layoutX="0" layoutY="120" prefWidth="980" prefHeight="420" tabClosingPolicy="UNAVAILABLE">
+    <TabPane layoutX="0" layoutY="120" prefWidth="680" prefHeight="420" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Specific Methods">
-            <AnchorPane prefHeight="390" prefWidth="980">
+            <AnchorPane prefHeight="390" prefWidth="680">
                 <Button onAction="#openDrawer" layoutX="0" layoutY="5" text="OpenDrawer" prefWidth="140"/>
                 <Button onAction="#waitForDrawerClose" layoutX="150" layoutY="5" text="WaitForDrawerClose" prefWidth="140"/>
                 <ComboBox fx:id="WFDC_beepTimeout" layoutX="150" layoutY="30" prefWidth="140" editable="true" promptText="beepTimeout"/>
@@ -63,7 +63,7 @@
             </AnchorPane>
         </Tab>
         <Tab text="Maintenance Methods">
-            <AnchorPane prefHeight="390" prefWidth="980">
+            <AnchorPane prefHeight="390" prefWidth="680">
                 <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
                 <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
                 <Button onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>

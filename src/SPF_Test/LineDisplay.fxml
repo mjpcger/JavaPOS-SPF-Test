@@ -115,25 +115,25 @@ Type \n, \r \e or \\ for NL, CR, ESC or \."/>
                     <Tab text="Descriptor, Bitmap and Glyph Methods">
                         <AnchorPane prefHeight="394" prefWidth="730">
                             <Button text="ClearDescriptors" layoutX="0" layoutY="0" prefWidth="140" onAction="#clearDescriptors"/>
-                            <Button text="SetDescriptor" layoutX="145" layoutY="0" prefWidth="140" onAction="#setDescriptor"/>
-                            <TextField fx:id="SD_descriptor" layoutX="145" layoutY="25" prefWidth="140" promptText="descriptor"/>
-                            <ComboBox fx:id="SD_attribute" layoutX="145" layoutY="50" prefWidth="140" promptText="attribute" editable="true"/>
-                            <Button text="DefineGlyph" layoutX="290" layoutY="0" prefWidth="140" onAction="#defineGlyph"/>
-                            <TextField fx:id="DG_glyphCode" layoutX="290" layoutY="25" prefWidth="140" promptText="glyphCode"/>
-                            <TextField fx:id="DG_glyph" layoutX="290" layoutY="50" prefWidth="140" promptText="glyph (hex)"/>
-                            <Button text="SetBitmap" layoutX="435" layoutY="0" prefWidth="140" onAction="#setBitmap"/>
-                            <TextField fx:id="SB_bitmapNumber" layoutX="435" layoutY="25" prefWidth="140" promptText="bitmapNumber"/>
-                            <TextField fx:id="SB_fileName" layoutX="435" layoutY="50" prefWidth="115" promptText="fileName"/>
-                            <Button onAction="#browseSBName" layoutX="550" layoutY="50" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
-                            <ComboBox fx:id="SB_width" layoutX="435" layoutY="75" prefWidth="140" promptText="width" editable="true"/>
-                            <ComboBox fx:id="SB_alignmentX" layoutX="435" layoutY="100" prefWidth="140" promptText="alignmentX" editable="true"/>
-                            <ComboBox fx:id="SB_alignmentY" layoutX="435" layoutY="125" prefWidth="140" promptText="alignmentY" editable="true"/>
-                            <Button text="DisplayBitmap" layoutX="580" layoutY="0" prefWidth="140" onAction="#displayBitmap"/>
-                            <TextField fx:id="DB_fileName" layoutX="580" layoutY="25" prefWidth="115" promptText="fileName"/>
-                            <Button onAction="#browseDBName" layoutX="695" layoutY="25" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
-                            <ComboBox fx:id="DB_width" layoutX="580" layoutY="50" prefWidth="140" promptText="width" editable="true"/>
-                            <ComboBox fx:id="DB_alignmentX" layoutX="580" layoutY="75" prefWidth="140" promptText="alignmentX" editable="true"/>
-                            <ComboBox fx:id="DB_alignmentY" layoutX="580" layoutY="100" prefWidth="140" promptText="alignmentY" editable="true"/>
+                            <Button text="SetBitmap" layoutX="145" layoutY="0" prefWidth="140" onAction="#setBitmap"/>
+                            <TextField fx:id="SB_bitmapNumber" layoutX="145" layoutY="25" prefWidth="140" promptText="bitmapNumber"/>
+                            <TextField fx:id="SB_fileName" layoutX="145" layoutY="50" prefWidth="115" promptText="fileName"/>
+                            <Button onAction="#browseSBName" layoutX="260" layoutY="50" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                            <ComboBox fx:id="SB_width" layoutX="145" layoutY="75" prefWidth="140" promptText="width" editable="true"/>
+                            <ComboBox fx:id="SB_alignmentX" layoutX="145" layoutY="100" prefWidth="140" promptText="alignmentX" editable="true"/>
+                            <ComboBox fx:id="SB_alignmentY" layoutX="145" layoutY="125" prefWidth="140" promptText="alignmentY" editable="true"/>
+                            <Button text="DisplayBitmap" layoutX="290" layoutY="0" prefWidth="140" onAction="#displayBitmap"/>
+                            <TextField fx:id="DB_fileName" layoutX="290" layoutY="25" prefWidth="115" promptText="fileName"/>
+                            <Button onAction="#browseDBName" layoutX="405" layoutY="25" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                            <ComboBox fx:id="DB_width" layoutX="290" layoutY="50" prefWidth="140" promptText="width" editable="true"/>
+                            <ComboBox fx:id="DB_alignmentX" layoutX="290" layoutY="75" prefWidth="140" promptText="alignmentX" editable="true"/>
+                            <ComboBox fx:id="DB_alignmentY" layoutX="290" layoutY="100" prefWidth="140" promptText="alignmentY" editable="true"/>
+                            <Button text="SetDescriptor" layoutX="435" layoutY="0" prefWidth="140" onAction="#setDescriptor"/>
+                            <TextField fx:id="SD_descriptor" layoutX="435" layoutY="25" prefWidth="140" promptText="descriptor"/>
+                            <ComboBox fx:id="SD_attribute" layoutX="435" layoutY="50" prefWidth="140" promptText="attribute" editable="true"/>
+                            <Button text="DefineGlyph" layoutX="580" layoutY="0" prefWidth="140" onAction="#defineGlyph"/>
+                            <TextField fx:id="DG_glyphCode" layoutX="580" layoutY="25" prefWidth="140" promptText="glyphCode"/>
+                            <TextField fx:id="DG_glyph" layoutX="580" layoutY="50" prefWidth="140" promptText="glyph (hex)"/>
                         </AnchorPane>
                     </Tab>
                 </TabPane>
@@ -155,4 +155,6 @@ Type \n, \r \e or \\ for NL, CR, ESC or \."/>
             </AnchorPane>
         </Tab>
     </TabPane>
+    <Label text="Events" layoutY="275" layoutX="685" prefWidth="295" underline="true" alignment="CENTER"/>
+    <TextArea fx:id="EventOutput" layoutX="685" layoutY="300" prefWidth="295" prefHeight="235"/>
 </AnchorPane>

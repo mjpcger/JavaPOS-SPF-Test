@@ -22,6 +22,7 @@ import jpos.*;
 
 import javax.swing.*;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -32,7 +33,6 @@ public class CashDrawerController extends CommonController {
     public TextField WFDC_beepFrequency;
     public ComboBox<String> WFDC_beepDuration;
     public TextField WFDC_beepDelay;
-    public Label DrawerState;
 
     private CashDrawer TheDrawer;
 
@@ -44,8 +44,9 @@ public class CashDrawerController extends CommonController {
         TheDrawer = (CashDrawer) Control;
         TheDrawer.addDirectIOListener(this);
         TheDrawer.addStatusUpdateListener(this);
+        StatusUpdateEventStatusValueConverter = new CDStatusUpdateValues();
         Properties.getItems().add(new PropertyTableRow("Claimed", ""));
-        Properties.getItems().add(DrawerOpenedEntry = new PropertyTableRow("DrawerOpened", ""));
+        Properties.getItems().add(new PropertyTableRow("DrawerOpened", ""));
         Properties.getItems().add(new PropertyTableRow("CheckHealthText", ""));
         Properties.getItems().add(new PropertyTableRow("DeviceServiceDescription", ""));
         Properties.getItems().add(new PropertyTableRow("DeviceServiceVersion", ""));
@@ -61,8 +62,6 @@ public class CashDrawerController extends CommonController {
         updateGui();
     }
 
-    PropertyTableRow DrawerOpenedEntry;
-
     @Override
     void updateGui() {
         super.updateGui();
@@ -72,7 +71,6 @@ public class CashDrawerController extends CommonController {
                 WFDC_beepTimeout.getItems().add(new TimeoutValues().getSymbol(JposConst.JPOS_FOREVER));
             if (WFDC_beepDuration.getItems().size() == 0)
                 WFDC_beepDuration.getItems().add(new TimeoutValues().getSymbol(JposConst.JPOS_FOREVER));
-            DrawerState.setText(DrawerOpenedEntry.getValue());
             InUpdateGui = false;
         }
     }
@@ -126,5 +124,17 @@ public class CashDrawerController extends CommonController {
         Integer beepdelay = intv.getInteger(WFDC_beepDelay.getText());
         if (!invalid(beeptio, "beepTimeout") && !invalid(beepfreq, "beepFrequency") && !invalid(beepduration, "beepDuration") && !invalid(beepdelay, "beepDelay"))
             new WaitForDrawerCloseHandler(beeptio, beepfreq, beepduration, beepdelay).start();
+    }
+
+    private class CDStatusUpdateValues extends StatusUpdateValues {
+        CDStatusUpdateValues() {
+            super();
+            Object[] cdvalues = new Object[]{
+                    CashDrawerConst.CASH_SUE_DRAWERCLOSED, "SUE_DRAWERCLOSED",
+                    CashDrawerConst.CASH_SUE_DRAWEROPEN, "SUE_DRAWEROPEN"
+            };
+            ValueList = Arrays.copyOf(ValueList, ValueList.length + cdvalues.length);
+            System.arraycopy(cdvalues, 0, ValueList, ValueList.length - cdvalues.length, cdvalues.length);
+        }
     }
 }

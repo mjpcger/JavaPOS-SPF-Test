@@ -25,6 +25,7 @@ import jpos.events.*;
 import javax.swing.*;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -86,6 +87,7 @@ public class ScaleController extends CommonController {
         TheScale = (Scale) Control;
         TheScale.addDirectIOListener(this);
         TheScale.addStatusUpdateListener(this);
+        StatusUpdateEventStatusValueConverter = new SCStatusUpdateValues();
         TheScale.addDataListener(this);
         TheScale.addErrorListener(this);
         Properties.getItems().add(new PropertyTableRow("Claimed", ""));
@@ -173,6 +175,11 @@ public class ScaleController extends CommonController {
             SalesPrice.setText(SalesPriceRow.getValue());
             InUpdateGui = false;
         }
+    }
+
+    @Override
+    String getLogString(DataEvent event) {
+        return "Weight: " + super.getLogString(event);
     }
 
     @Override
@@ -550,6 +557,15 @@ public class ScaleController extends CommonController {
                     ScaleConst.SCAL_SUE_NOT_READY, "SUE_NOT_READY",
                     ScaleConst.SCAL_SUE_WEIGHT_UNDER_ZERO, "SUE_WEIGHT_UNDER_ZERO"
             };
+        }
+    }
+
+    private class SCStatusUpdateValues extends StatusUpdateValues {
+        SCStatusUpdateValues() {
+            super();
+            Object[] scvalues = new SUE_stateValues().ValueList;
+            ValueList = Arrays.copyOf(ValueList, ValueList.length + scvalues.length);
+            System.arraycopy(scvalues, 0, ValueList, ValueList.length - scvalues.length, scvalues.length);
         }
     }
 

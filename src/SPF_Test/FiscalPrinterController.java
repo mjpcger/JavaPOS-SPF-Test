@@ -48,7 +48,6 @@ public class FiscalPrinterController extends CommonController {
     public ComboBox<String> MessageType;
     public ComboBox<String> FiscalReceiptStation;
     public ComboBox<String> SlipSelection;
-    public TextArea EventOutput;
     public Label PrinterState;
     public ComboBox<String> PrintRec;
     public ComboBox<String> PrintRecPackage;
@@ -205,8 +204,10 @@ public class FiscalPrinterController extends CommonController {
         ThePrinter = (FiscalPrinter) Control;
         ThePrinter.addDirectIOListener(this);
         ThePrinter.addStatusUpdateListener(this);
+        StatusUpdateEventStatusValueConverter = new PrtStatusUpdateValues();
         ThePrinter.addErrorListener(this);
         ThePrinter.addOutputCompleteListener(this);
+        ErrorCodeExtendedValueConverter = new ExtendedErrorCodeValues();
         Properties.getItems().add(new PropertyTableRow("Claimed", ""));
         Properties.getItems().add(new PropertyTableRow("CheckHealthText", ""));
         Properties.getItems().add(ActualCurrencyRow = new PropertyTableRow("ActualCurrency", "", new ActualCurrencyValues()));
@@ -597,47 +598,6 @@ public class FiscalPrinterController extends CommonController {
                 return true;
         }
         return false;
-    }
-
-    private int RowCount = 0;
-
-    private void output(String logline) {
-        EventOutput.setDisable(false);
-        if (++RowCount > 1000) {
-            --RowCount;
-            EventOutput.deleteText(0, EventOutput.getText().indexOf("\n") + 1);
-        }
-        EventOutput.appendText("\n" + logline);
-    }
-
-    @Override
-    public void gotDirectIO(DirectIOEvent event) {
-        super.gotDirectIO(event);
-        output("DIOE: " + event.getEventNumber() + "/" + event.getData() + " [" + event.getObject() + "]");
-    }
-
-    @Override
-    public void gotStatusUpdate(StatusUpdateEvent event) {
-        super.gotStatusUpdate(event);
-        String symbol = new PrtStatusUpdateValues().getSymbol(event.getStatus());
-        output("SUE: " + symbol.substring(symbol.indexOf("SUE_") == 0 ? 4 : 0));
-    }
-
-    @Override
-    public void preGotError(ErrorEvent event) {
-        super.preGotError(event);
-        String error = new ErrorCodeValues().getSymbol(event.getErrorCode());
-        if (event.getErrorCode() == JposConst.JPOS_E_EXTENDED)
-            error += " / " + new ExtendedErrorCodeValues().getSymbol(event.getErrorCodeExtended());
-        else if (event.getErrorCodeExtended() != 0)
-            error += event.getErrorCode();
-        output("EE: " + error);
-    }
-
-    @Override
-    public void gotOutputComplete(OutputCompleteEvent event) {
-        super.gotOutputComplete(event);
-        output("OC: ID = " + event.getOutputID());
     }
 
     public void setFlagWhenIdle(ActionEvent actionEvent) {

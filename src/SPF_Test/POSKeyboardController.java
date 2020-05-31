@@ -19,6 +19,7 @@ package SPF_Test;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import jpos.*;
+import jpos.events.DataEvent;
 
 import javax.swing.*;
 import java.net.URL;
@@ -80,6 +81,11 @@ public class POSKeyboardController extends CommonController {
             }
             InUpdateGui = false;
         }
+    }
+
+    @Override
+    String getLogString(DataEvent event) {
+        return "Key " + POSKeyDataRow.getValue() + " - " + POSKeyEventTypeRow.getValue();
     }
 
     public void setEventTypes(ActionEvent actionEvent) {

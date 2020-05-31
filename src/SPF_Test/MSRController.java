@@ -24,6 +24,7 @@ import jpos.JposException;
 import jpos.MSR;
 import jpos.MSRConst;
 import jpos.events.DataEvent;
+import jpos.events.ErrorEvent;
 
 import javax.swing.*;
 import java.net.URL;
@@ -111,6 +112,7 @@ public class MSRController extends CommonController {
         TheMsr = (MSR) Control;
         TheMsr.addDirectIOListener(this);
         TheMsr.addStatusUpdateListener(this);
+        StatusUpdateEventStatusValueConverter = new MSRStatusUpdateValues();
         TheMsr.addDataListener(this);
         TheMsr.addErrorListener(this);
         Properties.getItems().add(ClaimedRow = new PropertyTableRow("Claimed", ""));
@@ -244,6 +246,42 @@ public class MSRController extends CommonController {
             Suffix.setDisable(!ParseDecodeData.isSelected());
             InUpdateGui = false;
         }
+    }
+
+    @Override
+    String getLogString(DataEvent event) {
+        int status = event.getStatus();
+        String result = "";
+        for (int i = 1; i <= 4; i++) {
+            int len = (status >> (8 * (i - 1))) & 0xff;
+            if (len > 0) {
+                if (result.length() > 0)
+                    result += ", ";
+                result += "Track" + i + "Len: " + len;
+            }
+        }
+        return result;
+    }
+
+    @Override
+    String getLogString(ErrorEvent event) {
+        String tracksym = new ErrorReportingTypeValues().getSymbol(MSRConst.MSR_ERT_TRACK);
+        if (ErrorReportingTypeRow.getValue().equals(tracksym) && event.getErrorLocus() == JposConst.JPOS_EL_INPUT && event.getErrorCode() == JposConst.JPOS_E_EXTENDED) {
+            int status = event.getErrorCodeExtended();
+            String result = new ErrorLocusValues().getSymbol(event.getErrorLocus()) + " - "
+                    + new ErrorCodeValues().getSymbol(event.getErrorCode()) + ":";
+            Integer tracks = new TracksToReadValues().getInteger(TracksToReadRow.getValue());
+            if (tracks == null)
+                return result + " Unknown Tracks";
+            int[] trackbits = {0, MSRConst.MSR_TR_1, MSRConst.MSR_TR_2, MSRConst.MSR_TR_3, MSRConst.MSR_TR_4};
+            for (int i = 1; i <= 4; i++) {
+                int error = (status >> (8 * (i - 1))) & 0xff;
+                if ((tracks & trackbits[i]) != 0)
+                    result += "\n   Track" + i + ": " + new ExtendexErrorCode().getSymbol(error);
+            }
+            return result;
+        }
+        return super.getLogString(event);
     }
 
     public void setTrack1(ActionEvent actionEvent) {
@@ -586,6 +624,32 @@ public class MSRController extends CommonController {
             ValueList = new Object[]{
                     MSRConst.MSR_DE_NONE, "DE_NONE",
                     MSRConst.MSR_DE_3DEA_DUKPT, "DE_3DEA_DUKPT"
+            };
+        }
+    }
+
+    private class MSRStatusUpdateValues extends StatusUpdateValues {
+        MSRStatusUpdateValues() {
+            super();
+            Object[] msrvalues = new Object[]{
+                    MSRConst.MSR_SUE_DEVICE_AUTHENTICATED, "SUE_DEVICE_AUTHENTICATED",
+                    MSRConst.MSR_SUE_DEVICE_DEAUTHENTICATED, "SUE_DEVICE_DEAUTHENTICATED"
+            };
+            ValueList = Arrays.copyOf(ValueList, ValueList.length + msrvalues.length);
+            System.arraycopy(msrvalues, 0, ValueList, ValueList.length - msrvalues.length, msrvalues.length);
+        }
+    }
+
+    private class ExtendexErrorCode extends Values {
+        ExtendexErrorCode() {
+            ValueList = new Object[]{
+                    JposConst.JPOS_SUCCESS, "SUCCESS",
+                    MSRConst.JPOS_EMSR_START, "EMSR_START",
+                    MSRConst.JPOS_EMSR_END, "EMSR_END",
+                    MSRConst.JPOS_EMSR_PARITY, "EMSR_PARITY",
+                    MSRConst.JPOS_EMSR_LRC, "EMSR_LRC",
+                    MSRConst.JPOS_EMSR_DEVICE_AUTHENTICATION_FAILED, "EMSR_DEVICE_AUTHENTICATION_FAILED",
+                    MSRConst.JPOS_EMSR_DEVICE_DEAUTHENTICATION_FAILED, "EMSR_DEVICE_DEAUTHENTICATION_FAILED"
             };
         }
     }

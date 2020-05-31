@@ -16,13 +16,14 @@
 
 package SPF_Test;
 
+import de.gmxhome.conrad.jpos.jpos_base.JposErrorEvent;
 import javafx.event.ActionEvent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import jpos.*;
-import jpos.events.DataEvent;
+import jpos.events.*;
 import org.apache.xerces.xs.StringList;
 
 import javax.swing.*;
@@ -573,6 +574,33 @@ public class RemoteOrderDisplayController extends CommonController {
         VS_interSoundWait.getItems().add(val.getSymbol(JposConst.JPOS_FOREVER));
         updateAttributes();
         updateGui();
+    }
+
+    @Override
+    String getLogString(DataEvent event) {
+        int date = event.getStatus();
+        return "Row: " + ((date >> 24) & 0xff)
+                + " / Column: " + ((date >> 16) & 0xff)
+                + ": " + new EventTypeValues().getSymbol(date & 0xffff);
+    }
+
+    @Override
+    String getLogString(ErrorEvent event) {
+        String message = "Units " + EventUnitsRow.getValue() + ", " + super.getLogString(event);
+        if (!(event instanceof JposErrorEvent) && EventStringRow.getValue().length() != 0) {
+            message += "\n   " + EventStringRow.getValue();
+        }
+        return message;
+    }
+
+    @Override
+    String getLogString(StatusUpdateEvent event) {
+        return "Units " + EventUnitsRow.getValue() + ", " + super.getLogString(event);
+    }
+
+    @Override
+    String getLogString(OutputCompleteEvent event) {
+        return "Units " + EventUnitsRow.getValue() + ", " + super.getLogString(event);
     }
 
     @Override
