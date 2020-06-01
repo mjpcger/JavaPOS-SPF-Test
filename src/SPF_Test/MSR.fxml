@@ -33,7 +33,7 @@
     <Label text="PowerNotify" layoutX="360" layoutY="5"/>
     <ComboBox fx:id="CurrencyDigits" layoutX="435" layoutY="0" onAction="#setCurrencyDigits" prefWidth="50"/>
     <ComboBox fx:id="ByteArrayConversion" layoutX="435" layoutY="0" promptText="ByteConversion" onAction="#setByteConversion"/>
-    <Label text="Byte Array Conversion" layoutX="565" layoutY="0"/>
+    <Label text="Byte Array Conversion" layoutX="555" layoutY="0"/>
     <CheckBox fx:id="DataEventEnabled" text="DataEventEnabled" layoutX="695" layoutY="0" onAction="#setDataEventEnabled"/>
     <CheckBox fx:id="AutoDisable" text="AutoDisable" layoutX="830" layoutY="0" onAction="#setAutoDisable"/>
     <TableView fx:id="Properties" layoutX="570" layoutY="19" prefWidth="410" prefHeight="115"/>
@@ -130,6 +130,8 @@
                 <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
                 <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
                 <TextArea fx:id="_statisticsBuffer" layoutX="330" layoutY="30" prefWidth="350" prefHeight="75" promptText="statisticsBuffer"/>
+                <Label text="Events" layoutY="5" layoutX="685" prefWidth="295" underline="true" alignment="CENTER"/>
+                <TextArea fx:id="EventOutput" layoutX="685" layoutY="30" prefWidth="295" prefHeight="340"/>
             </AnchorPane>
         </Tab>
     </TabPane>
