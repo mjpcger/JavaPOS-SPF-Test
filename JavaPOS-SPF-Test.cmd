@@ -1,6 +1,6 @@
 @echo off
-set JAVA_HOME=C:\Program Files\Java\jre1.8.0_51
-set JFX_HOME=%JAVA_HOME%
+
+setlocal
 
 rem *********************************************************
 rem * Check if environment variable JAVA_HOME has been set. *
@@ -21,15 +21,18 @@ rem * Check if environment variable JFX_HOME has been set. This   *
 rem * will not be done automatically during JavaFX installation!! *
 rem ***************************************************************
 
-if not "%JFX_HOME%"=="" goto FXPresent
+set internalfx=
+pushd %JAVA_HOME%
+for /R %%i in (jfxrt.jar) do @if exist %%i set internalfx=%%i
+if "%internalfx%"=="" for /R %%i in (javafx-swt.jar) do @if exist %%i set internalfx=%%i
+popd
+
+if not "%internalfx%"=="" goto :JavaWithFX
+if not "%JFX_HOME%"=="" goto :FXPresent
 	echo JFX_HOME (path to current JavaFX installation) not set.
 	goto :prompt
+
 :FXPresent
-
-set VM_Flags=
-set classpath=
-
-if "%JAVA_HOME%"=="%JFX_HOME%" goto :JavaWithFX
 
 set classpath=%JFX_HOME%\lib\javafx.base.jar
 set classpath=%classpath%;%JFX_HOME%\lib\javafx.controls.jar
@@ -41,8 +44,14 @@ set classpath=%classpath%;%JFX_HOME%\lib\javafx.web.jar
 set classpath=%classpath%;%JFX_HOME%\lib\javafx-swt.jar
 
 set VM_Flags=--module-path %JFX_HOME%\lib --add-modules=javafx.controls,javafx.fxml
+goto :AddExternals
 
 :JavaWithFX
+
+set VM_Flags=
+set classpath=
+
+:AddExternals
 
 rem ****************************************************************
 rem * Add jpos114, xalan-j and all other necessary jar files from  *
@@ -51,14 +60,22 @@ rem ****************************************************************
 
 for %%k in (jar\*.jar) do call :addtoclasspath %%~dpfk
 
-rem Now call the Java command
+rem ****************************************************************
+rem * Now call the Java command                                    *
+rem ****************************************************************
+
 echo on
+"%JAVA_HOME%\bin\java.exe" %VM_Flags% -cp "%classpath%" SPF_Test.Main
 
-"%JAVA_HOME%\bin\java.exe" %VM_Flags% -cp %classpath% SPF_Test.Main
+@if ERRORLEVEL 1 goto :prompt
+@goto :EOF
 
-if %ERRORLEVEL%==0 goto :EOF
+### Subroutine prompt
+# Prompts for pressing the enter key to exit.
+#########################
 
 :prompt
+@echo off
 set /P x=Press Enter to exit.
 goto :EOF
 

@@ -15,8 +15,8 @@ If the device you like to test uses COM ports for communication (no matter if re
 you need one of
 <ul>
     <li/>jar\SerialIOJNAWindows.jar,
-    <li/>jar\SerialIOJSerialComm.jar or (only if Java version &lt; 9)
-    <li/>jar\SerialIOJSSC.jar.
+    <li/>jar\SerialIOJSerialComm.jar or
+    <li/>jar\SerialIOJSSC.jar (only if Java version &lt; 9).
 </ul>
 and the corresponding jar files from project JNA (version &ge; 5.5, needed by SerialIOJNAWindows.jar), JSerialComm (version
 &ge; 2.6, needed by SerialIOJSerialComm.jar) or jSSC (version &ge; 2.7, needed by SerialIOJSSC.jar). Currently, recommended
@@ -33,13 +33,13 @@ Here the steps for installation:
 <ul>
     <li/>If not present: Install a Java runtime, recommended is a runtime version &ge; 9 and - if Java version &ge; 9 -
     JavaFX.
-    <li/>Set the environment variable <b>JAVA_HOME</b> to the folder where you installed the Java runtime,
-    <li/>set the environment variable <b>JFX_HOME</b> to the folder where you installed JavaFX. If you use a JRE version &lt;
-    9, set <b>JFX_HOME</b> to the same folder as <b>Java_HOME</b>.
-    <li/>Copy JavaPOS-SPF-Test.cmd, jcl.dtd and jpos.xml to any target folder,
-    <li/>create a sub-folder <i>jar</i> in the target folder,
-    <li/>copy all necessary jar files into that <i>jar</i> folder,
-    <li/>add entries for the devices you like to test to jpos.xml in the target folder.
+    <li/>Set the environment variable <b>JAVA_HOME</b> to the folder where you installed the Java runtime.
+    <li/>Set the environment variable <b>JFX_HOME</b> to the folder where you installed JavaFX. If you use a JRE which
+    includes JavaFX, <b>JFX_HOME</b> must not be set.
+    <li/>Copy JavaPOS-SPF-Test.cmd, jcl.dtd and jpos.xml to any target folder.
+    <li/>Create a sub-folder <i>jar</i> in the target folder.
+    <li/>Copy all necessary jar files into that <i>jar</i> folder.
+    <li/>Add entries for the devices you like to test to jpos.xml in the target folder.
 </ul>
 That's all! Start JavaPOS-SPF-Test.cmd to start your tests.
 <h1>Where Are The Necessary Jar-Files?</h1>
