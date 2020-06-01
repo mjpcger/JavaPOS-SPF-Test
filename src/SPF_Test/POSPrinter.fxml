@@ -168,10 +168,10 @@ for NL, CR, ESC and \, pass binary as pairs of hexadecimal letters between \x (s
                             <Button text="SetBitmap" layoutX="290" layoutY="0" prefWidth="140" onAction="#setBitmap"/>
                             <ComboBox fx:id="SB_bitmapNumber" layoutX="290" layoutY="25" prefWidth="140" editable="true" promptText="bitmapNumber"/>
                             <ComboBox fx:id="SB_station" layoutX="290" layoutY="50" prefWidth="140" editable="true" promptText="station"/>
-                            <TextField fx:id="SB_fileName" layoutX="290" layoutY="50" prefWidth="115" promptText="fileName"/>
-                            <Button onAction="#browseSBName" layoutX="405" layoutY="50" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
-                            <ComboBox fx:id="SB_width" layoutX="290" layoutY="75" prefWidth="140" editable="true" promptText="width"/>
-                            <ComboBox fx:id="SB_alignment" layoutX="290" layoutY="100" prefWidth="140" editable="true" promptText="alignment"/>
+                            <TextField fx:id="SB_fileName" layoutX="290" layoutY="75" prefWidth="115" promptText="fileName"/>
+                            <Button onAction="#browseSBName" layoutX="405" layoutY="75" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                            <ComboBox fx:id="SB_width" layoutX="290" layoutY="100" prefWidth="140" editable="true" promptText="width"/>
+                            <ComboBox fx:id="SB_alignment" layoutX="290" layoutY="125" prefWidth="140" editable="true" promptText="alignment"/>
                         </AnchorPane>
                     </Tab>
                     <Tab text="Slip Handling">
