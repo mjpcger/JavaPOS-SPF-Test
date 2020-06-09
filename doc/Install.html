@@ -14,13 +14,15 @@ If the services you like to test use JavaPOS-SPF, the following additional file 
 If the device you like to test uses COM ports for communication (no matter if real COM ports, via Usb2Serial or Bluetooth),
 you need one of
 <ul>
+    <li/>jar\SerialIOJNALinux.jar,
     <li/>jar\SerialIOJNAWindows.jar,
     <li/>jar\SerialIOJSerialComm.jar or
     <li/>jar\SerialIOJSSC.jar (only if Java version &lt; 9).
 </ul>
 and the corresponding jar files from project JNA (version &ge; 5.5, needed by SerialIOJNAWindows.jar), JSerialComm (version
-&ge; 2.6, needed by SerialIOJSerialComm.jar) or jSSC (version &ge; 2.7, needed by SerialIOJSSC.jar). Currently, recommended
-for serial communication are jar\SerialIOJSerialComm.jar in combination with jSerialComm-2.6.2.jar.<p/>
+&ge; 2.6, needed by SerialIOJSerialComm.jar) or jSSC (version &ge; 2.7, needed by SerialIOJSSC.jar). if you use SerialIOJNALinux.jar,
+it can be necessary to create a property file <i>de.gmxhome.conrad.JNALinux.JnaLinuxSerial.properties</i> as well.<br>
+Currently, recommended for serial communication are jar\SerialIOJSerialComm.jar in combination with jSerialComm-2.6.2.jar.<p/>
 Since you like to test some device services, you need the corresponding jar files as well.<p/>
 If you like to use one of the device simulators of JavaPOS-SPF, add the corresponding jar file as well from the jar folder.<p/>
 In addition, you need the jar files from the following projects:
