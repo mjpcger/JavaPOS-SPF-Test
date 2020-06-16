@@ -24,9 +24,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import jpos.*;
 import jpos.events.*;
-import org.apache.xerces.xs.StringList;
-
-import javax.swing.*;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;

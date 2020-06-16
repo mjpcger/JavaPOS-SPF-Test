@@ -3,7 +3,7 @@
 You need only the following files from the project root:
 <ul>
     <li/>JavaPOS-SPF-Test.cmd
-    <li/>jcl.dtd
+    <li/>jpos.properties
     <li/>jpos.xml
     <li/>jar\JavaPOS-SPF-Test.jar
 </ul>
@@ -14,17 +14,15 @@ If the services you like to test use JavaPOS-SPF, the following additional file 
 If the device you like to test uses COM ports for communication (no matter if real COM ports, via Usb2Serial or Bluetooth),
 you need one of
 <ul>
-    <li/>jar\SerialIOJNALinux.jar,
     <li/>jar\SerialIOJNAWindows.jar,
     <li/>jar\SerialIOJSerialComm.jar or
     <li/>jar\SerialIOJSSC.jar (only if Java version &lt; 9).
 </ul>
 and the corresponding jar files from project JNA (version &ge; 5.5, needed by SerialIOJNAWindows.jar), JSerialComm (version
-&ge; 2.6, needed by SerialIOJSerialComm.jar) or jSSC (version &ge; 2.7, needed by SerialIOJSSC.jar). if you use SerialIOJNALinux.jar,
-it can be necessary to create a property file <i>de.gmxhome.conrad.JNALinux.JnaLinuxSerial.properties</i> as well.<br>
+&ge; 2.6, needed by SerialIOJSerialComm.jar) or jSSC (version &ge; 2.7, needed by SerialIOJSSC.jar).<br>
 Currently, recommended for serial communication are jar\SerialIOJSerialComm.jar in combination with jSerialComm-2.6.2.jar.<p/>
 Since you like to test some device services, you need the corresponding jar files as well.<p/>
-If you like to use one of the device simulators of JavaPOS-SPF, add the corresponding jar file as well from the jar folder.<p/>
+If you like to use one of the device simulators of JavaPOS-SPF, add the corresponding jar file as well.<p/>
 In addition, you need the jar files from the following projects:
 <ul>
     <li/>jpos (version 1.14),
@@ -38,11 +36,63 @@ Here the steps for installation:
     <li/>Set the environment variable <b>JAVA_HOME</b> to the folder where you installed the Java runtime.
     <li/>Set the environment variable <b>JFX_HOME</b> to the folder where you installed JavaFX. If you use a JRE which
     includes JavaFX, <b>JFX_HOME</b> must not be set.
-    <li/>Copy JavaPOS-SPF-Test.cmd, jcl.dtd and jpos.xml to any target folder.
+    <li/>Copy JavaPOS-SPF-Test.cmd and jpos.xml to any target folder.
     <li/>Create a sub-folder <i>jar</i> in the target folder.
     <li/>Copy all necessary jar files into that <i>jar</i> folder.
     <li/>Add entries for the devices you like to test to jpos.xml in the target folder.
 </ul>
+If you get a message <i>jpos/res/jpos.properties file not found</i> during startup, you have a version of the javapos
+1.14 jar.file that does not contain the jpos.properties file in jpos/res. This happens for example if you retrieve it
+via Maven. In such a case, copy jpos.properties into the jar file (subfolder jpos/res).<p/>
+That's all! Start JavaPOS-SPF-Test.cmd to start your tests.
+<h1>How To Install JavaPOS-SPF-Test (Linux)</h1>
+The steps are similar to those for installation on Windows.
+You need only the following files from the project root:
+<ul>
+    <li/>JavaPOS-SPF-Test.sh
+    <li/>jpos.properties
+    <li/>jpos.xml
+    <li/>jar\JavaPOS-SPF-Test.jar
+</ul>
+If the services you like to test use JavaPOS-SPF, the following additional file must be present in the jar folder:
+<ul>
+    <li/>jar\JavaPOS-SPF.jar
+</ul>
+If the device you like to test uses COM ports for communication (no matter if real COM ports, via Usb2Serial or Bluetooth),
+you need one of
+<ul>
+    <li/>jar\SerialIOJNALinux.jar,
+    <li/>jar\SerialIOJSerialComm.jar or
+    <li/>jar\SerialIOJSSC.jar (only if Java version &lt; 9).
+</ul>
+and the corresponding jar files from project JNA (version &ge; 5.5, needed by SerialIOJNALinux.jar), JSerialComm (version
+&ge; 2.6, needed by SerialIOJSerialComm.jar) or jSSC (version &ge; 2.7, needed by SerialIOJSSC.jar). if you use SerialIOJNALinux.jar,
+it can be necessary to create a property file <i>de.gmxhome.conrad.JNALinux.JnaLinuxSerial.properties</i> as well.<br>
+Currently, recommended for serial communication are jar\SerialIOJSerialComm.jar in combination with jSerialComm-2.6.2.jar.<p/>
+Since you like to test some device services, you need the corresponding jar files as well.<p/>
+If you like to use one of the device simulators of JavaPOS-SPF, add the corresponding jar file as well.<p/>
+In addition, you need the jar files from the following projects:
+<ul>
+    <li/>jpos (version 1.14),
+    <li/>log4j (version 1.2),
+    <li/>xalan (version 2.7).
+    <li/>xerces (version 2.7).
+</ul>
+Here the steps for installation:
+<ul>
+    <li/>If not present: Install a Java runtime with version &ge; 9 and JavaFX.
+    <li/>Set the environment variable <b>JAVA_HOME</b> to the folder where you installed the Java runtime. This should
+    be done automatically by the packet manager.
+    <li/>Set the environment variable <b>JFX_HOME</b> to the folder where you installed JavaFX. If you use a JRE which
+    includes JavaFX, <b>JFX_HOME</b> must not be set.
+    <li/>Copy JavaPOS-SPF-Test.sh and jpos.xml to any target folder.
+    <li/>Create a sub-folder <i>jar</i> in the target folder.
+    <li/>Copy all necessary jar files into that <i>jar</i> folder.
+    <li/>Add entries for the devices you like to test to jpos.xml in the target folder.
+</ul>
+If you get a message <i>jpos/res/jpos.properties file not found</i> during startup, you have a version of the javapos
+1.14 jar.file that does not contain the jpos.properties file in jpos/res. This happens for example if you retrieve it
+via Maven. In such a case, copy jpos.properties into the jar file (subfolder jpos/res).<p/>
 That's all! Start JavaPOS-SPF-Test.cmd to start your tests.
 <h1>Where Are The Necessary Jar-Files?</h1>
 You can get binary versions of a Java runtime environment at

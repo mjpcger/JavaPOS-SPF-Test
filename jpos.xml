@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE JposEntries PUBLIC "-//JavaPOS//DTD//EN" "jcl.dtd">
+<!DOCTYPE JposEntries PUBLIC "-//JavaPOS//DTD//EN" "jpos/res/jcl.dtd">
 <JposEntries>
 	<!-- Enter entries for the devices to be tested here, e.g.: -->
 	<JposEntry logicalName="TestCoinDispenser">
