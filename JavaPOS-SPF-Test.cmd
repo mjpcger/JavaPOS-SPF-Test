@@ -15,7 +15,6 @@ if exist "%JAVA_HOME%\bin\java.exe" goto JavaPresent
 	goto :prompt
 :JavaPresent
 
-
 rem ***************************************************************
 rem * Check if environment variable JFX_HOME has been set. This   *
 rem * will not be done automatically during JavaFX installation!! *
@@ -44,12 +43,19 @@ set classpath=%classpath%;%JFX_HOME%\lib\javafx.web.jar
 set classpath=%classpath%;%JFX_HOME%\lib\javafx-swt.jar
 
 set VM_Flags=--module-path %JFX_HOME%\lib --add-modules=javafx.controls,javafx.fxml
-goto :AddExternals
+goto :CheckConfiguration
 
 :JavaWithFX
 
 set VM_Flags=
 set classpath=
+
+:CheckConfiguration
+
+if exist jpos.xml if exist jpos\res\jpos.properties goto :AddExternals
+    if exist jpos.xml set x=jpos.xml else set x=jpos\res\jpos.properties
+    echo JavaPOS configuration file %x% not present
+    goto :prompt
 
 :AddExternals
 

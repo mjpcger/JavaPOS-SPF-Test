@@ -37,13 +37,12 @@ Here the steps for installation:
     <li/>Set the environment variable <b>JFX_HOME</b> to the folder where you installed JavaFX. If you use a JRE which
     includes JavaFX, <b>JFX_HOME</b> must not be set.
     <li/>Copy JavaPOS-SPF-Test.cmd and jpos.xml to any target folder.
+    <li/>Create a sub-folder <i>res</i> in a sub-folder <i>jpos</i> in the target folder
+    <li/>Copy jpos.properties into that <i>jpos\res</i> sub-folder.
     <li/>Create a sub-folder <i>jar</i> in the target folder.
-    <li/>Copy all necessary jar files into that <i>jar</i> folder.
+    <li/>Copy all necessary jar files into that <i>jar</i> sub-folder.
     <li/>Add entries for the devices you like to test to jpos.xml in the target folder.
 </ul>
-If you get a message <i>jpos/res/jpos.properties file not found</i> during startup, you have a version of the javapos
-1.14 jar.file that does not contain the jpos.properties file in jpos/res. This happens for example if you retrieve it
-via Maven. In such a case, copy jpos.properties into the jar file (subfolder jpos/res).<p/>
 That's all! Start JavaPOS-SPF-Test.cmd to start your tests.
 <h1>How To Install JavaPOS-SPF-Test (Linux)</h1>
 The steps are similar to those for installation on Windows.
@@ -86,13 +85,12 @@ Here the steps for installation:
     <li/>Set the environment variable <b>JFX_HOME</b> to the folder where you installed JavaFX. If you use a JRE which
     includes JavaFX, <b>JFX_HOME</b> must not be set.
     <li/>Copy JavaPOS-SPF-Test.sh and jpos.xml to any target folder.
+    <li/>Create a sub-folder <i>res</i> in a sub-folder <i>jpos</i> in the target folder
+    <li/>Copy jpos.properties into that <i>jpos/res</i> sub-folder.
     <li/>Create a sub-folder <i>jar</i> in the target folder.
-    <li/>Copy all necessary jar files into that <i>jar</i> folder.
+    <li/>Copy all necessary jar files into that <i>jar</i> sub-folder.
     <li/>Add entries for the devices you like to test to jpos.xml in the target folder.
 </ul>
-If you get a message <i>jpos/res/jpos.properties file not found</i> during startup, you have a version of the javapos
-1.14 jar.file that does not contain the jpos.properties file in jpos/res. This happens for example if you retrieve it
-via Maven. In such a case, copy jpos.properties into the jar file (subfolder jpos/res).<p/>
 That's all! Start JavaPOS-SPF-Test.cmd to start your tests.
 <h1>Where Are The Necessary Jar-Files?</h1>
 You can get binary versions of a Java runtime environment at

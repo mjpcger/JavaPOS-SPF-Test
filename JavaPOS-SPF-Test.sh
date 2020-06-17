@@ -7,6 +7,8 @@ function error() {
 
 test "$JAVA_HOME" = "" && error "JAVA_HOME not set. Java runtime must be installed first"
 test -d jar -a -f jar/JavaPOS-SPF-Test.jar || error "Sub-folder jar does not exist"
+test -f jpos/res/jpos.properties || error "JavaPOS configuration file jpos/res/jpos.properties does not exist"
+test -f jpos.xml || error "JavaPOS configuration file jpos.xml does not exist"
 if [ "$JFX_HOME" = "" ]
 then
   test "$(find $JAVA_HOME -name javafx-swt.jar)" = "" -o "$(find $JAVA_HOME -name jfxrt.jar)" = "" && \
@@ -20,15 +22,10 @@ else
 	  VM_Flags=""
   fi
 fi
-classpath=""
+classpath=$(pwd)
 for i in $(pwd)/jar/*.jar
 do
-	if [ "$classpath" = "" ]
-	then
-		classpath=$i
-	else
-		classpath="$classpath:$i"
-	fi
+	classpath="$classpath:$i"
 done
 echo "java $VM_Flags -cp $classpath SPF_Test.Main"
 java $VM_Flags -cp $classpath SPF_Test.Main || error "Press Enter to continue"
