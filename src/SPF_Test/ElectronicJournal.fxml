@@ -52,11 +52,6 @@
     <Button text="ClearOutput" layoutX="160" layoutY="95" onAction="#clearOutput" prefWidth="150"/>
     <CheckBox fx:id="FlagWhenIdle" layoutX="320" layoutY="100" onAction="#setFlagWhenIdle" text="FlagWhenIdle"/>
     <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
-    <Label layoutX="0" layoutY="530">
-        <font>
-            <Font fx:id="smalfont" size="8.0" />
-        </font>
-    </Label>
     <TabPane layoutX="0" layoutY="135" prefWidth="980" prefHeight="405" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Specific Properties AndMethods">
             <AnchorPane prefHeight="390" prefWidth="980">
@@ -67,7 +62,7 @@
                 <Label fx:id="MediumFreeSpace" layoutX="480" layoutY="5" text="0"/>
                 <Button text="PrintContentFile" layoutX="0" layoutY="30" prefWidth="110" onAction="#printContentFile"/>
                 <TextField fx:id="PCF_fileName" layoutX="110" layoutY="30" prefWidth="115" promptText="fileName"/>
-                <Button text="▼" layoutX="225" layoutY="30" onAction="#browsePCF_fileName" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="SmallFont" text="▼" layoutX="225" layoutY="30" onAction="#browsePCF_fileName" prefHeight="25" prefWidth="25"/>
                 <Button text="SuspendPrintContent" layoutX="500" layoutY="30" prefWidth="130" onAction="#suspendPrintContent"/>
                 <Button text="ResumePrintContent" layoutX="640" layoutY="30" prefWidth="130" onAction="#resumePrintContent"/>
                 <Button text="CancelPrintContent" layoutX="780" layoutY="30" prefWidth="130" onAction="#cancelPrintContent"/>
@@ -76,7 +71,7 @@
                 <TextField fx:id="PC_toMarker" layoutX="220" layoutY="60" prefWidth="110" promptText="toMarker"/>
                 <Button text="QueryContent" layoutX="0" layoutY="90" prefWidth="110" onAction="#queryContent"/>
                 <TextField fx:id="QC_fileName" layoutX="110" layoutY="90" prefWidth="115" promptText="fileName"/>
-                <Button text="▼" layoutX="225" layoutY="90" onAction="#browseQC_fileName" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="SmallFont" text="▼" layoutX="225" layoutY="90" onAction="#browseQC_fileName" prefHeight="25" prefWidth="25"/>
                 <TextField fx:id="QC_fromMarker" layoutX="250" layoutY="90" prefWidth="110" promptText="fromMarker"/>
                 <TextField fx:id="QC_toMarker" layoutX="360" layoutY="90" prefWidth="110" promptText="toMarker"/>
                 <Button text="SuspendQueryContent" layoutX="500" layoutY="90" prefWidth="130" onAction="#suspendQueryContent"/>
@@ -107,11 +102,11 @@
             <AnchorPane prefHeight="390" prefWidth="980">
                 <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
                 <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
-                <Button onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="SmallFont" onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
                 <TextField fx:id="CFV_result" layoutX="0" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
                 <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
                 <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
-                <Button onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="SmallFont" onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
                 <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
                 <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
                 <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>

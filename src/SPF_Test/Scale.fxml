@@ -51,11 +51,6 @@
     <Button text="ClearInput" layoutX="0" layoutY="95" onAction="#clearInput" prefWidth="150"/>
     <Button text="Clear Returned Values" layoutX="160" layoutY="95" onAction="#clearReturnedValues" prefWidth="150"/>
     <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
-    <Label layoutX="0" layoutY="530">
-        <font>
-            <Font fx:id="smalfont" size="8.0" />
-        </font>
-    </Label>
     <TabPane layoutX="0" layoutY="135" prefWidth="980" prefHeight="405" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Specific Properties And Methods">
             <AnchorPane prefHeight="390" prefWidth="980">
@@ -118,11 +113,11 @@
             <AnchorPane prefHeight="390" prefWidth="980">
                 <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
                 <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
-                <Button onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="SmallFont" onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
                 <TextField fx:id="CFV_result" layoutX="0" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
                 <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
                 <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
-                <Button onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="SmallFont" onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
                 <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
                 <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
                 <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>

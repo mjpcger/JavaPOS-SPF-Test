@@ -51,16 +51,6 @@
     <CheckBox fx:id="DuplicateReceipt" layoutX="182" layoutY="92.5" text="DuplicateReceipt" onAction="#setDuplicateReceipt"/>
     <CheckBox fx:id="FlagWhenIdle" layoutX="302" layoutY="92.5" onAction="#setFlagWhenIdle" text="FlagWhenIdle"/>
     <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
-    <Label layoutX="0" layoutY="530">
-        <font>
-            <Font fx:id="smalfont" size="8.0" />
-        </font>
-    </Label>
-    <Label layoutX="0" layoutY="530">
-        <font>
-            <Font fx:id="boldfont" name="System Bold" size="12.0"/>
-        </font>
-    </Label>
     <TabPane layoutX="0" layoutY="116" prefWidth="980" prefHeight="424" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Specific Properties and Methods">
             <AnchorPane prefHeight="409" prefWidth="980">
@@ -86,9 +76,9 @@
                 <TextField fx:id="PostLine" layoutX="100" layoutY="175" prefWidth="150"/>
                 <Separator layoutX="0" layoutY="205" prefWidth="255" orientation="HORIZONTAL"/>
                 <Separator layoutX="254" layoutY="30" prefHeight="379" orientation="VERTICAL"/>
-                <Label text="PrinterState:" layoutX="0" layoutY="210" font="$boldfont"/>
+                <Label styleClass="BoldFont" text="PrinterState:" layoutX="0" layoutY="210"/>
                 <Label fx:id="PrinterState" layoutX="100" layoutY="210" text="PS_FISCAL_RECEIPT_ENDING"/>
-                <Label text="Events:" layoutX="100" layoutY="233" underline="true" font="$boldfont"/>
+                <Label styleClass="BoldFont" text="Events:" layoutX="100" layoutY="233" underline="true"/>
                 <TextArea fx:id="EventOutput" layoutX="0" layoutY="254" prefWidth="250" prefHeight="130"/>
                 <TabPane layoutX="255" layoutY="30" prefWidth="725" prefHeight="379" tabClosingPolicy="UNAVAILABLE">
                     <Tab text="Itemizing Fiscal Receipt">
@@ -205,8 +195,8 @@ for NL, CR, ESC and \, pass binary as pairs of hexadecimal letters between \x (s
                                         <Button onAction="#verifyItem" layoutX="240" layoutY="0" prefWidth="115" text="VerifyItem"/>
                                         <TextField fx:id="VI_itemName" layoutX="240" layoutY="25" prefWidth="115" promptText="itemName"/>
                                         <ComboBox fx:id="VI_vatID" layoutX="240" layoutY="50" prefWidth="115" promptText="vatID" editable="true"/>
-                                        <Label fx:id="ILlabel1" layoutX="0" layoutY="100" font="$boldfont" text="To preset vatID values, use button on tab"/>
-                                        <Label fx:id="ILlabel2" layoutX="0" layoutY="125" font="$boldfont" text="Miscellaneous Methods - Data Retrieval, VAT Rates."/>
+                                        <Label styleClass="BoldFont" fx:id="ILlabel1" layoutX="0" layoutY="100" text="To preset vatID values, use button on tab"/>
+                                        <Label styleClass="BoldFont" fx:id="ILlabel2" layoutX="0" layoutY="125" text="Miscellaneous Methods - Data Retrieval, VAT Rates."/>
                                     </AnchorPane>
                                 </Tab>
                             </TabPane>
@@ -308,11 +298,11 @@ for NL, CR, ESC and \, pass binary as pairs of hexadecimal letters between \x (s
             <AnchorPane prefHeight="409" prefWidth="980">
                 <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
                 <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
-                <Button onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="SmallFont" onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
                 <TextField fx:id="CFV_result" layoutX="0" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
                 <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
                 <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
-                <Button onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="SmallFont" onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
                 <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
                 <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
                 <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>

@@ -4,6 +4,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.AnchorPane?>
+<?scenebuilder-stylesheet mainstyle.css?>
 
 <!--
   ~ Copyright 2020 Martin Conrad
@@ -24,6 +25,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.text.Font?>
+<?import java.net.URL?>
 <AnchorPane fx:controller="SPF_Test.Controller" xmlns:fx="http://javafx.com/fxml" prefHeight="600" prefWidth="1000">
   <children>
     <Pane prefHeight="600" prefWidth="1000">
@@ -34,11 +36,7 @@
       <Text fx:id="Usage" layoutX="540" layoutY="25"/>
       <Separator layoutX="0" layoutY="45" prefWidth="1000" orientation="HORIZONTAL" />
       <AnchorPane fx:id="DevicePane" prefWidth="990" prefHeight="550" layoutX="5" layoutY="50">
-        <Label layoutX="0" layoutY="50" text="JavaPOS-SPF Test Program" prefWidth="990" alignment="CENTER">
-          <font>
-            <Font fx:id="largefont" size="20.0" />
-          </font>
-        </Label>
+        <Label styleClass="LargeFont" layoutX="0" layoutY="50" text="JavaPOS-SPF Test Program" prefWidth="990" alignment="CENTER"/>
         <Label layoutX="20" layoutY="90" text="Welcome to the JavaPOS-SPF test program. Even if designed to test JavaPOS services,
  it can be used to test any JavaPOS service supported by this program."/>
         <Label layoutX="20" layoutY="120" text="The following device classes are currently supported: CashDrawer, CAT, CoinDispenser,
@@ -53,4 +51,7 @@
       </AnchorPane>
     </Pane>
   </children>
+  <stylesheets>
+    <URL value="@mainstyle.css" />
+  </stylesheets>
 </AnchorPane>

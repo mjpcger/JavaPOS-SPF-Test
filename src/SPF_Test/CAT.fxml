@@ -49,16 +49,6 @@
     <CheckBox fx:id="AsyncMode" text="AsyncMode" layoutX="160" layoutY="100" onAction="#setAsyncMode"/>
     <CheckBox fx:id="TrainingMode" layoutX="260" layoutY="100" text="TrainingMode" onAction="#setTrainingMode"/>
     <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
-    <Label layoutX="0" layoutY="530">
-        <font>
-            <Font fx:id="smalfont" size="8.0" />
-        </font>
-    </Label>
-    <Label layoutX="0" layoutY="530">
-        <font>
-            <Font fx:id="boldfont" name="System Bold" size="12.0" />
-        </font>
-    </Label>
     <Label text="Events" layoutY="140" layoutX="760" prefWidth="220" underline="true" alignment="CENTER"/>
     <TextArea fx:id="EventOutput" layoutX="760" layoutY="165" prefWidth="220" prefHeight="375"/>
     <TabPane layoutX="0" layoutY="135" prefWidth="755" prefHeight="405" tabClosingPolicy="UNAVAILABLE">
@@ -101,11 +91,11 @@
                 <TextField fx:id="TransactionNumber" layoutX="270" layoutY="275" prefWidth="145" editable="false"/>
                 <Label text="PaymentCondition" layoutX="155" layoutY="305"/>
                 <TextField fx:id="PaymentCondition" layoutX="270" layoutY="300" prefWidth="145" editable="false"/>
-                <Label text="PaymentMedia" layoutX="155" layoutY="330" font="$boldfont"/>
+                <Label styleClass="BoldFont" text="PaymentMedia" layoutX="155" layoutY="330"/>
                 <ComboBox fx:id="PaymentMedia" layoutX="270" layoutY="325" prefWidth="145" editable="true" onAction="#setPaymentMedia"/>
                 <Label text="PaymentDetail" layoutX="425" layoutY="25" prefWidth="330" underline="true" alignment="CENTER"/>
                 <TextArea fx:id="PaymentDetail" layoutX="425" layoutY="45" prefHeight="95" prefWidth="330" editable="false"/>
-                <Label text="AdditionalSecurityInformation" layoutX="425" layoutY="140" font="$boldfont" prefWidth="330" alignment="CENTER" underline="true"/>
+                <Label styleClass="BoldFont" text="AdditionalSecurityInformation" layoutX="425" layoutY="140" prefWidth="330" alignment="CENTER" underline="true"/>
                 <TextArea fx:id="AdditionalSecurityInformation" layoutX="425" layoutY="157" prefHeight="95" prefWidth="330"/>
                 <Label text="DirectIOEvent Contents" layoutX="500" layoutY="259" underline="true"/>
                 <Button text="Clear" layoutX="635" layoutY="253" prefWidth="45" onAction="#clearDirectIOText"/>
@@ -137,11 +127,11 @@
             <AnchorPane fx:id="MaintenanceAnchor" prefHeight="380" prefWidth="755">
                 <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
                 <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
-                <Button onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="SmallFont" onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
                 <TextField fx:id="CFV_result" layoutX="0" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
                 <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
                 <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
-                <Button onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="SmallFont" onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
                 <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
                 <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
                 <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>

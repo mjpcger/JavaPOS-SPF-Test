@@ -1,0 +1,16 @@
+.root {
+    -fx-font-size: 9pt;
+}
+
+.SmallFont {
+    -fx-font-size: 6pt;
+}
+
+.BoldFont {
+    -fx-font-weight: bold;
+}
+
+.LargeFont {
+    -fx-font-size: 12pt;
+}
+

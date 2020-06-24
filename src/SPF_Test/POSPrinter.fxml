@@ -48,16 +48,6 @@
     <Button text="ClearOutput" layoutX="0" layoutY="87.5" onAction="#clearOutput" prefWidth="85"/>
     <CheckBox fx:id="FlagWhenIdle" layoutX="92" layoutY="92.5" onAction="#setFlagWhenIdle" text="FlagWhenIdle"/>
     <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
-    <Label layoutX="0" layoutY="530">
-        <font>
-            <Font fx:id="smalfont" size="8.0" />
-        </font>
-    </Label>
-    <Label layoutX="0" layoutY="530">
-        <font>
-            <Font fx:id="boldfont" name="System Bold" size="12.0"/>
-        </font>
-    </Label>
     <TabPane layoutX="0" layoutY="116" prefWidth="980" prefHeight="424" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Specific Properties and Methods">
             <AnchorPane prefHeight="409" prefWidth="980">
@@ -83,7 +73,7 @@
                 <ComboBox fx:id="PageModePrintDirection" layoutX="160" layoutY="235" onAction="#setPageModePrintDirection" prefWidth="100" editable="true"/>
                 <Label text="PageModeStation" layoutX="0" layoutY="270" prefWidth="155" alignment="CENTER_RIGHT"/>
                 <ComboBox fx:id="PageModeStation" layoutX="160" layoutY="265" onAction="#setPageModeStation" prefWidth="100" editable="true"/>
-                <Label text="Events:" layoutX="0" layoutY="295" prefWidth="255" underline="true" font="$boldfont" alignment="CENTER"/>
+                <Label styleClass="BoldFont" text="Events:" layoutX="0" layoutY="295" prefWidth="255" underline="true" alignment="CENTER"/>
                 <TextArea fx:id="EventOutput" layoutX="0" layoutY="314" prefWidth="260" prefHeight="80"/>
                 <Label text="JrnCurrentCartridge" layoutX="265" layoutY="30" prefWidth="125" alignment="CENTER_RIGHT"/>
                 <ComboBox fx:id="JrnCurrentCartridge" layoutX="395" layoutY="25" onAction="#setJrnCurrentCartridge" prefWidth="100" editable="true"/>
@@ -155,13 +145,13 @@ for NL, CR, ESC and \, pass binary as pairs of hexadecimal letters between \x (s
                             <Button text="PrintBitmap" layoutX="0" layoutY="0" prefWidth="140" onAction="#printBitmap"/>
                             <ComboBox fx:id="PB_station" layoutX="0" layoutY="25" prefWidth="140" editable="true" promptText="station"/>
                             <TextField fx:id="PB_fileName" layoutX="0" layoutY="50" prefWidth="115" promptText="fileName"/>
-                            <Button onAction="#browsePBName" layoutX="115" layoutY="50" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                            <Button styleClass="SmallFont" onAction="#browsePBName" layoutX="115" layoutY="50" text="▼" prefHeight="25" prefWidth="25"/>
                             <ComboBox fx:id="PB_width" layoutX="0" layoutY="75" prefWidth="140" editable="true" promptText="width"/>
                             <ComboBox fx:id="PB_alignment" layoutX="0" layoutY="100" prefWidth="140" editable="true" promptText="alignment"/>
                             <Button text="PrintMemoryBitmap" layoutX="145" layoutY="0" prefWidth="140" onAction="#printMemoryBitmap"/>
                             <ComboBox fx:id="PMB_station" layoutX="145" layoutY="25" prefWidth="140" editable="true" promptText="station"/>
                             <TextField fx:id="PMB_data" layoutX="145" layoutY="50" prefWidth="115" promptText="file containing data"/>
-                            <Button onAction="#browsePMBName" layoutX="260" layoutY="50" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                            <Button styleClass="SmallFont" onAction="#browsePMBName" layoutX="260" layoutY="50" text="▼" prefHeight="25" prefWidth="25"/>
                             <ComboBox fx:id="PMB_type" layoutX="145" layoutY="75" prefWidth="140" editable="true" promptText="type"/>
                             <ComboBox fx:id="PMB_width" layoutX="145" layoutY="100" prefWidth="140" editable="true" promptText="width"/>
                             <ComboBox fx:id="PMB_alignment" layoutX="145" layoutY="125" prefWidth="140" editable="true" promptText="alignment"/>
@@ -169,7 +159,7 @@ for NL, CR, ESC and \, pass binary as pairs of hexadecimal letters between \x (s
                             <ComboBox fx:id="SB_bitmapNumber" layoutX="290" layoutY="25" prefWidth="140" editable="true" promptText="bitmapNumber"/>
                             <ComboBox fx:id="SB_station" layoutX="290" layoutY="50" prefWidth="140" editable="true" promptText="station"/>
                             <TextField fx:id="SB_fileName" layoutX="290" layoutY="75" prefWidth="115" promptText="fileName"/>
-                            <Button onAction="#browseSBName" layoutX="405" layoutY="75" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                            <Button styleClass="SmallFont" onAction="#browseSBName" layoutX="405" layoutY="75" text="▼" prefHeight="25" prefWidth="25"/>
                             <ComboBox fx:id="SB_width" layoutX="290" layoutY="100" prefWidth="140" editable="true" promptText="width"/>
                             <ComboBox fx:id="SB_alignment" layoutX="290" layoutY="125" prefWidth="140" editable="true" promptText="alignment"/>
                         </AnchorPane>
@@ -206,11 +196,11 @@ for NL, CR, ESC and \, pass binary as pairs of hexadecimal letters between \x (s
             <AnchorPane prefHeight="409" prefWidth="980">
                 <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
                 <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
-                <Button onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="SmallFont" onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
                 <TextField fx:id="CFV_result" layoutX="0" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
                 <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
                 <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
-                <Button onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="SmallFont" onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
                 <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
                 <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
                 <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>

@@ -51,16 +51,6 @@
     <Button text="ClearOutput" layoutX="120" layoutY="90" onAction="#clearOutput" prefWidth="110"/>
     <CheckBox fx:id="AsyncMode" text="AsyncMode" layoutX="240" layoutY="95" onAction="#setAsyncMode"/>
     <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
-    <Label layoutX="0" layoutY="530">
-        <font>
-            <Font fx:id="smalfont" size="8.0" />
-        </font>
-    </Label>
-    <Label layoutX="0" layoutY="530">
-        <font>
-            <Font fx:id="boldfont" name="System Bold" size="12.0" />
-        </font>
-    </Label>
     <Label text="UnitsOnline: " layoutX="0" layoutY="120"/>
     <CheckBox fx:id="UnitsOnline01" layoutX="75" layoutY="120"/>
     <CheckBox fx:id="UnitsOnline02" layoutX="90" layoutY="120"/>
@@ -212,14 +202,14 @@
                 <Label text="VideoMode" layoutX="0" layoutY="155" prefWidth="110" alignment="CENTER_RIGHT"/>
                 <ComboBox fx:id="VideoMode" layoutX="115" layoutY="150" onAction="#setVideoMode" prefWidth="100" promptText="VideoMode" editable="true"/>
                 <Label text="Last Event" layoutX="0" layoutY="180" prefWidth="110" alignment="CENTER_RIGHT"/>
-                <Label fx:id="DataEvent" layoutX="115" layoutY="180" font="$boldfont"/>
+                <Label styleClass="BoldFont" fx:id="DataEvent" layoutX="115" layoutY="180"/>
                 <Label text="Attribute Editor" underline="true" layoutX="0" layoutY="205" prefWidth="320" alignment="CENTER"/>
                 <CheckBox fx:id="AE_blinking" layoutX="0" layoutY="235" text="Blinking" onAction="#setAE_value"/>
                 <ComboBox fx:id="AE_bgcolor" layoutX="80" layoutY="230" promptText="BG Color" prefWidth="100" onAction="#setAE_value"/>
                 <CheckBox fx:id="AE_intensity" layoutX="0" layoutY="265" text="Intensive" onAction="#setAE_value"/>
                 <ComboBox fx:id="AE_fgcolor" layoutX="80" layoutY="260" promptText="FG Color" prefWidth="100" onAction="#setAE_value"/>
                 <Label text="Attribute: " layoutX="190" layoutY="250"/>
-                <Label fx:id="AE_value" layoutX="250" layoutY="250" font="$boldfont" text="0"/>
+                <Label styleClass="BoldFont" fx:id="AE_value" layoutX="250" layoutY="250" text="0"/>
                 <Separator layoutX="318" layoutY="0" prefHeight="305" orientation="VERTICAL"/>
                 <TabPane layoutX="320" layoutY="0" prefWidth="660" prefHeight="305" tabClosingPolicy="UNAVAILABLE">
                     <Tab text="Synchronous Methods">
@@ -312,11 +302,11 @@
             <AnchorPane prefHeight="305" prefWidth="980">
                 <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
                 <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
-                <Button onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="SmallFont" onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
                 <TextField fx:id="CFV_result" layoutX="0" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
                 <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
                 <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
-                <Button onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" font="$smalfont" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="SmallFont" onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
                 <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
                 <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
                 <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
