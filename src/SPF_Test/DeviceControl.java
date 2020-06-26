@@ -166,7 +166,10 @@ public class DeviceControl {
                     actdev.Name = name;
                     actdev.Usage = usage == null ? "" : usage.toString();
                     try {
-                        if (category.equals("CashDrawer")) {
+                        if (category.equals("BumpBar")) {
+                            actdev.Control = new BumpBar();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("BumpBar.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("CashDrawer")) {
                             actdev.Control = new CashDrawer();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("CashDrawer.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("CAT")) {

@@ -50,6 +50,7 @@ public class Controller implements Initializable {
         ArrayList<String> caterories = DeviceControl.getCategories();
         Collections.sort(caterories);
         DeviceCategory.setItems(FXCollections.observableList(caterories));
+        DeviceCategory.setVisibleRowCount(caterories.size());
         DeviceCategory.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -57,6 +58,7 @@ public class Controller implements Initializable {
                 Collections.sort(devices);
                 LogicalName.setItems(FXCollections.observableArrayList(devices));
                 LogicalName.setValue(devices.get(0));
+                LogicalName.setVisibleRowCount(devices.size());
             }
         });
     }

@@ -576,16 +576,24 @@ public class RemoteOrderDisplayController extends CommonController {
     @Override
     String getLogString(DataEvent event) {
         int date = event.getStatus();
-        return "Row: " + ((date >> 24) & 0xff)
-                + " / Column: " + ((date >> 16) & 0xff)
-                + ": " + new EventTypeValues().getSymbol(date & 0xffff);
+        return EventUnitIDRow.getValue() + ", " + ((date >> 24) & 0xff)
+                + " / " + ((date >> 16) & 0xff)
+                + ", " + new EventTypeValues().getSymbol(date & 0xffff);
     }
 
     @Override
     String getLogString(ErrorEvent event) {
-        String message = "Units " + EventUnitsRow.getValue() + ", " + super.getLogString(event);
-        if (!(event instanceof JposErrorEvent) && EventStringRow.getValue().length() != 0) {
-            message += "\n   " + EventStringRow.getValue();
+        String message = "Units ";
+        if (event.getErrorLocus() == JposConst.JPOS_EL_OUTPUT) {
+            message += ErrorUnitsRow.getValue() + ", " + super.getLogString(event);
+            if (!(event instanceof JposErrorEvent) && ErrorStringRow.getValue().length() != 0) {
+                message += "\n   " + ErrorStringRow.getValue();
+            }
+        } else {
+            message += EventUnitsRow.getValue() + ", " + super.getLogString(event);
+            if (!(event instanceof JposErrorEvent) && EventStringRow.getValue().length() != 0) {
+                message += "\n   " + EventStringRow.getValue();
+            }
         }
         return message;
     }
@@ -633,7 +641,7 @@ public class RemoteOrderDisplayController extends CommonController {
             val = (Integer) new UnitIDValues().getValue(CurrentUnitIDRow.getValue());
             CurrentUnitID.setValue(val == null ? null : CurrentUnitIDRow.getValue());
             AutoToneDuration.setText(AutoToneDurationRow.getValue());
-            AutoToneFrequency.setText(AutoToneDurationRow.getValue());
+            AutoToneFrequency.setText(AutoToneFrequencyRow.getValue());
             Timeout.setValue(TimeoutRow.getValue());
             VideoMode.getItems().clear();
             for (int i = 1; i < VideoModeRow.getValueConverter().ValueList.length; i += 2) {
