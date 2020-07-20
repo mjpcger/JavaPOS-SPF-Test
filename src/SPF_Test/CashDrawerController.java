@@ -85,7 +85,7 @@ public class CashDrawerController extends CommonController {
     }
 
     /**
-     * Processor for method DirectIO
+     * Processor for method WaitForDrawer
      */
     class WaitForDrawerCloseHandler extends MethodProcessor {
         /**

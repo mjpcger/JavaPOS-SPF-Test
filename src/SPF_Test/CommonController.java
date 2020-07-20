@@ -1198,6 +1198,18 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         return false;
     }
 
+    public boolean validate(Object[] values) {
+        if (values.length % 2 != 0) {
+            JOptionPane.showMessageDialog(null, "validate: Odd number of parameters, cannot validate (contact software developer)");
+            return true;
+        }
+        for (int i = 0; i < values.length; i += 2) {
+            if (invalid(values[i], values[i + 1].toString()))
+                return false;
+        }
+        return true;
+    }
+
     class ErrorCodeValues extends Values {
         ErrorCodeValues() {
             ValueList = new Object[]{

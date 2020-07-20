@@ -87,7 +87,6 @@ public class MICRController extends CommonController {
         String foreverSymbol = new TimeoutValues().getSymbol(JposConst.JPOS_FOREVER);
         BI_timeout.getItems().add(foreverSymbol);
         BR_timeout.getItems().add(foreverSymbol);
-        ErrorCodeExtendedValueConverter = new ErrorCodeExtendedValues();
         updateGui();
     }
 
