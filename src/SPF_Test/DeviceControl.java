@@ -184,15 +184,27 @@ public class DeviceControl {
                         } else if (category.equals("FiscalPrinter")) {
                             actdev.Control = new FiscalPrinter();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("FiscalPrinter.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("Gate")) {
+                            actdev.Control = new Gate();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("Gate.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("ItemDispenser")) {
+                            actdev.Control = new ItemDispenser();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("ItemDispenser.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("Keylock")) {
                             actdev.Control = new Keylock();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("Keylock.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("Lights")) {
+                            actdev.Control = new Lights();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("Lights.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("LineDisplay")) {
                             actdev.Control = new LineDisplay();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("LineDisplay.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("MICR")) {
                             actdev.Control = new MICR();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("MICR.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("MotionSensor")) {
+                            actdev.Control = new MotionSensor();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("MotionSensor.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("MSR")) {
                             actdev.Control = new MSR();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("MSR.fxml"), new DeviceResources(actdev));
@@ -211,6 +223,9 @@ public class DeviceControl {
                         } else if (category.equals("Scanner")) {
                             actdev.Control = new Scanner();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("Scanner.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("SignatureCapture")) {
+                            actdev.Control = new SignatureCapture();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("SignatureCapture.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("ToneIndicator")) {
                             actdev.Control = new ToneIndicator();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("ToneIndicator.fxml"), new DeviceResources(actdev));

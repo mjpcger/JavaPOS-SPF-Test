@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.canvas.Canvas?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="SPF_Test.SignatureCaptureController"
+            prefHeight="540.0" prefWidth="980.0">
+    <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutX="0" layoutY="5" onAction="#setDeviceEnabled"/>
+    <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="110" layoutY="5" onAction="#setFreezeEvents"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="210" layoutY="0" editable="true" onAction="#setPowerNotify"/>
+    <Label text="PowerNotify" layoutX="360" layoutY="5"/>
+    <ComboBox fx:id="ByteArrayConversion" layoutX="435" layoutY="0" promptText="ByteConversion" onAction="#setByteConversion"/>
+    <CheckBox fx:id="DataEventEnabled" text="DataEventEnabled" layoutX="580" layoutY="0" onAction="#setDataEventEnabled"/>
+    <CheckBox fx:id="AutoDisable" text="AutoDisable" layoutX="710" layoutY="0" onAction="#setAutoDisable"/>
+    <CheckBox fx:id="RealTimeDataEnabled" text="RealTimeDataEnabled" layoutX="810" layoutY="0" onAction="#setRealTimeDataEnabled"/>
+    <TableView fx:id="Properties" layoutX="570" layoutY="19" prefWidth="410" prefHeight="115"/>
+    <Button text="Open" layoutX="0" layoutY="35" onAction="#open" prefWidth="70"/>
+    <Button text="Claim" layoutX="80" layoutY="35" onAction="#claim" prefWidth="70"/>
+    <ComboBox fx:id="claim_timeout" prefWidth="70" layoutX="80" layoutY="60" promptText="timeout" editable="true"/>
+    <Button text="Release" layoutX="160" layoutY="35" onAction="#release" prefWidth="70"/>
+    <Button text="Close" layoutX="240" layoutY="35" onAction="#close" prefWidth="70"/>
+    <Button text="CheckHealth" layoutX="320" layoutY="35" onAction="#checkHealth" prefWidth="90"/>
+    <ComboBox fx:id="CH_level" prefWidth="90" layoutX="320" layoutY="60" promptText="level" editable="true"/>
+    <Button text="DirectIO" layoutX="420" layoutY="35" onAction="#directIO" prefWidth="140"/>
+    <TextField fx:id="DIO_command" prefWidth="70" layoutX="420" layoutY="60" promptText="command"/>
+    <TextField fx:id="DIO_data" prefWidth="70" layoutX="490" layoutY="60" promptText="data"/>
+    <TextField fx:id="DIO_obj" prefWidth="140" layoutX="420" layoutY="85" promptText="obj"/>
+    <Button text="ClearInput" layoutX="0" layoutY="95" onAction="#clearInput" prefWidth="150"/>
+    <Button text="ClearInputProperties" layoutX="160" layoutY="95" onAction="#clearInputProperties" prefWidth="150"/>
+    <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
+    <TabPane layoutX="0" layoutY="135" prefWidth="695" prefHeight="120" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Specific Methods">
+            <AnchorPane prefHeight="105" prefWidth="695">
+                <Button onAction="#beginCapture" layoutX="0" layoutY="20" text="BeginCapture" prefWidth="150"/>
+                <TextField fx:id="BC_formName" layoutX="0" layoutY="45" promptText="formName" prefWidth="150"/>
+                <Button onAction="#endCapture" layoutX="160" layoutY="20" text="EndCapture" prefWidth="150"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Maintenance Methods">
+            <AnchorPane prefHeight="105" prefWidth="695">
+                <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
+                <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button styleClass="SmallFont" onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
+                <TextField fx:id="CFV_result" layoutX="0" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
+                <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
+                <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button styleClass="SmallFont" onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
+                <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
+                <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
+                <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
+                <TextArea fx:id="_statisticsBuffer" layoutX="330" layoutY="30" prefWidth="350" prefHeight="75" promptText="statisticsBuffer"/>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+    <Label text="Captured Signature" layoutY="265" layoutX="0" prefWidth="680" underline="true" alignment="CENTER"/>
+    <Canvas fx:id="PointArray" layoutX="0" layoutY="285" height="240" width="680"/>
+    <Label text="Events" layoutY="145" layoutX="700" prefWidth="280" underline="true" alignment="CENTER"/>
+    <TextArea fx:id="EventOutput" layoutX="700" layoutY="170" prefWidth="280" prefHeight="365"/>
+</AnchorPane>
