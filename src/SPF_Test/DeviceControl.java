@@ -211,6 +211,9 @@ public class DeviceControl {
                         } else if (category.equals("POSKeyboard")) {
                             actdev.Control = new POSKeyboard();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("POSKeyboard.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("POSPower")) {
+                            actdev.Control = new POSPower();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("POSPower.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("POSPrinter")) {
                             actdev.Control = new POSPrinter();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("POSPrinter.fxml"), new DeviceResources(actdev));
