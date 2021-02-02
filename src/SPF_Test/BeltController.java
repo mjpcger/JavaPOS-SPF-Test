@@ -190,39 +190,47 @@ public class BeltController extends CommonController {
     }
 
     public void autoStopForward(ActionEvent actionEvent) {
-        try {
-            TheBelt.setAutoStopForward(AutoStopForward.isSelected());
-        } catch (JposException e) {
-            getFullErrorMessageAndPrintTrace(e);
+        if (!InUpdateGui) {
+            try {
+                TheBelt.setAutoStopForward(AutoStopForward.isSelected());
+            } catch (JposException e) {
+                getFullErrorMessageAndPrintTrace(e);
+            }
+            updateGui();
         }
-        updateGui();
     }
 
     public void autoStopForwardDelayTime(ActionEvent actionEvent) {
-        try {
-            TheBelt.setAutoStopForwardDelayTime(AutoStopForwardDelayTimeRow.getValueConverter().getInteger(AutoStopForwardDelayTime.getValue()));
-        } catch (JposException e) {
-            getFullErrorMessageAndPrintTrace(e);
+        if (!InUpdateGui) {
+            try {
+                TheBelt.setAutoStopForwardDelayTime(AutoStopForwardDelayTimeRow.getValueConverter().getInteger(AutoStopForwardDelayTime.getValue()));
+            } catch (JposException e) {
+                getFullErrorMessageAndPrintTrace(e);
+            }
+            updateGui();
         }
-        updateGui();
     }
 
     public void autoStopBackward(ActionEvent actionEvent) {
-        try {
-            TheBelt.setAutoStopBackward(AutoStopBackward.isSelected());
-        } catch (JposException e) {
-            getFullErrorMessageAndPrintTrace(e);
+        if (!InUpdateGui) {
+            try {
+                TheBelt.setAutoStopBackward(AutoStopBackward.isSelected());
+            } catch (JposException e) {
+                getFullErrorMessageAndPrintTrace(e);
+            }
+            updateGui();
         }
-        updateGui();
     }
 
     public void autoStopBackwardDelayTime(ActionEvent actionEvent) {
-        try {
-            TheBelt.setAutoStopBackwardDelayTime(AutoStopBackwardDelayTimeRow.getValueConverter().getInteger(AutoStopBackwardDelayTime.getValue()));
-        } catch (JposException e) {
-            getFullErrorMessageAndPrintTrace(e);
+        if (!InUpdateGui) {
+            try {
+                TheBelt.setAutoStopBackwardDelayTime(AutoStopBackwardDelayTimeRow.getValueConverter().getInteger(AutoStopBackwardDelayTime.getValue()));
+            } catch (JposException e) {
+                getFullErrorMessageAndPrintTrace(e);
+            }
+            updateGui();
         }
-        updateGui();
     }
 
     public void adjustItemCount(ActionEvent actionEvent) {
