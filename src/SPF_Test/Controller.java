@@ -47,10 +47,10 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DeviceControl.loadDevices("jpos.xml", this);
-        ArrayList<String> caterories = DeviceControl.getCategories();
-        Collections.sort(caterories);
-        DeviceCategory.setItems(FXCollections.observableList(caterories));
-        DeviceCategory.setVisibleRowCount(caterories.size());
+        ArrayList<String> categories = DeviceControl.getCategories();
+        Collections.sort(categories);
+        DeviceCategory.setItems(FXCollections.observableList(categories));
+        DeviceCategory.setVisibleRowCount(categories.size());
         DeviceCategory.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
