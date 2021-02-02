@@ -169,15 +169,27 @@ public class DeviceControl {
                         if (category.equals("Belt")) {
                             actdev.Control = new Belt();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("Belt.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("BillAcceptor")) {
+                            actdev.Control = new BillAcceptor();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("BillAcceptor.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("BillDispenser")) {
+                            actdev.Control = new BillDispenser();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("BillDispenser.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("BumpBar")) {
                             actdev.Control = new BumpBar();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("BumpBar.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("CashChanger")) {
+                            actdev.Control = new CashChanger();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("CashChanger.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("CashDrawer")) {
                             actdev.Control = new CashDrawer();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("CashDrawer.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("CAT")) {
                             actdev.Control = new CAT();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("CAT.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("CoinAcceptor")) {
+                            actdev.Control = new CoinAcceptor();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("CoinAcceptor.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("CoinDispenser")) {
                             actdev.Control = new CoinDispenser();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("CoinDispenser.fxml"), new DeviceResources(actdev));

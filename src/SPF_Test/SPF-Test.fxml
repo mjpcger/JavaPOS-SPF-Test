@@ -39,15 +39,18 @@
         <Label styleClass="LargeFont" layoutX="0" layoutY="50" text="JavaPOS-SPF Test Program" prefWidth="990" alignment="CENTER"/>
         <Label layoutX="20" layoutY="90" text="Welcome to the JavaPOS-SPF test program. Even if designed to test JavaPOS services,
  it can be used to test any JavaPOS service supported by this program."/>
-        <Label layoutX="20" layoutY="120" text="The following device classes are currently supported: CashDrawer, CAT, CoinDispenser,
- ElectronicJournal, FiscalPrinter, Keylock, LineDisplay, MICR, MSR, POSKeyboard, POSPrinter,"/>
-        <Label layoutX="20" layoutY="140" text="RemoteOrderDisplay, Scale, Scanner and ToneIndicator."/>
-        <Label layoutX="20" layoutY="170" text="To integrate a service into the test program, follow these steps:"/>
-        <Label layoutX="40" layoutY="190" text="● Add the necessary entries to jpos.xml, located in the working directory of the test program."/>
-        <Label layoutX="40" layoutY="210" text="● Add the necessary jar files to the classpath. You can adjust the startup script to do this."/>
-        <Label layoutX="20" layoutY="240" text="To start a test, select a device category and one of the corresponding devices. All supported devices configured in jpos.xml
+        <Label layoutX="20" layoutY="120" text="The following device classes are currently supported:"/>
+        <Label layoutX="20" layoutY="150" wrapText="true" prefWidth="950" text="Belt, BillAcceptor, BillDispenser, BumpBar, CashChanger, CashDrawer, CAT, CoinAcceptor, CoinDispenser, ElectronicJournal, FiscalPrinter,
+ Gate, ItemDispenser, Keylock, Lights, LineDisplay, MICR, MotionSensor, MSR, POSKeyboard, POSPower, POSPrinter, RemoteOrderDisplay,
+ Scale, Scanner, SignatureCapture and ToneIndicator."/>
+
+        <Label layoutX="20" layoutY="200" text="To integrate a service into the test program, follow these steps:"/>
+        <Label layoutX="40" layoutY="230" text="● Add the necessary entries to jpos.xml, located in the working directory of the test program."/>
+        <Label layoutX="40" layoutY="250" text="● Add the necessary jar files to the classpath. You can adjust the startup script to do this."/>
+        <Label layoutX="20" layoutY="280" text="To start a test, select a device category and one of the corresponding devices. All supported devices configured in jpos.xml
  are available via these two steps."/>
-        <Label layoutX="20" layoutY="280" text="Good luck!"/>
+        <Label layoutX="20" layoutY="340" text="Good luck!"/>
+
       </AnchorPane>
     </Pane>
   </children>
