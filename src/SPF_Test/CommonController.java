@@ -16,7 +16,7 @@
 
 package SPF_Test;
 
-import de.gmxhome.conrad.jpos.jpos_base.JposErrorEvent;
+import de.gmxhome.conrad.jpos.jpos_base.*;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -913,7 +913,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
                         }
                     } else
                         row.setValue(row.getValueConverter() == null ? o.toString() : row.getValueConverter().getSymbol((int) o));
-                } catch (Exception e) {
+                } catch (Throwable e) {
                     if (e instanceof InvocationTargetException && !(((InvocationTargetException) e).getTargetException() instanceof JposException))
                         e.printStackTrace();
                     row.setValue("");
@@ -1048,6 +1048,8 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     String getLogString(DataEvent event) {
+        if (event instanceof JposDataEvent)
+            return ((JposDataEvent) event).toLogString();
         return DataEventStatusValueConverter.getSymbol(event.getStatus());
     }
 
@@ -1067,6 +1069,8 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     String getLogString(DirectIOEvent event) {
+        if (event instanceof JposDirectIOEvent)
+            return ((JposDirectIOEvent) event).toLogString();
         String add = event.getEventNumber() + " - " + event.getData() + ":";
         String[] object = event.getObject().toString().split("\n");
         for (String line : object) {
@@ -1097,17 +1101,19 @@ public class CommonController implements Initializable, Runnable, DataListener, 
 
     Values ErrorCodeExtendedValueConverter = new IntValues();
 
-    String getLogString(ErrorEvent errorEvent) {
-        String errorcodes = new ErrorLocusValues().getSymbol(errorEvent.getErrorLocus());
-        errorcodes += " - " + new ErrorCodeValues().getSymbol(errorEvent.getErrorCode());
-        if (errorEvent.getErrorCodeExtended() != 0) {
-            if (errorEvent.getErrorCode() == JposConst.JPOS_E_EXTENDED)
-                errorcodes += " - " + ErrorCodeExtendedValueConverter.getSymbol(errorEvent.getErrorCodeExtended());
+    String getLogString(ErrorEvent event) {
+        if (event instanceof JposErrorEvent)
+            return ((JposErrorEvent) event).toLogString();
+        String errorcodes = new ErrorLocusValues().getSymbol(event.getErrorLocus());
+        errorcodes += " - " + new ErrorCodeValues().getSymbol(event.getErrorCode());
+        if (event.getErrorCodeExtended() != 0) {
+            if (event.getErrorCode() == JposConst.JPOS_E_EXTENDED)
+                errorcodes += " - " + ErrorCodeExtendedValueConverter.getSymbol(event.getErrorCodeExtended());
             else
-                errorcodes += " - " + errorEvent.getErrorCodeExtended();
+                errorcodes += " - " + event.getErrorCodeExtended();
         }
-        if (errorEvent instanceof JposErrorEvent && !((JposErrorEvent)errorEvent).Message.equals(""))
-            errorcodes += "\n   " + ((JposErrorEvent)errorEvent).Message;
+        if (event instanceof JposErrorEvent && !((JposErrorEvent)event).Message.equals(""))
+            errorcodes += "\n   " + ((JposErrorEvent)event).Message;
         return errorcodes;
     }
 
@@ -1136,6 +1142,8 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     String getLogString(OutputCompleteEvent event) {
+        if (event instanceof JposOutputCompleteEvent)
+            return ((JposOutputCompleteEvent) event).toLogString();
         return "ID = " + event.getOutputID();
     }
 
@@ -1157,6 +1165,8 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     String getLogString(StatusUpdateEvent event) {
+        if (event instanceof JposStatusUpdateEvent)
+            return ((JposStatusUpdateEvent) event).toLogString();
         String symbol = StatusUpdateEventStatusValueConverter.getSymbol(event.getStatus());
         return symbol.substring(symbol.indexOf("SUE_") == 0 ? 4 : 0);
     }
@@ -1168,7 +1178,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             InExceptionHandling = true;
             String message = getFullErrorMessageAndPrintTrace(e);
             InExceptionHandling = false;
-            JOptionPane.showMessageDialog(null, message);
+             JOptionPane.showMessageDialog(null, message);
             return message;
         } else {
             if (e instanceof InvocationTargetException)

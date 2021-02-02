@@ -394,7 +394,6 @@ public class RemoteOrderDisplayController extends CommonController {
     private PropertyTableRow MapCharacterSetRow;
     private PropertyTableRow TimeoutRow;
     private PropertyTableRow VideoModeRow;
-    private PropertyTableRow VideoModesListRow;
     private PropertyTableRow ErrorUnitsRow;
     private PropertyTableRow EventUnitsRow;
     private PropertyTableRow CharacterSetListRow;
@@ -464,7 +463,7 @@ public class RemoteOrderDisplayController extends CommonController {
         Properties.getItems().add(new PropertyTableRow("SystemVideoSaveBuffers", ""));
         Properties.getItems().add(TimeoutRow = new PropertyTableRow("Timeout", ""));
         Properties.getItems().add(VideoModeRow = new PropertyTableRow("VideoMode", "", new Values()));
-        Properties.getItems().add(VideoModesListRow = new PropertyTableRow("VideoModesList", ""));
+        Properties.getItems().add(new PropertyTableRow("VideoModesList", ""));
         Properties.getItems().add(new PropertyTableRow("VideoSaveBuffers", ""));
         Properties.getItems().add(new PropertyTableRow("DeviceServiceDescription", ""));
         Properties.getItems().add(new PropertyTableRow("DeviceServiceVersion", ""));
