@@ -26,6 +26,8 @@ for /R %%i in (jfxrt.jar) do @if exist %%i set internalfx=%%i
 if "%internalfx%"=="" for /R %%i in (javafx-swt.jar) do @if exist %%i set internalfx=%%i
 popd
 
+set classpath=%cd%
+
 if not "%internalfx%"=="" goto :JavaWithFX
 if not "%JFX_HOME%"=="" goto :FXPresent
 	echo JFX_HOME (path to current JavaFX installation) not set.
@@ -33,7 +35,7 @@ if not "%JFX_HOME%"=="" goto :FXPresent
 
 :FXPresent
 
-set classpath=%JFX_HOME%\lib\javafx.base.jar
+set classpath=%classpath%;%JFX_HOME%\lib\javafx.base.jar
 set classpath=%classpath%;%JFX_HOME%\lib\javafx.controls.jar
 set classpath=%classpath%;%JFX_HOME%\lib\javafx.fxml.jar
 set classpath=%classpath%;%JFX_HOME%\lib\javafx.graphics.jar
@@ -43,7 +45,7 @@ set classpath=%classpath%;%JFX_HOME%\lib\javafx.web.jar
 set classpath=%classpath%;%JFX_HOME%\lib\javafx-swt.jar
 
 set VM_Flags=--module-path %JFX_HOME%\lib --add-modules=javafx.controls,javafx.fxml
-goto :CheckConfiguration
+goto :AddExternals
 
 :JavaWithFX
 
