@@ -175,6 +175,9 @@ public class DeviceControl {
                         } else if (category.equals("BillDispenser")) {
                             actdev.Control = new BillDispenser();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("BillDispenser.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("Biometrics")) {
+                            actdev.Control = new Biometrics();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("Biometrics.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("BumpBar")) {
                             actdev.Control = new BumpBar();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("BumpBar.fxml"), new DeviceResources(actdev));
