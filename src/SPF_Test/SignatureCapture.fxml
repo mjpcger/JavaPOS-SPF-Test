@@ -63,11 +63,11 @@
             <AnchorPane prefHeight="105" prefWidth="695">
                 <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
                 <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
-                <Button styleClass="SmallFont" onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="FileButton" onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" prefWidth="25"/>
                 <TextField fx:id="CFV_result" layoutX="0" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
                 <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
                 <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
-                <Button styleClass="SmallFont" onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" prefHeight="25" prefWidth="25"/>
+                <Button styleClass="FileButton" onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" prefWidth="25"/>
                 <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
                 <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
                 <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
