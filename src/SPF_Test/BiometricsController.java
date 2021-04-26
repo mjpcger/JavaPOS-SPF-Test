@@ -341,8 +341,6 @@ public class BiometricsController extends CommonController {
                 RandomAccessFile source = new RandomAccessFile(filename, "rw");
                 try {
                     source.write(data);
-                } catch (Exception e) {
-                    throw e;
                 } finally {
                     source.close();
                 }
