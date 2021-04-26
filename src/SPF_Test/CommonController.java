@@ -308,8 +308,8 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         });
     }
 
-    void setPropertyOnFocusLost(TextField Tone2Volume, String propertyname) {
-        Tone2Volume.focusedProperty().addListener((ov, oldv, newv) -> {
+    void setPropertyOnFocusLost(TextInputControl field, String propertyname) {
+        field.focusedProperty().addListener((ov, oldv, newv) -> {
             if (!newv) {
                 try {
                     Method setProperty = Class.forName(this.getClass().getName()).getMethod("set" + propertyname, ActionEvent.class);
