@@ -18,12 +18,10 @@ package SPF_Test;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import jpos.JposConst;
-import jpos.JposException;
+import jpos.*;
 
 /**
  * Main application.
@@ -45,6 +43,7 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         try {
+            test();
             launch(args);
         } catch (Throwable e) {
             e.printStackTrace();
@@ -59,5 +58,11 @@ public class Main extends Application {
                 }
             }
         }
+    }
+
+    /**
+     * Insert stuff for later use, to test how it works
+     */
+    static private void test() {
     }
 }
