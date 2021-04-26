@@ -190,6 +190,9 @@ public class DeviceControl {
                         } else if (category.equals("CAT")) {
                             actdev.Control = new CAT();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("CAT.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("CheckScanner")) {
+                            actdev.Control = new CheckScanner();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("CheckScanner.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("CoinAcceptor")) {
                             actdev.Control = new CoinAcceptor();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("CoinAcceptor.fxml"), new DeviceResources(actdev));
