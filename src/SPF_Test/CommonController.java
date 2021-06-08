@@ -52,6 +52,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     public CheckBox FreezeEvents;
     public CheckBox DataEventEnabled;
     public CheckBox AsyncMode;
+    public Label    DataCount;
 
     /**
      * Converter class for values of PowerNotify property.
@@ -337,10 +338,56 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         updateGui();
     }
 
+    private class DataCountUpdater extends Thread {
+        SyncObject CheckWaiter = new SyncObject();
+
+        DataCountUpdater() {
+            setName("DataCountUpdater");
+            start();
+        }
+
+        @Override
+        public void run() {
+            long timeout = SyncObject.INFINITE;
+            while (Control.getState() != JposConst.JPOS_S_CLOSED) {
+                CheckWaiter.suspend(timeout);
+                try {
+                    timeout = Control.getDeviceEnabled() ? 100 : SyncObject.INFINITE;
+                } catch (JposException e) {
+                    timeout = SyncObject.INFINITE;
+                }
+                final long tio = timeout;
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            if (tio > 0) {
+                                Method getDataCount = Class.forName(Control.getClass().getName()).getMethod("getDataCount");
+                                DataCount.setText("DataCount: " + (Integer) getDataCount.invoke(Control));
+                            }
+                        } catch (Exception e) {
+                            DataCount.setText("");
+                        }
+                        int i = JposConst.JPOS_EL_INPUT_DATA; // 3
+                        i = JposConst.JPOS_EL_INPUT; // 2
+                        i = JposConst.JPOS_EL_OUTPUT; // 1
+                        i = JposConst.JPOS_ER_CONTINUEINPUT; // 13
+                        i = JposConst.JPOS_ER_CLEAR; // 12
+                        i = JposConst.JPOS_ER_RETRY; // 11
+                    }
+                });
+            }
+        }
+    }
+
+    private DataCountUpdater TheDataCountUpdater;
+
     @FXML
     public void setDeviceEnabled(ActionEvent actionEvent) {
         try {
             Control.setDeviceEnabled(DeviceEnabled.isSelected());
+            if (DataCount != null)
+                TheDataCountUpdater.CheckWaiter.signal();
         } catch (JposException e) {
             getFullErrorMessageAndPrintTrace(e);
         }
@@ -386,6 +433,8 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         try {
             Method setDataEventEnabled = Class.forName(Control.getClass().getName()).getMethod("setDataEventEnabled", Boolean.TYPE);
             setDataEventEnabled.invoke(Control, DataEventEnabled.isSelected());
+            if (TheDataCountUpdater != null)
+                TheDataCountUpdater.CheckWaiter.signal();
         } catch (Exception e) {
             getFullErrorMessageAndPrintTrace(e);
         }
@@ -396,6 +445,8 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     public void open(ActionEvent actionEvent) {
         try {
             Control.open(LogicalDeviceName);
+            if (DataCount != null)
+                TheDataCountUpdater = new DataCountUpdater();
         } catch (JposException e) {
             getFullErrorMessageAndPrintTrace(e);
         }
@@ -406,6 +457,8 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     public void close(ActionEvent actionEvent) {
         try {
             Control.close();
+            if (DataCount != null)
+                TheDataCountUpdater.CheckWaiter.signal();
         } catch (JposException e) {
             getFullErrorMessageAndPrintTrace(e);
         }
@@ -1091,6 +1144,8 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         int doit = JOptionPane.showOptionDialog(null, "Error occurred:\n" + message + "\nClear error?", "Processing Error",JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
         if (doit == JOptionPane.YES_OPTION)
             errorEvent.setErrorResponse(JposConst.JPOS_ER_CLEAR);
+        else if (doit == JOptionPane.NO_OPTION && errorEvent.getErrorLocus() != JposConst.JPOS_EL_INPUT_DATA)
+            errorEvent.setErrorResponse(JposConst.JPOS_ER_RETRY);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
