@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  ~ Copyright 2021 Martin Conrad
+  ~ <p>
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ <p>
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ <p>
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<?import javafx.scene.shape.Line?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="SPF_Test.ImageScannerController"
+            prefHeight="540.0" prefWidth="980.0">
+    <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutX="0" layoutY="5" onAction="#setDeviceEnabled"/>
+    <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="110" layoutY="5" onAction="#setFreezeEvents"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="210" layoutY="0" editable="true" onAction="#setPowerNotify"/>
+    <Label text="PowerNotify" layoutX="360" layoutY="5"/>
+    <ComboBox fx:id="ByteArrayConversion" layoutX="435" layoutY="0" promptText="ByteConversion" onAction="#setByteConversion"/>
+    <CheckBox fx:id="DataEventEnabled" text="DataEventEnabled" layoutX="570" layoutY="0" onAction="#setDataEventEnabled"/>
+    <CheckBox fx:id="AutoDisable" text="AutoDisable" layoutX="700" layoutY="0" onAction="#setAutoDisable"/>
+    <CheckBox fx:id="AimMode" text="AimMode" layoutX="800" layoutY="0" onAction="#setAimMode"/>
+    <CheckBox fx:id="IlluminateMode" text="IlluminateMode" layoutX="885" layoutY="0" onAction="#setIlluminateMode"/>
+    <TableView fx:id="Properties" layoutX="570" layoutY="19" prefWidth="410" prefHeight="115"/>
+    <Button text="Open" layoutX="0" layoutY="35" onAction="#open" prefWidth="70"/>
+    <Button text="Claim" layoutX="80" layoutY="35" onAction="#claim" prefWidth="70"/>
+    <ComboBox fx:id="claim_timeout" prefWidth="70" layoutX="80" layoutY="60" promptText="timeout" editable="true"/>
+    <Button text="Release" layoutX="160" layoutY="35" onAction="#release" prefWidth="70"/>
+    <Button text="Close" layoutX="240" layoutY="35" onAction="#close" prefWidth="70"/>
+    <Button text="CheckHealth" layoutX="320" layoutY="35" onAction="#checkHealth" prefWidth="90"/>
+    <ComboBox fx:id="CH_level" prefWidth="90" layoutX="320" layoutY="60" promptText="level" editable="true"/>
+    <Button text="DirectIO" layoutX="420" layoutY="35" onAction="#directIO" prefWidth="140"/>
+    <TextField fx:id="DIO_command" prefWidth="70" layoutX="420" layoutY="60" promptText="command"/>
+    <TextField fx:id="DIO_data" prefWidth="70" layoutX="490" layoutY="60" promptText="data"/>
+    <TextField fx:id="DIO_obj" prefWidth="140" layoutX="420" layoutY="85" promptText="obj"/>
+    <Button text="ClearInput" layoutX="0" layoutY="95" onAction="#clearInput" prefWidth="150"/>
+    <Button text="ClearInputProperties" layoutX="160" layoutY="95" onAction="#clearInputProperties" prefWidth="150"/>
+    <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
+    <TabPane layoutX="0" layoutY="135" prefWidth="695" prefHeight="405" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="ImageScanner Properties, Methods and Maintenance Methods">
+            <AnchorPane prefHeight="610" prefWidth="695">
+                <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
+                <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button styleClass="FileButton" onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" prefWidth="25"/>
+                <TextField fx:id="CFV_result" layoutX="0" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
+                <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
+                <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button styleClass="FileButton" onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" prefWidth="25"/>
+                <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
+                <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
+                <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
+                <TextArea fx:id="_statisticsBuffer" layoutX="330" layoutY="30" prefWidth="350" prefHeight="75" promptText="statisticsBuffer"/>
+                <Label styleClass="BoldFont" text="Changeable Properties and Methods" layoutX="0" layoutY="115" prefWidth="300" alignment="CENTER" underline="true"/>
+                <Pane layoutX="0" layoutY="150" prefWidth="300" prefHeight="170">
+                    <Label text="ImageMode:" layoutX="0" layoutY="5" prefWidth="80" alignment="CENTER_RIGHT"/>
+                    <ComboBox fx:id="ImageMode" layoutX="85" layoutY="0" onAction="#setImageMode" editable="true" prefWidth="150"/>
+                    <Label text="ImageQuality:" layoutX="0" layoutY="30" prefWidth="80" alignment="CENTER_RIGHT"/>
+                    <ComboBox fx:id="ImageQuality" layoutX="85" layoutY="25" onAction="#setImageQuality" editable="true" prefWidth="150"/>
+                    <Label text="VideoCount:" layoutX="0" layoutY="55" prefWidth="80" alignment="CENTER_RIGHT"/>
+                    <TextField fx:id="VideoCount" layoutX="85" layoutY="50" prefWidth="150"/>
+                    <Label text="VideoRate:" layoutX="0" layoutY="80" prefWidth="80" alignment="CENTER_RIGHT"/>
+                    <TextField fx:id="VideoRate" layoutX="85" layoutY="75" prefWidth="150"/>
+                    <Button text="StartSession" layoutX="10" layoutY="130" onAction="#startSession" prefWidth="110"/>
+                    <Button text="StopSession" layoutX="130" layoutY="130" onAction="#stopSession" prefWidth="110"/>
+                </Pane>
+                <Label styleClass="BoldFont" text="Read-Only Properties" layoutX="310" layoutY="115" prefWidth="300" alignment="CENTER" underline="true"/>
+                <Pane layoutX="310" layoutY="145" prefWidth="300" prefHeight="170">
+                    <Label text="BitsPerPixel:" layoutX="0" layoutY="5" prefWidth="80" alignment="CENTER_RIGHT"/>
+                    <Label fx:id="BitsPerPixel" layoutX="85" layoutY="5"/>
+                    <Label text="FrameType:" layoutX="0" layoutY="30" prefWidth="80" alignment="CENTER_RIGHT"/>
+                    <Label fx:id="FrameType" layoutX="85" layoutY="30"/>
+                    <Label text="ImageType:" layoutX="0" layoutY="55" prefWidth="80" alignment="CENTER_RIGHT"/>
+                    <Label fx:id="ImageType" layoutX="85" layoutY="55"/>
+                    <Label text="ImageHeight:" layoutX="0" layoutY="80" prefWidth="80" alignment="CENTER_RIGHT"/>
+                    <Label fx:id="ImageHeight" layoutX="85" layoutY="80"/>
+                    <Label text="ImageWidth:" layoutX="0" layoutY="105" prefWidth="80" alignment="CENTER_RIGHT"/>
+                    <Label fx:id="ImageWidth" layoutX="85" layoutY="105"/>
+                    <Label text="ImageLength:" layoutX="0" layoutY="130" prefWidth="80" alignment="CENTER_RIGHT"/>
+                    <Label fx:id="ImageLength" layoutX="85" layoutY="130"/>
+                </Pane>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+    <Label fx:id="DataCount" layoutX="700" layoutY="145"/>
+    <Label text="Events" layoutY="140" layoutX="700" prefWidth="280" underline="true" alignment="CENTER"/>
+    <TextArea fx:id="EventOutput" layoutX="700" layoutY="165" prefWidth="280" prefHeight="370"/>
+</AnchorPane>

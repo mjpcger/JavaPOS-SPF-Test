@@ -208,6 +208,9 @@ public class DeviceControl {
                         } else if (category.equals("Gate")) {
                             actdev.Control = new Gate();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("Gate.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("ImageScanner")) {
+                            actdev.Control = new ImageScanner();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("ImageScanner.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("ItemDispenser")) {
                             actdev.Control = new ItemDispenser();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("ItemDispenser.fxml"), new DeviceResources(actdev));
