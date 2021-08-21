@@ -26,6 +26,7 @@ import jpos.*;
 import jpos.events.*;
 
 import javax.swing.*;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.Arrays;
@@ -195,6 +196,12 @@ public class FiscalPrinterController extends CommonController {
     private PropertyTableRow TrainingModeActiveRow;
     private PropertyTableRow CapHasVatTableRow;
 
+    private Integer CC_GERMANY;
+    private Integer DT_TICKET_START;
+    private Integer DT_TICKET_END;
+
+    static class MyConstants implements FiscalPrinterConst {}
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         PropertyNameColumnWidth = 165;
@@ -204,6 +211,14 @@ public class FiscalPrinterController extends CommonController {
         ThePrinter = (FiscalPrinter) Control;
         ThePrinter.addDirectIOListener(this);
         ThePrinter.addStatusUpdateListener(this);
+        // Workaround to support UPOS 1.14 control
+        try {
+            CC_GERMANY = MyConstants.class.getField("FPTR_CC_GERMANY").getInt(null);
+            DT_TICKET_START = MyConstants.class.getField("FPTR_DT_TICKET_START").getInt(null);
+            DT_TICKET_END = MyConstants.class.getField("FPTR_DT_TICKET_END").getInt(null);
+        } catch (Exception e) {
+            CC_GERMANY = DT_TICKET_START = DT_TICKET_END = null;
+        }
         StatusUpdateEventStatusValueConverter = new PrtStatusUpdateValues();
         ThePrinter.addErrorListener(this);
         ThePrinter.addOutputCompleteListener(this);
@@ -2253,6 +2268,11 @@ public class FiscalPrinterController extends CommonController {
                     FiscalPrinterConst.FPTR_CC_UKRAINE, "CC_UKRAINE",
                     FiscalPrinterConst.FPTR_CC_OTHER, "CC_OTHER"
             };
+            if (CC_GERMANY != null) {
+                ValueList = Arrays.copyOf(ValueList, ValueList.length + 2);
+                ValueList[ValueList.length - 2] = CC_GERMANY;
+                ValueList[ValueList.length - 1] = "CC_GERMANY";
+            }
         }
     }
 
@@ -2266,6 +2286,13 @@ public class FiscalPrinterController extends CommonController {
                     FiscalPrinterConst.FPTR_DT_VAT, "DT_VAT",
                     FiscalPrinterConst.FPTR_DT_START, "DT_START"
             };
+            if (DT_TICKET_START != null && DT_TICKET_END != null) {
+                ValueList = Arrays.copyOf(ValueList, ValueList.length + 4);
+                ValueList[ValueList.length - 4] = DT_TICKET_START;
+                ValueList[ValueList.length - 3] = "DT_TICKET_START";
+                ValueList[ValueList.length - 2] = DT_TICKET_END;
+                ValueList[ValueList.length - 1] = "DT_TICKET_END";
+            }
         }
     }
 
