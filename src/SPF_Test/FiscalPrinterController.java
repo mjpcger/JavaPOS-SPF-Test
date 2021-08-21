@@ -200,7 +200,7 @@ public class FiscalPrinterController extends CommonController {
     private Integer DT_TICKET_START;
     private Integer DT_TICKET_END;
 
-    static class MyConstants implements FiscalPrinterConst {}
+    private static class MyConstants implements FiscalPrinterConst {}
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
