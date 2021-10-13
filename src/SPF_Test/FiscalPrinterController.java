@@ -16,6 +16,8 @@
 
 package SPF_Test;
 
+import de.gmxhome.conrad.jpos.jpos_base.JposBase;
+import de.gmxhome.conrad.jpos.jpos_base.fiscalprinter.FiscalPrinterService;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -23,10 +25,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import jpos.*;
-import jpos.events.*;
+import jpos.events.StatusUpdateEvent;
 
 import javax.swing.*;
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.Arrays;
@@ -196,9 +197,18 @@ public class FiscalPrinterController extends CommonController {
     private PropertyTableRow TrainingModeActiveRow;
     private PropertyTableRow CapHasVatTableRow;
 
+    //  UPOS 1.15
     private Integer CC_GERMANY;
     private Integer DT_TICKET_START;
     private Integer DT_TICKET_END;
+
+    // Missing in Javapos 1.14
+    private Integer AT_DISCOUNT;
+    private Integer AT_SURCHARGE;
+    private Integer AC_SEK;
+    private Integer CC_SWEDEN;
+    private Integer S_JOURNAL_SLIP;
+    private Integer S_RECEIPT_SLIP;
 
     private static class MyConstants implements FiscalPrinterConst {}
 
@@ -211,6 +221,17 @@ public class FiscalPrinterController extends CommonController {
         ThePrinter = (FiscalPrinter) Control;
         ThePrinter.addDirectIOListener(this);
         ThePrinter.addStatusUpdateListener(this);
+        // Workaround to support erroneous 1.14 framework
+        try {
+            AT_DISCOUNT = MyConstants.class.getField("FPTR_AT_DISCOUNT").getInt(null);
+            AT_SURCHARGE = MyConstants.class.getField("FPTR_AT_SURCHARGE").getInt(null);
+            AC_SEK = MyConstants.class.getField("FPTR_AC_SEK").getInt(null);
+            CC_SWEDEN = MyConstants.class.getField("FPTR_CC_SWEDEN").getInt(null);
+            S_JOURNAL_SLIP = MyConstants.class.getField("FPTR_S_JOURNAL_SLIP").getInt(null);
+            S_RECEIPT_SLIP = MyConstants.class.getField("FPTR_S_RECEIPT_SLIP").getInt(null);
+        } catch (Exception e) {
+            AT_DISCOUNT = AT_SURCHARGE = AC_SEK = CC_SWEDEN = S_JOURNAL_SLIP = S_RECEIPT_SLIP = null;
+        }
         // Workaround to support UPOS 1.14 control
         try {
             CC_GERMANY = MyConstants.class.getField("FPTR_CC_GERMANY").getInt(null);
@@ -457,6 +478,16 @@ public class FiscalPrinterController extends CommonController {
         });
     }
 
+    FiscalPrinterService TheService = null;
+
+    @Override
+    public void gotStatusUpdate(StatusUpdateEvent event) {
+        if (TheService == null && event.getSource() instanceof FiscalPrinterService) {
+            TheService = (FiscalPrinterService) event.getSource();
+        }
+        super.gotStatusUpdate(event);
+    }
+
     @Override
     void updateGui() {
         String quantitydecimals = QuantityDecimalPlacesRow.getValue();
@@ -480,12 +511,17 @@ public class FiscalPrinterController extends CommonController {
             FiscalReceiptStation.setValue(FiscalReceiptStationRow.getValue());
             SlipSelection.setValue(SlipSelectionRow.getValue());
             PrinterState.setText(PrinterStateRow.getValue());
-            if (!CapPackageAdjustmentRow.getValue().equals("true")) {
-                if (PRP_adjustmentType.getItems().size() == 0) {
-                    PRP_adjustmentType.getItems().add(new AdjustmentTypeValues().getSymbol(FiscalPrinterConst.FPTR_AT_AMOUNT_DISCOUNT));
-                    PRP_adjustmentType.getItems().add(new AdjustmentTypeValues().getSymbol(FiscalPrinterConst.FPTR_AT_AMOUNT_SURCHARGE));
+            if (CapPackageAdjustmentRow.getValue().equals("true")) {
+                PackageAdjustmentTypeValues patvals = new PackageAdjustmentTypeValues();
+                if (PRP_adjustmentType.getItems().size() != patvals.ValueList.length / 2) {
+                    PRP_adjustmentType.getItems().clear();
+                    for (int i = 1; i < patvals.ValueList.length; i += 2) {
+                        PRP_adjustmentType.getItems().add(patvals.ValueList[i].toString());
+                    }
                 }
             }
+            else
+                PRP_adjustmentType.getItems().clear();
             if (!CapAmountAdjustmentRow.getValue().equals("") && !CapPercentAdjustmentRow.getValue().equals("") && !CapPositiveAdjustmentRow.getValue().equals("")) {
                 if (PRV_adjustmentType.getItems().size() == 0) {
                     if (CapAmountAdjustmentRow.getValue().equals("true")) {
@@ -514,6 +550,8 @@ public class FiscalPrinterController extends CommonController {
                     }
                 }
             }
+            else
+                PR_adjustmentType.getItems().clear();
             if (!CapSubAmountAdjustmentRow.getValue().equals("") && !CapSubPercentAdjustmentRow.getValue().equals("") && !CapPositiveSubtotalAdjustmentRow.getValue().equals("")) {
                 if (PRS_adjustmentType.getItems().size() == 0) {
                     if (CapSubAmountAdjustmentRow.getValue().equals("true")) {
@@ -530,6 +568,8 @@ public class FiscalPrinterController extends CommonController {
                     }
                 }
             }
+            else
+                PRS_adjustmentType.getItems().clear();
             Integer val = new IntValues().getInteger(AmountDecimalPlacesRow.getValue());
             if (val != null) {
                 CurrencyDigits.setValue(val);
@@ -1048,13 +1088,13 @@ public class FiscalPrinterController extends CommonController {
 
     public void printRecPackage(ActionEvent actionEvent) {
         if (PrintRecPackage.getItems().get(0).equals(PrintRecPackage.getValue())) {      // "PackageAdjustment"
-            Integer adjustmentType = new AdjustmentTypeValues().getInteger(PRP_adjustmentType.getValue());
+            Integer adjustmentType = new PackageAdjustmentTypeValues().getInteger(PRP_adjustmentType.getValue());
             String description = PRP_description.getText();
             String vatAdjustment = PRP_vatAdjustment.getText();
             if (!invalid(adjustmentType, "adjustmentType"))
                 new PrintRecPackageAdjustment(adjustmentType, description, vatAdjustment).start();
         } else if (PrintRecPackage.getItems().get(1).equals(PrintRecPackage.getValue())) {  // "PackageAdjustVoid"
-            Integer adjustmentType = new AdjustmentTypeValues().getInteger(PRP_adjustmentType.getValue());
+            Integer adjustmentType = new PackageAdjustmentTypeValues().getInteger(PRP_adjustmentType.getValue());
             String vatAdjustment = PRP_vatAdjustment.getText();
             if (!invalid(adjustmentType, "adjustmentType"))
                 new PrintRecPackageAdjustVoid(adjustmentType, vatAdjustment).start();
@@ -2224,7 +2264,7 @@ public class FiscalPrinterController extends CommonController {
 
     private class ActualCurrencyValues extends Values {
         ActualCurrencyValues() {
-            ValueList = new Object[]{
+            ValueList = AC_SEK == null ? new Object[]{
                     FiscalPrinterConst.FPTR_AC_BRC, "AC_BRC",
                     FiscalPrinterConst.FPTR_AC_BGL, "AC_BGL",
                     FiscalPrinterConst.FPTR_AC_EUR, "AC_EUR",
@@ -2237,6 +2277,21 @@ public class FiscalPrinterController extends CommonController {
                     FiscalPrinterConst.FPTR_AC_TRL, "AC_TRL",
                     FiscalPrinterConst.FPTR_AC_CZK, "AC_CZK",
                     FiscalPrinterConst.FPTR_AC_UAH, "AC_UAH",
+                    FiscalPrinterConst.FPTR_AC_OTHER, "AC_OTHER"
+            } : new Object[]{
+                    FiscalPrinterConst.FPTR_AC_BRC, "AC_BRC",
+                    FiscalPrinterConst.FPTR_AC_BGL, "AC_BGL",
+                    FiscalPrinterConst.FPTR_AC_EUR, "AC_EUR",
+                    FiscalPrinterConst.FPTR_AC_GRD, "AC_GRD",
+                    FiscalPrinterConst.FPTR_AC_HUF, "AC_HUF",
+                    FiscalPrinterConst.FPTR_AC_ITL, "AC_ITL",
+                    FiscalPrinterConst.FPTR_AC_PLZ, "AC_PLZ",
+                    FiscalPrinterConst.FPTR_AC_ROL, "AC_ROL",
+                    FiscalPrinterConst.FPTR_AC_RUR, "AC_RUR",
+                    FiscalPrinterConst.FPTR_AC_TRL, "AC_TRL",
+                    FiscalPrinterConst.FPTR_AC_CZK, "AC_CZK",
+                    FiscalPrinterConst.FPTR_AC_UAH, "AC_UAH",
+                    AC_SEK, "AC_SEK",
                     FiscalPrinterConst.FPTR_AC_OTHER, "AC_OTHER"
             };
         }
@@ -2265,14 +2320,20 @@ public class FiscalPrinterController extends CommonController {
                     FiscalPrinterConst.FPTR_CC_BULGARIA, "CC_BULGARIA",
                     FiscalPrinterConst.FPTR_CC_ROMANIA, "CC_ROMANIA",
                     FiscalPrinterConst.FPTR_CC_CZECH_REPUBLIC, "CC_CZECH_REPUBLIC",
-                    FiscalPrinterConst.FPTR_CC_UKRAINE, "CC_UKRAINE",
-                    FiscalPrinterConst.FPTR_CC_OTHER, "CC_OTHER"
+                    FiscalPrinterConst.FPTR_CC_UKRAINE, "CC_UKRAINE"
             };
-            if (CC_GERMANY != null) {
-                ValueList = Arrays.copyOf(ValueList, ValueList.length + 2);
-                ValueList[ValueList.length - 2] = CC_GERMANY;
-                ValueList[ValueList.length - 1] = "CC_GERMANY";
+            int i = ValueList.length;
+            ValueList = Arrays.copyOf(ValueList, ValueList.length + 2 + (CC_SWEDEN == null ? 0 : 2) + (CC_GERMANY == null ? 0 : 2));
+            if (CC_SWEDEN != null) {
+                ValueList[i++] = CC_SWEDEN;
+                ValueList[i++] = "CC_SWEDEN";
             }
+            if (CC_GERMANY != null) {
+                ValueList[i++] = CC_GERMANY;
+                ValueList[i++] = "CC_GERMANY";
+            }
+            ValueList[i++] = FiscalPrinterConst.FPTR_CC_OTHER;
+            ValueList[i++] = "CC_OTHER";
         }
     }
 
@@ -2326,11 +2387,18 @@ public class FiscalPrinterController extends CommonController {
 
     private class ErrorStationValues extends Values {
         ErrorStationValues() {
-            ValueList = new Object[]{
+            ValueList = S_JOURNAL_SLIP == null && S_RECEIPT_SLIP == null ? new Object[]{
                     FiscalPrinterConst.FPTR_S_JOURNAL, "S_JOURNAL",
                     FiscalPrinterConst.FPTR_S_RECEIPT, "S_RECEIPT",
                     FiscalPrinterConst.FPTR_S_SLIP, "S_SLIP",
                     FiscalPrinterConst.FPTR_S_JOURNAL_RECEIPT, "S_JOURNAL_RECEIPT"
+            } : new Object[]{
+                    FiscalPrinterConst.FPTR_S_JOURNAL, "S_JOURNAL",
+                    FiscalPrinterConst.FPTR_S_RECEIPT, "S_RECEIPT",
+                    FiscalPrinterConst.FPTR_S_SLIP, "S_SLIP",
+                    FiscalPrinterConst.FPTR_S_JOURNAL_RECEIPT, "S_JOURNAL_RECEIPT",
+                    S_JOURNAL_SLIP, "S_JOURNAL_SLIP",
+                    S_RECEIPT_SLIP, "S_RECEIPT_SLIP"
             };
         }
     }
@@ -2504,6 +2572,30 @@ public class FiscalPrinterController extends CommonController {
                     FiscalPrinterConst.FPTR_AT_COUPON_AMOUNT_DISCOUNT, "AT_COUPON_AMOUNT_DISCOUNT",
                     FiscalPrinterConst.FPTR_AT_COUPON_PERCENTAGE_DISCOUNT, "AT_COUPON_PERCENTAGE_DISCOUNT"
             };
+        }
+    }
+
+    private class PackageAdjustmentTypeValues extends Values {
+        PackageAdjustmentTypeValues() {
+            if (TheService != null && TheService.AllowItemAdjustmentTypesInPackageAdjustment)
+                ValueList = new AdjustmentTypeValues().ValueList;
+            else {
+                if (AT_DISCOUNT == null) {
+                    if (TheService != null && TheService.FPTR_AT_DISCOUNT != null && TheService.FPTR_AT_SURCHARGE != null) {
+                        ValueList = new Object[]{
+                                TheService.FPTR_AT_DISCOUNT, "AT_DISCOUNT",
+                                TheService.FPTR_AT_SURCHARGE, "AT_SURCHARGE"
+                        };
+                    } else {
+                        ValueList = new Object[]{};
+                    }
+                } else {
+                    ValueList = new Object[]{
+                            AT_DISCOUNT, "AT_DISCOUNT",
+                            AT_SURCHARGE, "AT_SURCHARGE"
+                    };
+                }
+            }
         }
     }
 
