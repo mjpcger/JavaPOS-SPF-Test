@@ -16,7 +16,6 @@
 
 package SPF_Test;
 
-import de.gmxhome.conrad.jpos.jpos_base.JposBase;
 import de.gmxhome.conrad.jpos.jpos_base.fiscalprinter.FiscalPrinterService;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -25,13 +24,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import jpos.*;
-import jpos.events.StatusUpdateEvent;
+import jpos.events.*;
 
 import javax.swing.*;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * GUI control for FiscalPrinter properties, methods and events.
@@ -143,38 +141,22 @@ public class FiscalPrinterController extends CommonController {
     public Label ILlabel2;
     private FiscalPrinter ThePrinter;
     private PropertyTableRow FlagWhenIdleRow;
-    private PropertyTableRow ActualCurrencyRow;
     private PropertyTableRow AdditionalHeaderRow;
     private PropertyTableRow AdditionalTrailerRow;
     private PropertyTableRow AmountDecimalPlacesRow;
     private PropertyTableRow CapAmountAdjustmentRow;
-    private PropertyTableRow CapCoverSensorRow;
-    private PropertyTableRow CapFiscalReceiptStationRow;
-    private PropertyTableRow CapFiscalReceiptTypeRow;
-    private PropertyTableRow CapMultiContractorRow;
     private PropertyTableRow CapPackageAdjustmentRow;
     private PropertyTableRow CapPercentAdjustmentRow;
     private PropertyTableRow CapPositiveAdjustmentRow;
     private PropertyTableRow CapPositiveSubtotalAdjustmentRow;
     private PropertyTableRow CapPredefinedPaymentLinesRow;
-    private PropertyTableRow CapSetHeaderRow;
-    private PropertyTableRow CapSetTrailerRow;
-    private PropertyTableRow CapSetVatTableRow;
     private PropertyTableRow CapSubAmountAdjustmentRow;
     private PropertyTableRow CapSubPercentAdjustmentRow;
-    private PropertyTableRow CapTotalizerTypeRow;
     private PropertyTableRow ChangeDueRow;
     private PropertyTableRow CheckTotalRow;
     private PropertyTableRow ContractorIdRow;
-    private PropertyTableRow CountryCodeRow;
-    private PropertyTableRow CoverOpenRow;
     private PropertyTableRow DateTypeRow;
     private PropertyTableRow DuplicateReceiptRow;
-    private PropertyTableRow ErrorLevelRow;
-    private PropertyTableRow ErrorOutIDRow;
-    private PropertyTableRow ErrorStateRow;
-    private PropertyTableRow ErrorStationRow;
-    private PropertyTableRow ErrorStringRow;
     private PropertyTableRow FiscalReceiptStationRow;
     private PropertyTableRow FiscalReceiptTypeRow;
     private PropertyTableRow MessageTypeRow;
@@ -186,31 +168,9 @@ public class FiscalPrinterController extends CommonController {
     private PropertyTableRow PreLineRow;
     private PropertyTableRow PrinterStateRow;
     private PropertyTableRow QuantityDecimalPlacesRow;
-    private PropertyTableRow QuantityLengthRow;
-    private PropertyTableRow RecEmptyRow;
-    private PropertyTableRow RecNearEndRow;
-    private PropertyTableRow RemainingFiscalMemoryRow;
     private PropertyTableRow SlipSelectionRow;
-    private PropertyTableRow SlpEmptyRow;
-    private PropertyTableRow SlpNearEndRow;
     private PropertyTableRow TotalizerTypeRow;
-    private PropertyTableRow TrainingModeActiveRow;
     private PropertyTableRow CapHasVatTableRow;
-
-    //  UPOS 1.15
-    private Integer CC_GERMANY;
-    private Integer DT_TICKET_START;
-    private Integer DT_TICKET_END;
-
-    // Missing in Javapos 1.14
-    private Integer AT_DISCOUNT;
-    private Integer AT_SURCHARGE;
-    private Integer AC_SEK;
-    private Integer CC_SWEDEN;
-    private Integer S_JOURNAL_SLIP;
-    private Integer S_RECEIPT_SLIP;
-
-    private static class MyConstants implements FiscalPrinterConst {}
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -221,32 +181,13 @@ public class FiscalPrinterController extends CommonController {
         ThePrinter = (FiscalPrinter) Control;
         ThePrinter.addDirectIOListener(this);
         ThePrinter.addStatusUpdateListener(this);
-        // Workaround to support erroneous 1.14 framework
-        try {
-            AT_DISCOUNT = MyConstants.class.getField("FPTR_AT_DISCOUNT").getInt(null);
-            AT_SURCHARGE = MyConstants.class.getField("FPTR_AT_SURCHARGE").getInt(null);
-            AC_SEK = MyConstants.class.getField("FPTR_AC_SEK").getInt(null);
-            CC_SWEDEN = MyConstants.class.getField("FPTR_CC_SWEDEN").getInt(null);
-            S_JOURNAL_SLIP = MyConstants.class.getField("FPTR_S_JOURNAL_SLIP").getInt(null);
-            S_RECEIPT_SLIP = MyConstants.class.getField("FPTR_S_RECEIPT_SLIP").getInt(null);
-        } catch (Exception e) {
-            AT_DISCOUNT = AT_SURCHARGE = AC_SEK = CC_SWEDEN = S_JOURNAL_SLIP = S_RECEIPT_SLIP = null;
-        }
-        // Workaround to support UPOS 1.14 control
-        try {
-            CC_GERMANY = MyConstants.class.getField("FPTR_CC_GERMANY").getInt(null);
-            DT_TICKET_START = MyConstants.class.getField("FPTR_DT_TICKET_START").getInt(null);
-            DT_TICKET_END = MyConstants.class.getField("FPTR_DT_TICKET_END").getInt(null);
-        } catch (Exception e) {
-            CC_GERMANY = DT_TICKET_START = DT_TICKET_END = null;
-        }
         StatusUpdateEventStatusValueConverter = new PrtStatusUpdateValues();
         ThePrinter.addErrorListener(this);
         ThePrinter.addOutputCompleteListener(this);
         ErrorCodeExtendedValueConverter = new ExtendedErrorCodeValues();
         Properties.getItems().add(new PropertyTableRow("Claimed", ""));
         Properties.getItems().add(new PropertyTableRow("CheckHealthText", ""));
-        Properties.getItems().add(ActualCurrencyRow = new PropertyTableRow("ActualCurrency", "", new ActualCurrencyValues()));
+        Properties.getItems().add(new PropertyTableRow("ActualCurrency", "", new ActualCurrencyValues()));
         Properties.getItems().add(AdditionalHeaderRow = new PropertyTableRow("AdditionalHeader", ""));
         Properties.getItems().add(AdditionalTrailerRow = new PropertyTableRow("AdditionalTrailer", ""));
         Properties.getItems().add(AmountDecimalPlacesRow = new PropertyTableRow("AmountDecimalPlaces", ""));
@@ -257,12 +198,12 @@ public class FiscalPrinterController extends CommonController {
         Properties.getItems().add(new PropertyTableRow("CapAmountNotPaid", ""));
         Properties.getItems().add(new PropertyTableRow("CapChangeDue", ""));
         Properties.getItems().add(new PropertyTableRow("CapCheckTotal", ""));
-        Properties.getItems().add(CapCoverSensorRow = new PropertyTableRow("CapCoverSensor", ""));
+        Properties.getItems().add(new PropertyTableRow("CapCoverSensor", ""));
         Properties.getItems().add(new PropertyTableRow("CapDoubleWidth", ""));
         Properties.getItems().add(new PropertyTableRow("CapDuplicateReceipt", ""));
         Properties.getItems().add(new PropertyTableRow("CapEmptyReceiptIsVoidable", ""));
-        Properties.getItems().add(CapFiscalReceiptStationRow = new PropertyTableRow("CapFiscalReceiptStation", ""));
-        Properties.getItems().add(CapFiscalReceiptTypeRow = new PropertyTableRow("CapFiscalReceiptType", ""));
+        Properties.getItems().add(new PropertyTableRow("CapFiscalReceiptStation", ""));
+        Properties.getItems().add(new PropertyTableRow("CapFiscalReceiptType", ""));
         Properties.getItems().add(new PropertyTableRow("CapFixedOutput", ""));
         Properties.getItems().add(CapHasVatTableRow = new PropertyTableRow("CapHasVatTable", ""));
         Properties.getItems().add(new PropertyTableRow("CapIndependentHeader", ""));
@@ -270,7 +211,7 @@ public class FiscalPrinterController extends CommonController {
         Properties.getItems().add(new PropertyTableRow("CapJrnEmptySensor", ""));
         Properties.getItems().add(new PropertyTableRow("CapJrnNearEndSensor", ""));
         Properties.getItems().add(new PropertyTableRow("CapJrnPresent", ""));
-        Properties.getItems().add(CapMultiContractorRow = new PropertyTableRow("CapMultiContractor", ""));
+        Properties.getItems().add(new PropertyTableRow("CapMultiContractor", ""));
         Properties.getItems().add(new PropertyTableRow("CapNonFiscalMode", ""));
         Properties.getItems().add(new PropertyTableRow("CapOnlyVoidLastItem", ""));
         Properties.getItems().add(new PropertyTableRow("CapOrderAdjustmentFirst", ""));
@@ -288,11 +229,11 @@ public class FiscalPrinterController extends CommonController {
         Properties.getItems().add(new PropertyTableRow("CapRemainingFiscalMemory", ""));
         Properties.getItems().add(new PropertyTableRow("CapReservedWord", ""));
         Properties.getItems().add(new PropertyTableRow("CapSetCurrency", ""));
-        Properties.getItems().add(CapSetHeaderRow = new PropertyTableRow("CapSetHeader", ""));
+        Properties.getItems().add(new PropertyTableRow("CapSetHeader", ""));
         Properties.getItems().add(new PropertyTableRow("CapSetPOSID", ""));
         Properties.getItems().add(new PropertyTableRow("CapSetStoreFiscalID", ""));
-        Properties.getItems().add(CapSetTrailerRow = new PropertyTableRow("CapSetTrailer", ""));
-        Properties.getItems().add(CapSetVatTableRow = new PropertyTableRow("CapSetVatTable", ""));
+        Properties.getItems().add(new PropertyTableRow("CapSetTrailer", ""));
+        Properties.getItems().add(new PropertyTableRow("CapSetVatTable", ""));
         Properties.getItems().add(new PropertyTableRow("CapSlpEmptySensor", ""));
         Properties.getItems().add(new PropertyTableRow("CapSlpFiscalDocument", ""));
         Properties.getItems().add(new PropertyTableRow("CapSlpFullSlip", ""));
@@ -302,24 +243,24 @@ public class FiscalPrinterController extends CommonController {
         Properties.getItems().add(CapSubAmountAdjustmentRow = new PropertyTableRow("CapSubAmountAdjustment", ""));
         Properties.getItems().add(CapSubPercentAdjustmentRow = new PropertyTableRow("CapSubPercentAdjustment", ""));
         Properties.getItems().add(new PropertyTableRow("CapSubtotal", ""));
-        Properties.getItems().add(CapTotalizerTypeRow = new PropertyTableRow("CapTotalizerType", ""));
+        Properties.getItems().add(new PropertyTableRow("CapTotalizerType", ""));
         Properties.getItems().add(new PropertyTableRow("CapTrainingMode", ""));
         Properties.getItems().add(new PropertyTableRow("CapValidateJournal", ""));
         Properties.getItems().add(new PropertyTableRow("CapXReport", ""));
         Properties.getItems().add(ChangeDueRow = new PropertyTableRow("ChangeDue", ""));
         Properties.getItems().add(CheckTotalRow = new PropertyTableRow("CheckTotal", ""));
         Properties.getItems().add(ContractorIdRow = new PropertyTableRow("ContractorId", "", new ContractorIdValues()));
-        Properties.getItems().add(CountryCodeRow = new PropertyTableRow("CountryCode", "", new CountryCodeValues()));
-        Properties.getItems().add(CoverOpenRow = new PropertyTableRow("CoverOpen", ""));
+        Properties.getItems().add(new PropertyTableRow("CountryCode", "", new CountryCodeValues()));
+        Properties.getItems().add(new PropertyTableRow("CoverOpen", ""));
         Properties.getItems().add(DateTypeRow = new PropertyTableRow("DateType", "", new DateTypeValues()));
         Properties.getItems().add(new PropertyTableRow("DayOpened", ""));
         Properties.getItems().add(new PropertyTableRow("DescriptionLength", ""));
         Properties.getItems().add(DuplicateReceiptRow = new PropertyTableRow("DuplicateReceipt", ""));
-        Properties.getItems().add(ErrorLevelRow = new PropertyTableRow("ErrorLevel", "", new ErrorLevelValues()));
-        Properties.getItems().add(ErrorOutIDRow = new PropertyTableRow("ErrorOutID", ""));
-        Properties.getItems().add(ErrorStateRow = new PropertyTableRow("ErrorState", "", new PrinterStateValues()));
-        Properties.getItems().add(ErrorStationRow = new PropertyTableRow("ErrorStation", "", new ErrorStationValues()));
-        Properties.getItems().add(ErrorStringRow = new PropertyTableRow("ErrorString", ""));
+        Properties.getItems().add(new PropertyTableRow("ErrorLevel", "", new ErrorLevelValues()));
+        Properties.getItems().add(new PropertyTableRow("ErrorOutID", ""));
+        Properties.getItems().add(new PropertyTableRow("ErrorState", "", new PrinterStateValues()));
+        Properties.getItems().add(new PropertyTableRow("ErrorStation", "", new ErrorStationValues()));
+        Properties.getItems().add(new PropertyTableRow("ErrorString", ""));
         Properties.getItems().add(FiscalReceiptStationRow = new PropertyTableRow("FiscalReceiptStation", "", new FiscalReceiptStationValues()));
         Properties.getItems().add(FiscalReceiptTypeRow = new PropertyTableRow("FiscalReceiptType", "", new FiscalReceiptTypeValues()));
         Properties.getItems().add(FlagWhenIdleRow = new PropertyTableRow("FlagWhenIdle", ""));
@@ -335,16 +276,16 @@ public class FiscalPrinterController extends CommonController {
         Properties.getItems().add(PreLineRow = new PropertyTableRow("PreLine", ""));
         Properties.getItems().add(PrinterStateRow = new PropertyTableRow("PrinterState", "", new PrinterStateValues()));
         Properties.getItems().add(QuantityDecimalPlacesRow = new PropertyTableRow("QuantityDecimalPlaces", ""));
-        Properties.getItems().add(QuantityLengthRow = new PropertyTableRow("QuantityLength", ""));
-        Properties.getItems().add(RecEmptyRow = new PropertyTableRow("RecEmpty", ""));
-        Properties.getItems().add(RecNearEndRow = new PropertyTableRow("RecNearEnd", ""));
-        Properties.getItems().add(RemainingFiscalMemoryRow = new PropertyTableRow("RemainingFiscalMemory", ""));
+        Properties.getItems().add(new PropertyTableRow("QuantityLength", ""));
+        Properties.getItems().add(new PropertyTableRow("RecEmpty", ""));
+        Properties.getItems().add(new PropertyTableRow("RecNearEnd", ""));
+        Properties.getItems().add(new PropertyTableRow("RemainingFiscalMemory", ""));
         Properties.getItems().add(new PropertyTableRow("ReservedWord", ""));
-        Properties.getItems().add(SlpEmptyRow = new PropertyTableRow("SlpEmpty", ""));
-        Properties.getItems().add(SlpNearEndRow = new PropertyTableRow("SlpNearEnd", ""));
+        Properties.getItems().add(new PropertyTableRow("SlpEmpty", ""));
+        Properties.getItems().add(new PropertyTableRow("SlpNearEnd", ""));
         Properties.getItems().add(SlipSelectionRow = new PropertyTableRow("SlipSelection", "", new SlipSelectionValues()));
         Properties.getItems().add(TotalizerTypeRow = new PropertyTableRow("TotalizerType", "", new TotalizerTypeValues()));
-        Properties.getItems().add(TrainingModeActiveRow = new PropertyTableRow("TrainingModeActive", ""));
+        Properties.getItems().add(new PropertyTableRow("TrainingModeActive", ""));
         Properties.getItems().add(new PropertyTableRow("DeviceServiceDescription", ""));
         Properties.getItems().add(new PropertyTableRow("DeviceServiceVersion", ""));
         Properties.getItems().add(new PropertyTableRow("PhysicalDeviceDescription", ""));
@@ -2264,7 +2205,7 @@ public class FiscalPrinterController extends CommonController {
 
     private class ActualCurrencyValues extends Values {
         ActualCurrencyValues() {
-            ValueList = AC_SEK == null ? new Object[]{
+            ValueList = new Object[]{
                     FiscalPrinterConst.FPTR_AC_BRC, "AC_BRC",
                     FiscalPrinterConst.FPTR_AC_BGL, "AC_BGL",
                     FiscalPrinterConst.FPTR_AC_EUR, "AC_EUR",
@@ -2277,21 +2218,7 @@ public class FiscalPrinterController extends CommonController {
                     FiscalPrinterConst.FPTR_AC_TRL, "AC_TRL",
                     FiscalPrinterConst.FPTR_AC_CZK, "AC_CZK",
                     FiscalPrinterConst.FPTR_AC_UAH, "AC_UAH",
-                    FiscalPrinterConst.FPTR_AC_OTHER, "AC_OTHER"
-            } : new Object[]{
-                    FiscalPrinterConst.FPTR_AC_BRC, "AC_BRC",
-                    FiscalPrinterConst.FPTR_AC_BGL, "AC_BGL",
-                    FiscalPrinterConst.FPTR_AC_EUR, "AC_EUR",
-                    FiscalPrinterConst.FPTR_AC_GRD, "AC_GRD",
-                    FiscalPrinterConst.FPTR_AC_HUF, "AC_HUF",
-                    FiscalPrinterConst.FPTR_AC_ITL, "AC_ITL",
-                    FiscalPrinterConst.FPTR_AC_PLZ, "AC_PLZ",
-                    FiscalPrinterConst.FPTR_AC_ROL, "AC_ROL",
-                    FiscalPrinterConst.FPTR_AC_RUR, "AC_RUR",
-                    FiscalPrinterConst.FPTR_AC_TRL, "AC_TRL",
-                    FiscalPrinterConst.FPTR_AC_CZK, "AC_CZK",
-                    FiscalPrinterConst.FPTR_AC_UAH, "AC_UAH",
-                    AC_SEK, "AC_SEK",
+                    FiscalPrinterConst.FPTR_AC_SEK, "AC_SEK",
                     FiscalPrinterConst.FPTR_AC_OTHER, "AC_OTHER"
             };
         }
@@ -2320,20 +2247,11 @@ public class FiscalPrinterController extends CommonController {
                     FiscalPrinterConst.FPTR_CC_BULGARIA, "CC_BULGARIA",
                     FiscalPrinterConst.FPTR_CC_ROMANIA, "CC_ROMANIA",
                     FiscalPrinterConst.FPTR_CC_CZECH_REPUBLIC, "CC_CZECH_REPUBLIC",
-                    FiscalPrinterConst.FPTR_CC_UKRAINE, "CC_UKRAINE"
+                    FiscalPrinterConst.FPTR_CC_UKRAINE, "CC_UKRAINE",
+                    FiscalPrinterConst.FPTR_CC_SWEDEN, "CC_SWEDEN",
+                    FiscalPrinterConst.FPTR_CC_GERMANY, "CC_GERMANY",
+                    FiscalPrinterConst.FPTR_CC_OTHER, "CC_OTHER"
             };
-            int i = ValueList.length;
-            ValueList = Arrays.copyOf(ValueList, ValueList.length + 2 + (CC_SWEDEN == null ? 0 : 2) + (CC_GERMANY == null ? 0 : 2));
-            if (CC_SWEDEN != null) {
-                ValueList[i++] = CC_SWEDEN;
-                ValueList[i++] = "CC_SWEDEN";
-            }
-            if (CC_GERMANY != null) {
-                ValueList[i++] = CC_GERMANY;
-                ValueList[i++] = "CC_GERMANY";
-            }
-            ValueList[i++] = FiscalPrinterConst.FPTR_CC_OTHER;
-            ValueList[i++] = "CC_OTHER";
         }
     }
 
@@ -2345,15 +2263,10 @@ public class FiscalPrinterController extends CommonController {
                     FiscalPrinterConst.FPTR_DT_RESET, "DT_RESET",
                     FiscalPrinterConst.FPTR_DT_RTC, "DT_RTC",
                     FiscalPrinterConst.FPTR_DT_VAT, "DT_VAT",
-                    FiscalPrinterConst.FPTR_DT_START, "DT_START"
+                    FiscalPrinterConst.FPTR_DT_START, "DT_START",
+                    FiscalPrinterConst.FPTR_DT_TICKET_START, "DT_TICKET_START",
+                    FiscalPrinterConst.FPTR_DT_TICKET_END, "DT_TICKET_END"
             };
-            if (DT_TICKET_START != null && DT_TICKET_END != null) {
-                ValueList = Arrays.copyOf(ValueList, ValueList.length + 4);
-                ValueList[ValueList.length - 4] = DT_TICKET_START;
-                ValueList[ValueList.length - 3] = "DT_TICKET_START";
-                ValueList[ValueList.length - 2] = DT_TICKET_END;
-                ValueList[ValueList.length - 1] = "DT_TICKET_END";
-            }
         }
     }
 
@@ -2387,18 +2300,13 @@ public class FiscalPrinterController extends CommonController {
 
     private class ErrorStationValues extends Values {
         ErrorStationValues() {
-            ValueList = S_JOURNAL_SLIP == null && S_RECEIPT_SLIP == null ? new Object[]{
-                    FiscalPrinterConst.FPTR_S_JOURNAL, "S_JOURNAL",
-                    FiscalPrinterConst.FPTR_S_RECEIPT, "S_RECEIPT",
-                    FiscalPrinterConst.FPTR_S_SLIP, "S_SLIP",
-                    FiscalPrinterConst.FPTR_S_JOURNAL_RECEIPT, "S_JOURNAL_RECEIPT"
-            } : new Object[]{
+            ValueList = new Object[]{
                     FiscalPrinterConst.FPTR_S_JOURNAL, "S_JOURNAL",
                     FiscalPrinterConst.FPTR_S_RECEIPT, "S_RECEIPT",
                     FiscalPrinterConst.FPTR_S_SLIP, "S_SLIP",
                     FiscalPrinterConst.FPTR_S_JOURNAL_RECEIPT, "S_JOURNAL_RECEIPT",
-                    S_JOURNAL_SLIP, "S_JOURNAL_SLIP",
-                    S_RECEIPT_SLIP, "S_RECEIPT_SLIP"
+                    FiscalPrinterConst.FPTR_S_JOURNAL_SLIP, "S_JOURNAL_SLIP",
+                    FiscalPrinterConst.FPTR_S_RECEIPT_SLIP, "S_RECEIPT_SLIP"
             };
         }
     }
@@ -2580,21 +2488,10 @@ public class FiscalPrinterController extends CommonController {
             if (TheService != null && TheService.AllowItemAdjustmentTypesInPackageAdjustment)
                 ValueList = new AdjustmentTypeValues().ValueList;
             else {
-                if (AT_DISCOUNT == null) {
-                    if (TheService != null && TheService.FPTR_AT_DISCOUNT != null && TheService.FPTR_AT_SURCHARGE != null) {
-                        ValueList = new Object[]{
-                                TheService.FPTR_AT_DISCOUNT, "AT_DISCOUNT",
-                                TheService.FPTR_AT_SURCHARGE, "AT_SURCHARGE"
-                        };
-                    } else {
-                        ValueList = new Object[]{};
-                    }
-                } else {
-                    ValueList = new Object[]{
-                            AT_DISCOUNT, "AT_DISCOUNT",
-                            AT_SURCHARGE, "AT_SURCHARGE"
-                    };
-                }
+                ValueList = new Object[]{
+                        TheService.FPTR_AT_DISCOUNT, "AT_DISCOUNT",
+                        TheService.FPTR_AT_SURCHARGE, "AT_SURCHARGE"
+                };
             }
         }
     }
