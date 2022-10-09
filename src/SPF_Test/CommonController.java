@@ -22,6 +22,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -314,7 +315,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             if (!newv) {
                 try {
                     Method setProperty = Class.forName(this.getClass().getName()).getMethod("set" + propertyname, ActionEvent.class);
-                    ActionEvent ev = null;
+                    ActionEvent ev = new ActionEvent(null, field );
                     setProperty.invoke(this, ev);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -480,8 +481,12 @@ public class CommonController implements Initializable, Runnable, DataListener, 
          * @param method Method name.
          */
         MethodProcessor(String method) {
-            if (method == null)
+            if (method == null) {
                 method = getClass().getSimpleName();
+                int tailindex;
+                if ((tailindex = method.indexOf("Handler")) > 0)
+                    method = method.substring(0, tailindex);
+            }
             setName(LogicalDeviceName + " " + method + "Handler");
             synchronized(CommonController.this) {
                 CurrentMethod = this;
@@ -1108,12 +1113,15 @@ public class CommonController implements Initializable, Runnable, DataListener, 
 
     @Override
     public void directIOOccurred(DirectIOEvent event) {
+        SyncObject diowaiter = new SyncObject();
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 gotDirectIO(event);
+                diowaiter.signal();
             }
         });
+        diowaiter.suspend(SyncObject.INFINITE);
     }
 
     public void gotDirectIO(DirectIOEvent event) {
