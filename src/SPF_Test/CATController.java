@@ -168,6 +168,7 @@ public class CATController extends CommonController {
         formatDecimalOnFocusLost(CD_amount);
         ErrorCodeExtendedValueConverter = new ErrorCodeExtendedValues();
         clearDirectIOText(null);
+        setPropertyOnFocusLost(AdditionalSecurityInformation, "AdditionalSecurityInformation");
         updateGui();
     }
 
@@ -368,13 +369,24 @@ public class CATController extends CommonController {
         }
     }
 
+    public void setAdditionalSecurityInformation(ActionEvent actionEvent) {
+        if (!InUpdateGui) {
+            try {
+                TheCAT.setAdditionalSecurityInformation(AdditionalSecurityInformation.getText());
+            } catch (JposException e) {
+                getFullErrorMessageAndPrintTrace(e);
+            }
+            updateGuiLater();
+        }
+    }
+
     class AccessDailyLogHandler extends MethodProcessor {
         private final int SequenceNo;
         private final int Type;
         private final int Timeout;
 
         AccessDailyLogHandler(int seq, int type, int tio) {
-            super("LockTerminal");
+            super(null);
             SequenceNo = seq;
             Type = type;
             Timeout = tio;
@@ -382,7 +394,7 @@ public class CATController extends CommonController {
 
         @Override
         void runIt() throws JposException {
-            TheCAT.cashDeposit(SequenceNo, Type, Timeout);
+            TheCAT.accessDailyLog(SequenceNo, Type, Timeout);
         }
     }
 
@@ -402,7 +414,7 @@ public class CATController extends CommonController {
         final int Timeout;
 
         CashDepositHandler(int seq, long amount, int tio) {
-            super("LockTerminal");
+            super(null);
             SequenceNo = seq;
             Amount = amount;
             Timeout = tio;
@@ -429,7 +441,7 @@ public class CATController extends CommonController {
         private final int Timeout;
 
         CheckCardHandler(int seq, int tio) {
-            super("LockTerminal");
+            super(null);
             SequenceNo = seq;
             Timeout = tio;
         }
@@ -451,7 +463,7 @@ public class CATController extends CommonController {
 
     class LockTerminalHandler extends MethodProcessor {
         LockTerminalHandler() {
-            super("LockTerminal");
+            super(null);
         }
 
         @Override
@@ -468,7 +480,7 @@ public class CATController extends CommonController {
 
     class UnlockTerminalHandler extends MethodProcessor {
         UnlockTerminalHandler() {
-            super("UnlockTerminal");
+            super(null);
         }
 
         @Override
