@@ -16,3 +16,7 @@
     -fx-font-size: 12pt;
 }
 
+.SmallFont {
+    -fx-font-size: 6pt;
+}
+

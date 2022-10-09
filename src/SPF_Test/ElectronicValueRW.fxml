@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  ~ Copyright 2022 Martin Conrad
+  ~ <p>
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ <p>
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ <p>
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="SPF_Test.ElectronicValueRWController"
+            prefHeight="540.0" prefWidth="980.0">
+    <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutY="5" onAction="#setDeviceEnabled"/>
+    <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="110" layoutY="5" onAction="#setFreezeEvents"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="210" editable="true" onAction="#setPowerNotify"/>
+    <Label text="PowerNotify" layoutX="360" layoutY="5"/>
+    <ComboBox fx:id="CurrencyDigits" layoutX="435" onAction="#setCurrencyDigits" prefWidth="50"/>
+    <Label text="Currency Digits" layoutX="490" layoutY="5"/>
+    <ComboBox fx:id="PINEntry" layoutX="570" promptText="PINEntry" editable="true" prefWidth="160" onAction="#setPINEntry"/>
+    <Label text="PINEntry" layoutX="735" layoutY="5"/>
+    <TextField fx:id="MediumID" layoutX="785" prefWidth="140" promptText="MediumID"/>
+    <Label text="MediumID" layoutX="930" layoutY="5"/>
+    <TableView fx:id="Properties" layoutX="570" layoutY="24" prefWidth="410" prefHeight="110"/>
+    <Button text="Open" layoutY="35" onAction="#open" prefWidth="70"/>
+    <Button text="Claim" layoutX="80" layoutY="35" onAction="#claim" prefWidth="70"/>
+    <ComboBox fx:id="claim_timeout" prefWidth="70" layoutX="80" layoutY="60" promptText="timeout" editable="true"/>
+    <Button text="Release" layoutX="160" layoutY="35" onAction="#release" prefWidth="70"/>
+    <Button text="Close" layoutX="240" layoutY="35" onAction="#close" prefWidth="70"/>
+    <Button text="CheckHealth" layoutX="320" layoutY="35" onAction="#checkHealth" prefWidth="90"/>
+    <ComboBox fx:id="CH_level" prefWidth="90" layoutX="320" layoutY="60" promptText="level" editable="true"/>
+    <Button text="DirectIO" layoutX="420" layoutY="35" onAction="#directIO" prefWidth="140"/>
+    <TextField fx:id="DIO_command" prefWidth="70" layoutX="420" layoutY="60" promptText="command"/>
+    <TextField fx:id="DIO_data" prefWidth="70" layoutX="490" layoutY="60" promptText="data"/>
+    <TextField fx:id="DIO_obj" prefWidth="140" layoutX="420" layoutY="85" promptText="obj"/>
+    <Button text="ClearOutput" layoutX="320" layoutY="85" onAction="#clearOutput" prefWidth="90"/>
+    <ComboBox fx:id="CurrentService" layoutY="90" onAction="#setCurrentService" promptText="CurrentService" prefWidth="150" editable="true"/>
+    <Label text="CurrentService" layoutY="95" layoutX="155"/>
+    <CheckBox fx:id="AsyncMode" text="AsyncMode" layoutX="240" layoutY="95" onAction="#setAsyncMode"/>
+    <Label fx:id="ServiceType" layoutY="119" disable="true" text="EVRW_ST_ELECTRONIC_MONEY" styleClass="SmallFont"/>
+    <ComboBox fx:id="TrainingModeState" layoutX="320" layoutY="110" editable="true" onAction="#setTrainingModeState" promptText="TrainingModeState" prefWidth="123"/>
+    <Label text="TrainingModeState" layoutY="115" layoutX="445"/>
+    <Separator  layoutY="192" prefWidth="755" orientation="HORIZONTAL"/>
+    <Label fx:id="MethodActive" layoutY="530"/>
+    <Label text="Events" layoutY="140" layoutX="760" prefWidth="220" underline="true" alignment="CENTER"/>
+    <TextArea fx:id="EventOutput" layoutX="760" layoutY="165" prefWidth="220" prefHeight="375"/>
+    <TabPane  layoutY="135" prefWidth="755" prefHeight="405" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Card Detection" onSelectionChanged="#cardDetectionSelection">
+            <AnchorPane fx:id="CardDetection" prefHeight="380" prefWidth="755">
+                <Button text="EnumerateCardServices" layoutY="35" prefWidth="150" onAction="#enumerateCardServices"/>
+                <Label text="Detected Card Services:" layoutY="40" layoutX="160"/>
+                <ComboBox fx:id="CardServiceList" layoutY="35" layoutX="300"/>
+                <Button text="BeginDetection" layoutY="65" prefWidth="150" onAction="#beginDetection"/>
+                <ComboBox fx:id="BD_type" layoutY="65" layoutX="150" prefWidth="120" editable="true" promptText="type"/>
+                <ComboBox fx:id="BD_timeout" layoutY="65" layoutX="270" prefWidth="120" promptText="timeout" editable="true"/>
+                <Button text="EndDetection" layoutY="90" prefWidth="150" onAction="#endDetection"/>
+                <Button text="BeginRemoval" layoutY="120" prefWidth="150" onAction="#beginRemoval"/>
+                <ComboBox fx:id="BR_timeout" layoutY="120" layoutX="150" prefWidth="120" promptText="timeout" editable="true"/>
+                <Button text="EndRemoval" layoutY="145" prefWidth="150" onAction="#endRemoval"/>
+                <CheckBox fx:id="DetectionControl" layoutY="200" text="DetectionControl" onAction="#setDetectionControl"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Classic EVRW Operations" onSelectionChanged="#operationSelection">
+            <AnchorPane fx:id="EVRWAuthorizeAnchor" prefHeight="380" prefWidth="755">
+                <ComboBox fx:id="SeqTioValMethods" layoutY="35" prefWidth="120" promptText="...Value"/>
+                <TextField fx:id="STV_sequenceNumber" layoutY="35" layoutX="120" promptText="sequenceNumber" prefWidth="100"/>
+                <ComboBox fx:id="STV_timeout" layoutY="35" layoutX="220" prefWidth="100" promptText="timeout" editable="true"/>
+                <Button text="Call It" layoutY="35" layoutX="330" onAction="#callSeqTioValMethod"/>
+                <Button text="TransactionAccess" layoutY="65" prefWidth="120" onAction="#transactionAccess"/>
+                <ComboBox fx:id="TA_control" layoutY="65" layoutX="120" prefWidth="100" promptText="control" editable="true"/>
+                <Button text="AccessLog" layoutY="95" prefWidth="120" onAction="#accessLog"/>
+                <TextField fx:id="AL_sequenceNumber" layoutY="95" layoutX="120" promptText="sequenceNumber" prefWidth="100"/>
+                <ComboBox fx:id="AL_type" layoutY="95" layoutX="120" prefWidth="100" promptText="type" editable="true"/>
+                <ComboBox fx:id="AL_timeout" layoutY="95" layoutX="220" prefWidth="100" promptText="timeout" editable="true"/>
+                <Button text="CaptureCard" layoutY="35" layoutX="425" prefWidth="100" onAction="#captureCard"/>
+                <Button text="QueryLastSuccessfulTransactionResult" layoutY="65" layoutX="425" prefWidth="250" onAction="#queryLastSuccessfulTransactionResult"/>
+                <Label styleClass="BoldFont" text="AdditionalSecurityInformation" layoutX="425" layoutY="140" prefWidth="330" alignment="CENTER" underline="true"/>
+                <TextArea fx:id="OAdditionalSecurityInformation" layoutX="425" layoutY="157" prefHeight="95" prefWidth="330"/>
+                <Label text="ApprovalCode" layoutY="140"/>
+                <TextField fx:id="OApprovalCode" layoutY="135" layoutX="100" prefWidth="200"/>
+                <Label text="Amount" layoutY="165"/>
+                <TextField fx:id="Amount" layoutY="160" layoutX="100" prefWidth="100"/>
+                <Label text="Point" layoutY="190"/>
+                <TextField fx:id="Point" layoutY="185" layoutX="100" prefWidth="100"/>
+                <Label text="VoucherID" layoutY="215"/>
+                <ComboBox fx:id="VoucherID" layoutY="210" layoutX="100" onAction="#setVoucherID" editable="true"/>
+                <Label text="VoucherIDList" layoutY="240"/>
+                <TextField fx:id="VoucherIDList" layoutY="235" layoutX="100" prefWidth="300"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="CAT Authorization" onSelectionChanged="#authorizationSelection">
+            <AnchorPane fx:id="AuthorizeAnchor" prefHeight="380" prefWidth="755">
+                <Label text="Methods" underline="true" layoutY="35" prefWidth="145" alignment="CENTER"/>
+                <Button layoutY="60" onAction="#authorizeCompletion" text="AuthorizeCompletion" prefWidth="145"/>
+                <Button layoutY="85" onAction="#authorizePreSales" text="AuthorizePreSales" prefWidth="145"/>
+                <Button layoutY="110" onAction="#authorizeRefund" text="AuthorizeRefund" prefWidth="145"/>
+                <Button layoutY="135" onAction="#authorizeSales" text="AuthorizeSales" prefWidth="145"/>
+                <Button layoutY="160" onAction="#authorizeVoid" text="AuthorizeVoid" prefWidth="145"/>
+                <Button layoutY="185" onAction="#authorizeVoidPreSales" text="AuthorizeVoidPreSales" prefWidth="145"/>
+                <Separator layoutX="155" layoutY="30" prefHeight="320" orientation="VERTICAL"/>
+                <Label text="Parameters" underline="true" layoutY="210" prefWidth="145" alignment="CENTER"/>
+                <TextField fx:id="A_sequenceNumber" layoutY="230" prefWidth="145" promptText="sequenceNumber"/>
+                <TextField fx:id="A_amount" layoutY="255" prefWidth="145" promptText="amount"/>
+                <TextField fx:id="A_taxOthers" layoutY="280" prefWidth="145" promptText="taxOthers"/>
+                <ComboBox fx:id="A_timeout" layoutY="305" prefWidth="145" promptText="timeout" editable="true"/>
+                <Label text="Authorization Specific Properties" underline="true" layoutX="165" layoutY="30" prefWidth="610" alignment="CENTER"/>
+                <Label text="AccountNumber" layoutX="165" layoutY="58"/>
+                <TextField fx:id="AccountNumber" layoutX="270" layoutY="53" prefWidth="145" editable="false"/>
+                <Label text="Balance" layoutX="165" layoutY="81"/>
+                <TextField fx:id="Balance" layoutX="270" layoutY="76" prefWidth="145" editable="false"/>
+                <Label text="SettledAmount" layoutX="165" layoutY="104"/>
+                <TextField fx:id="SettledAmount" layoutX="270" layoutY="99" prefWidth="145" editable="false"/>
+                <Label styleClass="BoldFont" text="ApprovalCode" layoutX="165" layoutY="127"/>
+                <TextField fx:id="ApprovalCode" layoutX="270" layoutY="122" prefWidth="145"/>
+                <Label text="CardCompanyID" layoutX="165" layoutY="150"/>
+                <TextField fx:id="CardCompanyID" layoutX="270" layoutY="145" prefWidth="145" editable="false"/>
+                <Label text="CenterResultCode" layoutX="165" layoutY="173"/>
+                <TextField fx:id="CenterResultCode" layoutX="270" layoutY="168" prefWidth="145" editable="false"/>
+                <Label text="LogStatus" layoutX="165" layoutY="196"/>
+                <TextField fx:id="LogStatus" layoutX="270" layoutY="191" prefWidth="145" editable="false"/>
+                <Label text="SequenceNumber" layoutX="165" layoutY="219"/>
+                <TextField fx:id="SequenceNumber" layoutX="270" layoutY="214" prefWidth="145" editable="false"/>
+                <Label text="SlipNumber" layoutX="165" layoutY="242"/>
+                <TextField fx:id="SlipNumber" layoutX="270" layoutY="237" prefWidth="145" editable="false"/>
+                <Label text="TransactionType" layoutX="165" layoutY="265"/>
+                <TextField fx:id="TransactionType" layoutX="270" layoutY="260" prefWidth="145" editable="false"/>
+                <Label text="TransactionNumber" layoutX="165" layoutY="288"/>
+                <TextField fx:id="TransactionNumber" layoutX="270" layoutY="283" prefWidth="145" editable="false"/>
+                <Label text="PaymentCondition" layoutX="165" layoutY="311"/>
+                <TextField fx:id="PaymentCondition" layoutX="270" layoutY="306" prefWidth="145" editable="false"/>
+                <Label styleClass="BoldFont" text="PaymentMedia" layoutX="165" layoutY="334"/>
+                <ComboBox fx:id="PaymentMedia" layoutX="270" layoutY="329" prefWidth="145" editable="true" onAction="#setPaymentMedia"/>
+                <Label text="PaymentDetail" layoutX="425" layoutY="55" prefWidth="330" underline="true" alignment="CENTER"/>
+                <TextArea fx:id="PaymentDetail" layoutX="425" layoutY="75" prefHeight="65" prefWidth="330" editable="false" wrapText="true"/>
+                <Label styleClass="BoldFont" text="AdditionalSecurityInformation" layoutX="425" layoutY="140" prefWidth="330" alignment="CENTER" underline="true"/>
+                <TextArea fx:id="AdditionalSecurityInformation" layoutX="425" layoutY="157" prefHeight="95" prefWidth="330"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="CAT Administration" onSelectionChanged="#administrationSelection">
+            <AnchorPane fx:id="AdministrativeAnchor" prefHeight="380" prefWidth="755">
+                <Button text="AccessDailyLog" layoutY="30" onAction="#accessDailyLog" prefWidth="110"/>
+                <TextField fx:id="ADL_sequenceNumber" layoutY="55" promptText="sequenceNumber" prefWidth="110"/>
+                <ComboBox fx:id="ADL_type" layoutY="80" promptText="type" editable="true" prefWidth="110"/>
+                <ComboBox fx:id="ADL_timeout" layoutY="105" promptText="timeout" editable="true" prefWidth="110"/>
+                <Button text="CashDeposit" layoutX="120" layoutY="30" onAction="#cashDeposit" prefWidth="110"/>
+                <TextField fx:id="CD_sequenceNumber" layoutX="120" layoutY="55" promptText="sequenceNumber" prefWidth="110"/>
+                <TextField fx:id="CD_amount" layoutX="120" layoutY="80" promptText="amount" prefWidth="110"/>
+                <ComboBox fx:id="CD_timeout" layoutX="120" layoutY="105" promptText="timeout" editable="true" prefWidth="110"/>
+                <Button text="CheckCard " layoutX="240" layoutY="30" onAction="#checkCard" prefWidth="110"/>
+                <TextField fx:id="CC_sequenceNumber" layoutX="240" layoutY="55" promptText="sequenceNumber" prefWidth="110"/>
+                <ComboBox fx:id="CC_timeout" layoutX="240" layoutY="80" promptText="timeout" editable="true" prefWidth="110"/>
+                <Label text="Daily Log" layoutX="425" layoutY="33" prefWidth="330" underline="true" alignment="CENTER"/>
+                <TextArea fx:id="DailyLog" layoutX="425" layoutY="52" prefHeight="200" prefWidth="330"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Maintenance Methods" onSelectionChanged="#maintenanceSelection">
+            <AnchorPane fx:id="MaintenanceAnchor" prefHeight="380" prefWidth="755">
+                <Button text="LockTerminal" layoutY="35" onAction="#lockTerminal" prefWidth="88"/>
+                <Button text="UnlockTerminal" layoutX="95.5" layoutY="35" onAction="#unlockTerminal" prefWidth="98"/>
+                <ComboBox fx:id="SeqTioMethods" layoutY="35" layoutX="201" prefWidth="216.5" promptText="...ToMedium"/>
+                <TextField fx:id="ST_sequenceNumber" layoutY="60" layoutX="201" promptText="sequenceNumber" prefWidth="216.5"/>
+                <ComboBox fx:id="ST_timeout" layoutY="85" layoutX="201" promptText="timeout" prefWidth="216.5" editable="true"/>
+                <Button text="Call It" layoutY="115" layoutX="201" prefWidth="216.5" onAction="#callSeqTioMethod"/>
+                <Button onAction="#resetStatistics" layoutX="425" layoutY="35" text="ResetStatistics" prefWidth="105"/>
+                <Button onAction="#retrieveStatistics" layoutX="537.5" layoutY="35" text="RetrieveStatistics" prefWidth="105"/>
+                <Button onAction="#updateStatistics" layoutX="650" layoutY="35" text="UpdateStatistics" prefWidth="105"/>
+                <TextArea fx:id="_statisticsBuffer" layoutX="425" layoutY="60" prefWidth="330" prefHeight="75" promptText="statisticsBuffer"/>
+                <Button text="Create Object" layoutY="165" prefWidth="100" onAction="#createObject"/>
+                <TextField fx:id="CO_parameter" layoutY="190" prefWidth="100" promptText="parameter"/>
+                <TextField fx:id="CO_method" layoutY="215" prefWidth="100" promptText="method"/>
+                <TextField fx:id="CO_classname" layoutY="240" prefWidth="193.5" promptText="classname"/>
+                <ComboBox fx:id="CO_help" layoutY="165" layoutX="125" value="Help" prefWidth="68.5" onAction="#setCO_help"/>
+                <ComboBox onAction="#setTypeDataObjectMethod" fx:id="TypeDataObjectMethods" layoutY="165" layoutX="201" prefWidth="150" promptText="...Data"/>
+                <ComboBox fx:id="TDOM_type" layoutY="190" layoutX="201" promptText="type" prefWidth="150" editable="true"/>
+                <TextField fx:id="TDOM_data" layoutY="215" layoutX="201" promptText="data" prefWidth="150"/>
+                <TextField text="The Object" layoutY="240" layoutX="201" prefWidth="150" disable="true"/>
+                <Button text="Call It" layoutY="265" layoutX="201" prefWidth="150" onAction="#callTypeDataObjectMethod"/>
+                <Button onAction="#compareFirmwareVersion" layoutX="425" layoutY="165" text="CompareFirmwareVersion" prefWidth="155"/>
+                <TextField fx:id="CFV_firmwareFileName" layoutX="425" layoutY="190" prefWidth="130" promptText="firmwareFileName"/>
+                <Button styleClass="FileButton" onAction="#browseCFVName" layoutX="555" layoutY="190" text="▼" prefWidth="25"/>
+                <TextField fx:id="CFV_result" layoutX="425" layoutY="215" prefWidth="155" promptText="result" disable="true"/>
+                <Button onAction="#updateFirmware" layoutX="590" layoutY="165" text="UpdateFirmware" prefWidth="155"/>
+                <TextField fx:id="UF_firmwareFileName" layoutX="590" layoutY="190" prefWidth="130" promptText="firmwareFileName"/>
+                <Button styleClass="FileButton" onAction="#browseUFName" layoutX="720" layoutY="190" text="▼" prefWidth="25"/>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+    <ComboBox fx:id="ParameterControl" layoutY="166" prefWidth="170" onAction="#setParameterControl"/>
+    <TextField fx:id="PC_name" layoutX="170" layoutY="166" prefWidth="150" promptText="name"/>
+    <TextField fx:id="PC_value" layoutX="320" layoutY="166" prefWidth="350" promptText="value"/>
+    <Button text="Call It" layoutX="675" layoutY="166" onAction="#parameterControl"/>
+    <Label text="TransitionEvent" layoutX="425" layoutY="422" underline="true" prefWidth="330" alignment="CENTER"/>
+    <Button fx:id="TransitionContinue" text="Continue" visible="false" layoutX="680" layoutY="418" prefWidth="70" onAction="#transitionContinue"/>
+    <TextArea fx:id="TransitionEvent" layoutX="425" layoutY="442" prefHeight="95" prefWidth="330" disable="true"/>
+    <TextField fx:id="TransitionEventNumber" layoutX="430" layoutY="445" prefWidth="240" promptText="EventNumber" disable="true"/>
+    <TextField fx:id="TransitionData" layoutX="680" layoutY="445" prefWidth="70" promptText="pData" disable="true"/>
+    <TextArea fx:id="TransitionString" layoutX="427" layoutY="472" prefWidth="326" prefHeight="63" promptText="pString" disable="true"/>
+</AnchorPane>

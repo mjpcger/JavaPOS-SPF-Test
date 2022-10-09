@@ -202,6 +202,9 @@ public class DeviceControl {
                         } else if (category.equals("ElectronicJournal")) {
                             actdev.Control = new ElectronicJournal();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("ElectronicJournal.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("ElectronicValueRW")) {
+                            actdev.Control = new ElectronicValueRW();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("ElectronicValueRW.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("FiscalPrinter")) {
                             actdev.Control = new FiscalPrinter();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("FiscalPrinter.fxml"), new DeviceResources(actdev));
