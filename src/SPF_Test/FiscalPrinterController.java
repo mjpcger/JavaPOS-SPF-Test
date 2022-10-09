@@ -180,6 +180,7 @@ public class FiscalPrinterController extends CommonController {
         super.initialize(url, resourceBundle);
         ThePrinter = (FiscalPrinter) Control;
         ThePrinter.addDirectIOListener(this);
+
         ThePrinter.addStatusUpdateListener(this);
         StatusUpdateEventStatusValueConverter = new PrtStatusUpdateValues();
         ThePrinter.addErrorListener(this);
@@ -749,7 +750,7 @@ public class FiscalPrinterController extends CommonController {
         final boolean PrintHeader;
 
         BeginFiscalReceipt(boolean printHeader) {
-            super("BeginFiscalReceipt");
+            super(null);
             PrintHeader = printHeader;
         }
         @Override
@@ -1276,7 +1277,6 @@ public class FiscalPrinterController extends CommonController {
     class EndFiscalReceipt extends BeginFiscalReceipt {
         EndFiscalReceipt(boolean printHeader) {
             super(printHeader);
-            setName("EndFiscalReceipt");
         }
         @Override
         void runIt() throws JposException {
@@ -1796,7 +1796,7 @@ public class FiscalPrinterController extends CommonController {
         int OptArgs;
         String[] Data = new String[1];
         GetTotalizer(int vatID, int optArgs, String data) {
-            super("GetData");
+            super("GetTotalizer");
             VatID = vatID;
             OptArgs = optArgs;
             Data[0] = data;
@@ -1824,7 +1824,7 @@ public class FiscalPrinterController extends CommonController {
         int OptArgs;
         int[] VatRate = new int[1];
         GetVatEntry(int vatID, int optArgs, int vatRate) {
-            super("GetData");
+            super("GetVatEntry");
             VatID = vatID;
             OptArgs = optArgs;
             VatRate[0] = vatRate;

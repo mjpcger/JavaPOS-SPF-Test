@@ -489,7 +489,7 @@ public class LineDisplayController extends CommonController {
         final int Attribute;
 
         DisplayText(String data, int attribute) {
-            super("DisplayText");
+            super(null);
             Data = data;
             Attribute = attribute;
         }

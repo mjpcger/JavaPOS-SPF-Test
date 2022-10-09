@@ -105,7 +105,7 @@ public class KeylockController extends CommonController {
          * @param timeout Parameter <i>timeout</i>
          */
         WaitForKeylockChangeHandler(int keyPosition, int timeout) {
-            super("WaitForDrawerClose");
+            super("WaitForKeylockChange");
             KeyPosition = keyPosition;
             Timeout = timeout;
         }

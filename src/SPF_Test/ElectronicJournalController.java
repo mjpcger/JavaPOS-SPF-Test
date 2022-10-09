@@ -351,7 +351,7 @@ public class ElectronicJournalController extends CommonController {
 
     class EraseMediumHandler extends MethodProcessor {
         EraseMediumHandler() {
-            super("EraseMediumContent");
+            super("EraseMedium");
         }
         @Override
         void runIt() throws JposException {

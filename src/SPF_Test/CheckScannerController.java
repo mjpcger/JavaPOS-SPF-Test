@@ -478,7 +478,7 @@ public class CheckScannerController extends CommonController {
 
     private class EndRemoval extends MethodProcessor {
         EndRemoval() {
-            super("EndInsertion");
+            super("EndRemoval");
         }
         @Override
         void runIt() throws JposException {

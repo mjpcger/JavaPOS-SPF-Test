@@ -77,7 +77,7 @@ public class MotionSensorController extends CommonController {
         private final Integer Timeout;
 
         public WaitForMotionHandler(Integer timeout) {
-            super("WaitForGateClosed");
+            super("WaitForMotion");
             Timeout = timeout;
         }
 
