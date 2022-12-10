@@ -187,7 +187,7 @@
                 <TextField fx:id="CO_method" layoutY="215" prefWidth="100" promptText="method"/>
                 <TextField fx:id="CO_classname" layoutY="240" prefWidth="193.5" promptText="classname"/>
                 <ComboBox fx:id="CO_help" layoutY="165" layoutX="125" value="Help" prefWidth="68.5" onAction="#setCO_help"/>
-                <ComboBox onAction="#setTypeDataObjectMethod" fx:id="TypeDataObjectMethods" layoutY="165" layoutX="201" prefWidth="150" promptText="...Data"/>
+                <ComboBox onAction="#setTypeDataObjectMethod" fx:id="TypeDataObjectMethods" layoutY="165" layoutX="201" prefWidth="150" promptText="..Service/..Data/..Key"/>
                 <ComboBox fx:id="TDOM_type" layoutY="190" layoutX="201" promptText="type" prefWidth="150" editable="true"/>
                 <TextField fx:id="TDOM_data" layoutY="215" layoutX="201" promptText="data" prefWidth="150"/>
                 <TextField text="The Object" layoutY="240" layoutX="201" prefWidth="150" disable="true"/>
@@ -203,9 +203,10 @@
         </Tab>
     </TabPane>
     <ComboBox fx:id="ParameterControl" layoutY="166" prefWidth="170" onAction="#setParameterControl"/>
-    <TextField fx:id="PC_name" layoutX="170" layoutY="166" prefWidth="150" promptText="name"/>
-    <TextField fx:id="PC_value" layoutX="320" layoutY="166" prefWidth="350" promptText="value"/>
-    <Button text="Call It" layoutX="675" layoutY="166" onAction="#parameterControl"/>
+    <ComboBox fx:id="PC_name" layoutX="170" layoutY="166" prefWidth="225" promptText="name" onAction="#setPC_name" editable="true"/>
+    <ComboBox fx:id="PC_value" layoutX="395" layoutY="166" prefWidth="265" promptText="value" editable="true" onAction="#setPC_value"/>
+    <Button fx:id="PC_checkButton" text="Check" layoutX="660" layoutY="166" onAction="#checkPCvalue"/>
+    <Button text="Call It" layoutX="710" layoutY="166" onAction="#parameterControl"/>
     <Label text="TransitionEvent" layoutX="425" layoutY="422" underline="true" prefWidth="330" alignment="CENTER"/>
     <Button fx:id="TransitionContinue" text="Continue" visible="false" layoutX="680" layoutY="418" prefWidth="70" onAction="#transitionContinue"/>
     <TextArea fx:id="TransitionEvent" layoutX="425" layoutY="442" prefHeight="95" prefWidth="330" disable="true"/>

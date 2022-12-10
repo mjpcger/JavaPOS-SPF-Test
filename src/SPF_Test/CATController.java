@@ -28,7 +28,6 @@ import jpos.JposConst;
 import jpos.JposException;
 import jpos.events.DirectIOEvent;
 
-import javax.swing.*;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -177,8 +176,8 @@ public class CATController extends CommonController {
         super.updateGui();
         if (!InUpdateGui) {
             InUpdateGui = true;
-            string2Decimal(BalanceRow);
-            string2Decimal(SettledAmountRow);
+            rowValue2Decimal(BalanceRow);
+            rowValue2Decimal(SettledAmountRow);
             AccountNumber.setText(AccountNumberRow.getValue());
             Balance.setText(BalanceRow.getValue());
             SettledAmount.setText(SettledAmountRow.getValue());
@@ -227,8 +226,8 @@ public class CATController extends CommonController {
         if (isMethodRunning())
             return;
         Integer seq = new IntValues().getInteger(A_sequenceNumber.getText());
-        Long amount = getDecimal(new PropertyTableRow("", A_amount.getText()));
-        Long taxother = getDecimal(new PropertyTableRow("", A_taxOthers.getText()));
+        Long amount = getDecimalRowValue(new PropertyTableRow("", A_amount.getText()));
+        Long taxother = getDecimalRowValue(new PropertyTableRow("", A_taxOthers.getText()));
         Integer tio = new TimeoutValues().getInteger(A_timeout.getValue());
         if (!invalid(seq, "sequenceNumber") && !invalid(amount, "amount") && !invalid(taxother, "taxOther") && !invalid(tio, "timeout"))
             new AuthorizeCompletionHandler(seq, amount, taxother, tio).start();
@@ -250,8 +249,8 @@ public class CATController extends CommonController {
         if (isMethodRunning())
             return;
         Integer seq = new IntValues().getInteger(A_sequenceNumber.getText());
-        Long amount = getDecimal(new PropertyTableRow("", A_amount.getText()));
-        Long taxother = getDecimal(new PropertyTableRow("", A_taxOthers.getText()));
+        Long amount = getDecimalRowValue(new PropertyTableRow("", A_amount.getText()));
+        Long taxother = getDecimalRowValue(new PropertyTableRow("", A_taxOthers.getText()));
         Integer tio = new TimeoutValues().getInteger(A_timeout.getValue());
         if (!invalid(seq, "sequenceNumber") && !invalid(amount, "amount") && !invalid(taxother, "taxOther") && !invalid(tio, "timeout"))
             new AuthorizePreSalesHandler(seq, amount, taxother, tio).start();
@@ -273,8 +272,8 @@ public class CATController extends CommonController {
         if (isMethodRunning())
             return;
         Integer seq = new IntValues().getInteger(A_sequenceNumber.getText());
-        Long amount = getDecimal(new PropertyTableRow("", A_amount.getText()));
-        Long taxother = getDecimal(new PropertyTableRow("", A_taxOthers.getText()));
+        Long amount = getDecimalRowValue(new PropertyTableRow("", A_amount.getText()));
+        Long taxother = getDecimalRowValue(new PropertyTableRow("", A_taxOthers.getText()));
         Integer tio = new TimeoutValues().getInteger(A_timeout.getValue());
         if (!invalid(seq, "sequenceNumber") && !invalid(amount, "amount") && !invalid(taxother, "taxOther") && !invalid(tio, "timeout"))
             new AuthorizeRefundHandler(seq, amount, taxother, tio).start();
@@ -296,8 +295,8 @@ public class CATController extends CommonController {
         if (isMethodRunning())
             return;
         Integer seq = new IntValues().getInteger(A_sequenceNumber.getText());
-        Long amount = getDecimal(new PropertyTableRow("", A_amount.getText()));
-        Long taxother = getDecimal(new PropertyTableRow("", A_taxOthers.getText()));
+        Long amount = getDecimalRowValue(new PropertyTableRow("", A_amount.getText()));
+        Long taxother = getDecimalRowValue(new PropertyTableRow("", A_taxOthers.getText()));
         Integer tio = new TimeoutValues().getInteger(A_timeout.getValue());
         if (!invalid(seq, "sequenceNumber") && !invalid(amount, "amount") && !invalid(taxother, "taxOther") && !invalid(tio, "timeout"))
             new AuthorizeSalesHandler(seq, amount, taxother, tio).start();
@@ -319,8 +318,8 @@ public class CATController extends CommonController {
         if (isMethodRunning())
             return;
         Integer seq = new IntValues().getInteger(A_sequenceNumber.getText());
-        Long amount = getDecimal(new PropertyTableRow("", A_amount.getText()));
-        Long taxother = getDecimal(new PropertyTableRow("", A_taxOthers.getText()));
+        Long amount = getDecimalRowValue(new PropertyTableRow("", A_amount.getText()));
+        Long taxother = getDecimalRowValue(new PropertyTableRow("", A_taxOthers.getText()));
         Integer tio = new TimeoutValues().getInteger(A_timeout.getValue());
         if (!invalid(seq, "sequenceNumber") && !invalid(amount, "amount") && !invalid(taxother, "taxOther") && !invalid(tio, "timeout"))
             new AuthorizeVoidHandler(seq, amount, taxother, tio).start();
@@ -342,8 +341,8 @@ public class CATController extends CommonController {
         if (isMethodRunning())
             return;
         Integer seq = new IntValues().getInteger(A_sequenceNumber.getText());
-        Long amount = getDecimal(new PropertyTableRow("", A_amount.getText()));
-        Long taxother = getDecimal(new PropertyTableRow("", A_taxOthers.getText()));
+        Long amount = getDecimalRowValue(new PropertyTableRow("", A_amount.getText()));
+        Long taxother = getDecimalRowValue(new PropertyTableRow("", A_taxOthers.getText()));
         Integer tio = new TimeoutValues().getInteger(A_timeout.getValue());
         if (!invalid(seq, "sequenceNumber") && !invalid(amount, "amount") && !invalid(taxother, "taxOther") && !invalid(tio, "timeout"))
             new AuthorizeVoidPreSalesHandler(seq, amount, taxother, tio).start();
@@ -429,7 +428,7 @@ public class CATController extends CommonController {
     public void cashDeposit(ActionEvent actionEvent) {
         if (isMethodRunning())
             return;
-        Long amount = getDecimal(new PropertyTableRow("", CD_amount.getText()));
+        Long amount = getDecimalRowValue(new PropertyTableRow("", CD_amount.getText()));
         Integer seq = new IntValues().getInteger(CD_sequenceNumber.getText());
         Integer tio = new TimeoutValues().getInteger(CD_timeout.getValue());
         if (!invalid(seq, "sequenceNumber") && !invalid(amount, "amount") && !invalid(tio, "timeout"))

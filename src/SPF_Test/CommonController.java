@@ -261,29 +261,33 @@ public class CommonController implements Initializable, Runnable, DataListener, 
      */
     public int PropertyValueColumnWidth = 0;
 
-    void string2Decimal(PropertyTableRow row) {
+    String currencyStringToDecimalString(String source, int digits) {
         try {
-            row.setValue(new BigDecimal(Long.parseLong(row.getValue()))
-                    .scaleByPowerOfTen(-4).setScale(CurrencyDigits.getValue(), RoundingMode.HALF_UP).toString());
+            return new BigDecimal(source).scaleByPowerOfTen(-4).setScale(digits, RoundingMode.HALF_EVEN).toString();
         } catch (Exception e) {
-            row.setValue("");
+            return "";
         }
     }
 
-    Long getDecimal(PropertyTableRow row) {
+    String  decimalStringToCurrencyString(String source) {
         try {
-            return new BigDecimal(row.getValue()).multiply(new BigDecimal(10000)).longValueExact();
+            return Long.toString(new BigDecimal(source).scaleByPowerOfTen(4).longValueExact());
         } catch (Exception e) {
-            return null;
+            return "";
         }
     }
 
-    void setDecimal(PropertyTableRow row, long value) {
-        try {
-            row.setValue(new BigDecimal(value).scaleByPowerOfTen(-4).setScale(CurrencyDigits.getValue(), RoundingMode.HALF_UP).toString());
-        } catch (Exception e) {
-            row.setValue("");
-        }
+    void rowValue2Decimal(PropertyTableRow row) {
+        row.setValue(currencyStringToDecimalString(row.getValue(), CurrencyDigits.getValue()));
+    }
+
+    Long getDecimalRowValue(PropertyTableRow row) {
+        String result = decimalStringToCurrencyString(row.getValue());
+        return result.length() == 0 ? null : Long.parseLong(result);
+    }
+
+    void setDecimalRowValue(PropertyTableRow row, long value) {
+        row.setValue(currencyStringToDecimalString(Long.toString(value), CurrencyDigits.getValue()));
     }
 
     void formatDecimalTextField(TextField field, int decimals) {
@@ -295,11 +299,8 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     void setDecimalTextField(TextField field, long value) {
-        try {
-            field.setText(new BigDecimal(value).scaleByPowerOfTen(-4).setScale(CurrencyDigits.getValue(), RoundingMode.HALF_UP).toString());
-        } catch (Exception e) {
-            field.setText(null);
-        }
+        String result = currencyStringToDecimalString(Long.toString(value), CurrencyDigits.getValue());
+        field.setText(result.length() == 0 ? null : result);
     }
 
     void formatDecimalOnFocusLost(TextField field) {

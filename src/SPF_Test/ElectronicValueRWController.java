@@ -31,6 +31,8 @@ import jpos.events.TransitionListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -68,7 +70,6 @@ public class ElectronicValueRWController extends CommonController implements Tra
     public TextArea TransitionEvent;
     public AnchorPane CardDetection;
     public AnchorPane EVRWAuthorizeAnchor;
-    public AnchorPane ServiceControl;
     public AnchorPane AuthorizeAnchor;
     public AnchorPane AdministrativeAnchor;
     public AnchorPane MaintenanceAnchor;
@@ -78,8 +79,8 @@ public class ElectronicValueRWController extends CommonController implements Tra
     public ComboBox<String> PINEntry;
     public TextField MediumID;
     public ComboBox<String> ParameterControl;
-    public TextField PC_name;
-    public TextField PC_value;
+    public ComboBox<String> PC_name;
+    public ComboBox<String> PC_value;
     public TextField TransitionEventNumber;
     public TextField TransitionData;
     public TextArea TransitionString;
@@ -112,6 +113,7 @@ public class ElectronicValueRWController extends CommonController implements Tra
     public TextField Point;
     public ComboBox<String> VoucherID;
     public TextField VoucherIDList;
+    public Button PC_checkButton;
     private ElectronicValueRW TheElectronicValueRW;
     private PropertyTableRow AdditionalSecurityInformationRow;
     private PropertyTableRow BalanceRow;
@@ -148,6 +150,198 @@ public class ElectronicValueRWController extends CommonController implements Tra
     private PropertyTableRow VoucherIDRow;
     private PropertyTableRow VoucherIDListRow;
     private PropertyTableRow CapPINDeviceRow;
+
+    static Integer NIT_ALL;
+    static Integer NIT_UPDATED;
+    static Integer TT_COMPLETION;
+    static Integer TT_PRE_SALES;
+
+    static {
+        // Missing constants, use OPOS values from https://github.com/kunif/OPOS-CCO/blob/v1.16.0/Common/Opos/OposEvrw.h
+        try {   // Missing in 1.14
+            NIT_ALL = (Integer)ElectronicValueRWConst.class.getField("EVRW_TAG_NIT_ALL").get(null);
+            NIT_UPDATED = (Integer)ElectronicValueRWConst.class.getField("EVRW_TAG_NIT_UPDATED").get(null);
+        } catch (Exception e) {
+            NIT_ALL = 1;
+            NIT_UPDATED = 2;
+        }
+        try {   // Missing in 1.15
+            TT_COMPLETION = (Integer)ElectronicValueRWConst.class.getField("EVRW_TAG_TT_COMPLETION").get(null);
+            TT_PRE_SALES = (Integer)ElectronicValueRWConst.class.getField("EVRW_TAG_TT_PRE_SALES").get(null);
+        } catch (Exception e) {
+            TT_COMPLETION = 10;
+            TT_PRE_SALES = 11;
+        }
+    }
+
+    private Object[] TagValues = {
+            "AccessLogLastDateTime", LocalDateTime.class,
+            "AccountNumber", null,
+            "Amount", Long.class,
+            "AmountForPoint", Long.class,
+            "AuthenticationStatus", new Object[]{
+                    ElectronicValueRWConst.EVRW_TAG_AS_AUTHENTICATED, "AS_AUTHENTICATED",
+                    ElectronicValueRWConst.EVRW_TAG_AS_UNAUTHENTICATED, "AS_UNAUTHENTICATED"
+            },
+            "AutoCharge", new String[]{"True", "False"},
+            "Balance", Long.class,
+            "BalanceOfPoint", Long.class,
+            "BusinessUnitID", null,
+            "CancelTransactionType",  new Object[]{
+                    ElectronicValueRWConst.EVRW_TAG_CTT_CANCEL, "CTT_CANCEL",
+                    ElectronicValueRWConst.EVRW_TAG_CTT_CHARGE, "CTT_CHARGE",
+                    ElectronicValueRWConst.EVRW_TAG_CTT_RETURN, "CTT_RETURN",
+                    ElectronicValueRWConst.EVRW_TAG_CTT_SALES, "CTT_SALES"
+            },
+            "CardCompanyName", null,
+            "CardTransactionLogID", null,
+            "CardTransactionNumber", Integer.class,
+            "ChargeableAmount", Long.class,
+            "ChargeableCount", Integer.class,
+            "ChargeMethod", new Object[]{
+                    ElectronicValueRWConst.EVRW_TAG_CM_CASH, "CM_CASH",
+                    ElectronicValueRWConst.EVRW_TAG_CM_CREDIT, "CM_CREDIT",
+                    ElectronicValueRWConst.EVRW_TAG_CM_POINT, "CM_POINT"
+            },
+            "DateTime", LocalDateTime.class,
+            "EffectiveDaysOfKey", Integer.class,
+            "EndAccountID", null,
+            "EndDateTime", LocalDateTime.class,
+            "EndEVRWTransactionNumber", Integer.class,
+            "EndPOSTransactionNumber", Integer.class,
+            "EVRWApprovalCode", null,
+            "EVRWDataUpdateDateTime", LocalDateTime.class,
+            "EVRWDateTime", LocalDateTime.class,
+            "EVRWID", Integer.class,
+            "EVRWTransactionLogID", null,
+            "EVRWTransactionNumber", Integer.class,
+            "ExpirationDate", LocalDateTime.class,
+            "ExpiredAccountID", null,
+            "ForceOnlineCheck", new String[]{"True", "False"},
+            "InsufficientAmount", Long.class,
+            "ItemCode", null,
+            "KeyExpirationDateTime", LocalDateTime.class,
+            "KeyUpdateDateTime", LocalDateTime.class,
+            "LastTimeBalance", LocalDateTime.class,
+            "LastTimeCardTransactionLogID", null,
+            "LastTimeEVRWTransactionLogID", null,
+            "LastUsedDateTime", LocalDateTime.class,
+            "LogCheck", new String[]{"True", "False"},
+            "MediaData", null,
+            "MediumID", Integer.class,
+            "MediumIssuerInformation", null,
+            "MemberInformation", null,
+            "MerchantID", null,
+            "ModuleID", Integer.class,
+            "NegativeInformationType",new Object[]{
+                    NIT_ALL, "NIT_ALL",
+                    NIT_UPDATED, "NIT_UPDATED"
+            },
+            "NegativeInformationUpdateDateTime", LocalDateTime.class,
+            "NumberOfAddition", Integer.class,
+            "NumberOfEVRWTransactionLog", Integer.class,
+            "NumberOfFreeEVRWTransactionLog", Integer.class,
+            "NumberOfRecord", Integer.class,
+            "NumberOfSentEVRWTransactionLog", Integer.class,
+            "NumberOfSubtraction", Integer.class,
+            "NumberOfTransaction", Integer.class,
+            "NumberOfUncompletedAddition", Integer.class,
+            "NumberOfUncompletedSubtraction", Integer.class,
+            "NumberOfUncompletedVoid", Integer.class,
+            "NumberOfVoid", Integer.class,
+            "OtherAmount", LocalDateTime.class,
+            "PaymentCondition", new Object[]{
+                    ElectronicValueRWConst.EVRW_TAG_PC_INSTALLMENT_1, "PC_INSTALLMENT_1",
+                    ElectronicValueRWConst.EVRW_TAG_PC_INSTALLMENT_2, "PC_INSTALLMENT_2",
+                    ElectronicValueRWConst.EVRW_TAG_PC_INSTALLMENT_3, "PC_INSTALLMENT_3",
+                    ElectronicValueRWConst.EVRW_TAG_PC_BONUS_1, "PC_BONUS_1",
+                    ElectronicValueRWConst.EVRW_TAG_PC_BONUS_2, "PC_BONUS_2",
+                    ElectronicValueRWConst.EVRW_TAG_PC_BONUS_3, "PC_BONUS_3",
+                    ElectronicValueRWConst.EVRW_TAG_PC_BONUS_4, "PC_BONUS_4",
+                    ElectronicValueRWConst.EVRW_TAG_PC_BONUS_5, "PC_BONUS_5",
+                    ElectronicValueRWConst.EVRW_TAG_PC_BONUS_COMBINATION_1, "PC_BONUS_COMBINATION_1",
+                    ElectronicValueRWConst.EVRW_TAG_PC_BONUS_COMBINATION_2, "PC_BONUS_COMBINATION_2",
+                    ElectronicValueRWConst.EVRW_TAG_PC_BONUS_COMBINATION_3, "PC_BONUS_COMBINATION_3",
+                    ElectronicValueRWConst.EVRW_TAG_PC_BONUS_COMBINATION_4, "PC_BONUS_COMBINATION_4",
+                    ElectronicValueRWConst.EVRW_TAG_PC_LUMP, "PC_LUMP",
+                    ElectronicValueRWConst.EVRW_TAG_PC_REVOLVING, "PC_REVOLVING"
+            },
+            "PaymentDetail", null,
+            "PaymentMethod", new Object[]{
+                    ElectronicValueRWConst.EVRW_TAG_PM_COMBINED, "PM_COMBINED",
+                    ElectronicValueRWConst.EVRW_TAG_PM_FULL_SETTLEMENT, "PM_FULL_SETTLEMENT"
+            },
+            "PaymentMethodForPoint", new Object[]{
+                    ElectronicValueRWConst.EVRW_TAG_PMFP_CASH, "PMFP_CASH",
+                    ElectronicValueRWConst.EVRW_TAG_PMFP_CREDIT, "PMFP_CREDIT",
+                    ElectronicValueRWConst.EVRW_TAG_PMFP_EM, "PMFP_EM",
+                    ElectronicValueRWConst.EVRW_TAG_PMFP_OTHER, "PMFP_OTHER"
+            },
+            "Point", Integer.class,
+            "POSDateTime", LocalDateTime.class,
+            "POSTransactionNumber", Integer.class,
+            "RegistrableServiceCapacity", Integer.class,
+            "RequestedAutoChargeAmount", Long.class,
+            "ResponseCode1", Integer.class,
+            "ResponseCode2", Integer.class,
+            "ResultOnSettlement", new Object[]{
+                    ElectronicValueRWConst.EVRW_TAG_ROS_NG, "ROS_NG",
+                    ElectronicValueRWConst.EVRW_TAG_ROS_OK, "ROS_OK",
+                    ElectronicValueRWConst.EVRW_TAG_ROS_UNKNOWN, "ROS_UNKNOWN"
+            },
+            "RetryTimeout", Integer.class,
+            "SettledAmount", Long.class,
+            "SettledAutoChargeAmount", Long.class,
+            "SettledMemberInformation", null,
+            "SettledOther-Amount", Long.class,
+            "SettledPoint", Integer.class,
+            "SetttledVoucherID", null,
+            "SettlementNumber", Integer.class,
+            "SignatureFlag", new String[]{"True", "False"},
+            "SoundAssistFlag", new String[]{"True", "False"},
+            "StartAccountID", null,
+            "StartDateTime", LocalDateTime.class,
+            "StartEVRWTransactionNumber", Integer.class,
+            "StartPOSTransactionNumber", Integer.class,
+            "SummaryTermType", new Object[]{
+                    ElectronicValueRWConst.EVRW_TAG_STT_1, "STT_1",
+                    ElectronicValueRWConst.EVRW_TAG_STT_2, "STT_2",
+                    ElectronicValueRWConst.EVRW_TAG_STT_3, "STT_3"
+            },
+            "TargetService", null,
+            "TaxOthers", Long.class,
+            "TotalAmountOfAddition", Long.class,
+            "TotalAmountOfSubtraction", Long.class,
+            "TotalAmountOfTransaction", Long.class,
+            "TotalAmountOfUncompletedAddition", Long.class,
+            "TotalAmountOfUncompletedSubtraction", Long.class,
+            "TotalAmountOfUncompletedVoid", Long.class,
+            "TotalAmountOfVoid", Long.class,
+            "TouchTimeout", Integer.class,
+            "TransactionType", new Object[]{
+                    ElectronicValueRWConst.EVRW_TAG_TT_ADD, "TT_ADD",
+                    ElectronicValueRWConst.EVRW_TAG_TT_CANCEL_CHARGE, "TT_CANCEL_CHARGE",
+                    ElectronicValueRWConst.EVRW_TAG_TT_CANCEL_RETURN, "TT_CANCEL_RETURN",
+                    ElectronicValueRWConst.EVRW_TAG_TT_CANCEL_SALES, "TT_CANCEL_SALES",
+                    ElectronicValueRWConst.EVRW_TAG_TT_GET_LOG, "TT_GET_LOG",
+                    ElectronicValueRWConst.EVRW_TAG_TT_READ, "TT_READ",
+                    ElectronicValueRWConst.EVRW_TAG_TT_RETURN, "TT_RETURN",
+                    ElectronicValueRWConst.EVRW_TAG_TT_SUBTRACT, "TT_SUBTRACT",
+                    ElectronicValueRWConst.EVRW_TAG_TT_WRITE, "TT_WRITE",
+                    TT_COMPLETION, "TT_COMPLETION",
+                    TT_PRE_SALES, "TT_PRE_SALES"
+            },
+            "UILCDControl", new String[]{"True", "False"},
+            "UILEDControl", new String[]{"True", "False"},
+            "UISOUNDControl", new String[]{"True", "False"},
+            "VOIDorRETURN", new Object[]{1, "Void", 2, "Return"},
+            "VoidTransactionType", new Object[]{1, "Cash", 2, "Exchanging points"},
+            "VoucherID", null,
+            "VoucherIDList", null,
+            "WorkstationID", null,
+            "WorkstationMaker", null,
+            "WorkstationSerialNumber", null
+    };
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -272,9 +466,9 @@ public class ElectronicValueRWController extends CommonController implements Tra
         CO_help.getItems().add("To create an object using a constructor with one String parameter, simply set parameter to the necessary");
         CO_help.getItems().add("string, classname to the name of the class of the object to be generated and let method empty.");
         CO_help.getItems().add("");
-        CO_help.getItems().add("If you use a factory class with a static factory method consuming one String parameter, setparameter to the");
+        CO_help.getItems().add("If you use a factory class with a static factory method consuming one String parameter, set parameter to the");
         CO_help.getItems().add("necessary string, classname to the name of the factory class and method to the factory method name.");
-        CO_help.getItems().add("After pressing the CreateObject button, JavaPOS-SPF-Test calls uses classname, method and parameter to create");
+        CO_help.getItems().add("After pressing the CreateObject button, JavaPOS-SPF-Test uses classname, method and parameter to create");
         CO_help.getItems().add("the object for later use in any of the EVRW methods that need an Object parameter.");
         TypeDataObjectMethods.getItems().add("ActivateService");
         TypeDataObjectMethods.getItems().add("ActivateEVService");
@@ -315,6 +509,9 @@ public class ElectronicValueRWController extends CommonController implements Tra
         setPropertyOnFocusLost(Amount, "Amount");
         setPropertyOnFocusLost(Point, "Point");
         setPropertyOnFocusLost(VoucherIDList, "VoucherIDList");
+        for (int i = 0; i < TagValues.length; i += 2) {
+            PC_name.getItems().add(TagValues[i].toString());
+        }
         updateGui();
     }
 
@@ -323,16 +520,16 @@ public class ElectronicValueRWController extends CommonController implements Tra
         super.updateGui();
         if (!InUpdateGui) {
             InUpdateGui = true;
-            string2Decimal(BalanceRow);
-            string2Decimal(SettledAmountRow);
+            rowValue2Decimal(BalanceRow);
+            rowValue2Decimal(SettledAmountRow);
             AccountNumber.setText(AccountNumberRow.getValue());
             Balance.setText(BalanceRow.getValue());
             SettledAmount.setText(SettledAmountRow.getValue());
             PropertyTableRow dummy = new PropertyTableRow("", AmountRow.getValue());
-            string2Decimal(dummy);
+            rowValue2Decimal(dummy);
             Amount.setText(dummy.getValue());
             dummy.setValue(PointRow.getValue());
-            string2Decimal(dummy);
+            rowValue2Decimal(dummy);
             Point.setText(dummy.getValue());
             VoucherIDList.setText(VoucherIDListRow.getValue());
             ApprovalCode.setText(ApprovalCodeRow.getValue());
@@ -422,14 +619,23 @@ public class ElectronicValueRWController extends CommonController implements Tra
         try {
             if ("RetrieveResultInformation".equals(ParameterControl.getValue())) {
                 String[] value = {""};
-                TheElectronicValueRW.retrieveResultInformation(PC_name.getText(), value);
-                PC_value.setText(value[0]);
+                TheElectronicValueRW.retrieveResultInformation(PC_name.getValue(), value);
+                if (PC_valueConverter != null) {
+                    PC_value.setValue(PC_valueConverter.getSymbol(value[0]));
+                } else
+                    PC_value.setValue(value[0]);
             } else if ("SetParameterInformation".equals(ParameterControl.getValue())) {
-                TheElectronicValueRW.setParameterInformation(PC_name.getText(), PC_value.getText());
+                String val = PC_value.getValue();
+                if (PC_valueConverter != null) {
+                    Integer ival = PC_valueConverter.getInteger(val);
+                    if (ival != null)
+                        val = ival.toString();
+                }
+                TheElectronicValueRW.setParameterInformation(PC_name.getValue(), val);
             } else {
                 TheElectronicValueRW.clearParameterInformation();
-                PC_value.setText("");
-                PC_name.setText("");
+                PC_value.setValue("");
+                PC_name.setValue("");
             }
         } catch (JposException e) {
             getFullErrorMessageAndPrintTrace(e);
@@ -439,7 +645,143 @@ public class ElectronicValueRWController extends CommonController implements Tra
 
     public void setParameterControl(ActionEvent actionEvent) {
         PC_value.setDisable(!"SetParameterInformation".equals(ParameterControl.getValue()));
+        PC_checkButton.setDefaultButton(!"SetParameterInformation".equals(ParameterControl.getValue()));
         PC_name.setDisable("ClearParameterInformation".equals(ParameterControl.getValue()));
+        updateGuiLater();
+    }
+
+    private Object PC_condition = null;
+    private Values PC_valueConverter = null;
+
+    public void setPC_name(ActionEvent actionEvent) {
+        String name = PC_name.getValue();
+        String[] value = {PC_value.getValue(), null};
+        Integer intvalue = initializeValueObjects(value);
+        PC_value.getItems().clear();
+        PC_valueConverter = null;
+        for (int i = 0; i < TagValues.length; i += 2) {
+            if (TagValues[i].toString().equals(name)) {
+                PC_condition = TagValues[i + 1];
+                if (PC_condition instanceof String[]) {
+                    convertValueForBoolean();
+                }
+                else if (PC_condition instanceof Object[]) {
+                    convertValueForEnumeration(value, intvalue);
+                }
+                else if (PC_condition == Long.class) {
+                    convertValueForCurrency(value);
+                }
+                // No specific handling for the following PC_condition values:
+                // LocalDateTime.class (Datetime), Integer.class (Number) and null (String)
+                break;
+            }
+        }
+        PC_value.setValue(value[0]);
+        updateGuiLater();
+    }
+
+    private Integer initializeValueObjects(String[] value) {
+        Integer intvalue = null;
+        if (PC_valueConverter != null) {
+            intvalue = PC_valueConverter.getInteger(value[0]);
+            if (intvalue != null)
+                value[0] = "" + intvalue;
+        } else if (PC_condition == Long.class && value[0] != null && value[0].indexOf('.') >= 0) {
+            String s = decimalStringToCurrencyString(value[0]);
+            if (s.length() > 0) {
+                value[1] = value[0];
+                value[0] = s;
+            }
+        }
+        return intvalue;
+    }
+
+    private void convertValueForBoolean() {
+        // Predefined strings (Boolean)
+        for (String s : (String[]) PC_condition)
+            PC_value.getItems().add(s);
+    }
+
+    private void convertValueForEnumeration(String[] value, Integer intvalue) {
+        // PC_condition is array of int - name pairs
+        PC_valueConverter = new Values();
+        PC_valueConverter.ValueList = (Object[]) PC_condition;
+        if (intvalue == null)
+            intvalue = PC_valueConverter.getInteger(value[0]);
+        for (int j = 0; j < PC_valueConverter.ValueList.length; j += 2) {
+            String s = PC_valueConverter.ValueList[j + 1].toString();
+            PC_value.getItems().add(s);
+            if (s.equals(value[0]) || (intvalue != null && intvalue == PC_valueConverter.getInteger(s)))
+                value[0] = s;
+        }
+    }
+
+    private void convertValueForCurrency(String[] value) {
+        if (value[1] == null) {
+            String s = currencyStringToDecimalString(value[0], 4);
+            if (s.length() > 0) {
+                for (int i = 4; i > CurrencyDigits.getValue(); --i) {
+                    if (s.charAt(s.length() - 1) == '0')
+                        s = s.substring(0, s.length() - 1);
+                    else
+                        break;
+                }
+                value[0] = s;
+            }
+        }
+        else
+            value[0] = value[1];
+    }
+
+    public void checkPCvalue(ActionEvent actionEvent) {
+        Object s = null;
+        try {
+            if (PC_condition == Long.class) {
+                s = decimalStringToCurrencyString(PC_value.getValue());
+                if (s.toString().length() == 0)
+                    throw new Exception("Invalid Currency: " + PC_value.getValue());
+            }
+            else if (PC_condition == Integer.class) {
+                s = Integer.parseInt(PC_value.getValue());
+            }
+            else if (PC_condition == null) {
+                s = PC_value.getValue();
+            }
+            else if (PC_condition == LocalDateTime.class) {
+                s = LocalDateTime.parse(PC_value.getValue(), DateTimeFormatter.ISO_DATE_TIME);
+            }
+            else if (PC_condition instanceof String[]) {
+                for (String h : (String[]) PC_condition) {
+                    if (h.equals(PC_value.getValue()))
+                        s = h;
+                }
+            }
+            else if (PC_valueConverter != null) {
+                s = PC_valueConverter.getValue(PC_value.getValue());
+            }
+            s.toString();
+        } catch (Exception e) {
+            getFullErrorMessageAndPrintTrace(e);
+        }
+        updateGuiLater();
+    }
+
+    public void setPC_value(ActionEvent actionEvent) {
+        if (PC_condition == Long.class) {
+            String s = PC_value.getValue();
+            if (s != null && s.length() > 0 && s.indexOf('.') < 0) {
+                s = currencyStringToDecimalString(s, 4);
+                if (s.length() > 0) {
+                    for (int i = 4; i > CurrencyDigits.getValue(); --i) {
+                        if (s.charAt(s.length() - 1) == '0')
+                            s = s.substring(0, s.length() - 1);
+                        else
+                            break;
+                    }
+                    PC_value.setValue(s);
+                }
+            }
+        }
     }
 
     Object TheObject = null;
@@ -1179,8 +1521,8 @@ public class ElectronicValueRWController extends CommonController implements Tra
         if (isMethodRunning())
             return;
         Integer seq = new IntValues().getInteger(A_sequenceNumber.getText());
-        Long amount = getDecimal(new PropertyTableRow("", A_amount.getText()));
-        Long taxother = getDecimal(new PropertyTableRow("", A_taxOthers.getText()));
+        Long amount = getDecimalRowValue(new PropertyTableRow("", A_amount.getText()));
+        Long taxother = getDecimalRowValue(new PropertyTableRow("", A_taxOthers.getText()));
         Integer tio = new TimeoutValues().getInteger(A_timeout.getValue());
         if (!invalid(seq, "sequenceNumber") && !invalid(amount, "amount") && !invalid(taxother, "taxOther") && !invalid(tio, "timeout"))
             new AuthorizeCompletionHandler(seq, amount, taxother, tio).start();
@@ -1202,8 +1544,8 @@ public class ElectronicValueRWController extends CommonController implements Tra
         if (isMethodRunning())
             return;
         Integer seq = new IntValues().getInteger(A_sequenceNumber.getText());
-        Long amount = getDecimal(new PropertyTableRow("", A_amount.getText()));
-        Long taxother = getDecimal(new PropertyTableRow("", A_taxOthers.getText()));
+        Long amount = getDecimalRowValue(new PropertyTableRow("", A_amount.getText()));
+        Long taxother = getDecimalRowValue(new PropertyTableRow("", A_taxOthers.getText()));
         Integer tio = new TimeoutValues().getInteger(A_timeout.getValue());
         if (!invalid(seq, "sequenceNumber") && !invalid(amount, "amount") && !invalid(taxother, "taxOther") && !invalid(tio, "timeout"))
             new AuthorizePreSalesHandler(seq, amount, taxother, tio).start();
@@ -1225,8 +1567,8 @@ public class ElectronicValueRWController extends CommonController implements Tra
         if (isMethodRunning())
             return;
         Integer seq = new IntValues().getInteger(A_sequenceNumber.getText());
-        Long amount = getDecimal(new PropertyTableRow("", A_amount.getText()));
-        Long taxother = getDecimal(new PropertyTableRow("", A_taxOthers.getText()));
+        Long amount = getDecimalRowValue(new PropertyTableRow("", A_amount.getText()));
+        Long taxother = getDecimalRowValue(new PropertyTableRow("", A_taxOthers.getText()));
         Integer tio = new TimeoutValues().getInteger(A_timeout.getValue());
         if (!invalid(seq, "sequenceNumber") && !invalid(amount, "amount") && !invalid(taxother, "taxOther") && !invalid(tio, "timeout"))
             new AuthorizeRefundHandler(seq, amount, taxother, tio).start();
@@ -1248,8 +1590,8 @@ public class ElectronicValueRWController extends CommonController implements Tra
         if (isMethodRunning())
             return;
         Integer seq = new IntValues().getInteger(A_sequenceNumber.getText());
-        Long amount = getDecimal(new PropertyTableRow("", A_amount.getText()));
-        Long taxother = getDecimal(new PropertyTableRow("", A_taxOthers.getText()));
+        Long amount = getDecimalRowValue(new PropertyTableRow("", A_amount.getText()));
+        Long taxother = getDecimalRowValue(new PropertyTableRow("", A_taxOthers.getText()));
         Integer tio = new TimeoutValues().getInteger(A_timeout.getValue());
         if (!invalid(seq, "sequenceNumber") && !invalid(amount, "amount") && !invalid(taxother, "taxOther") && !invalid(tio, "timeout"))
             new AuthorizeSalesHandler(seq, amount, taxother, tio).start();
@@ -1271,8 +1613,8 @@ public class ElectronicValueRWController extends CommonController implements Tra
         if (isMethodRunning())
             return;
         Integer seq = new IntValues().getInteger(A_sequenceNumber.getText());
-        Long amount = getDecimal(new PropertyTableRow("", A_amount.getText()));
-        Long taxother = getDecimal(new PropertyTableRow("", A_taxOthers.getText()));
+        Long amount = getDecimalRowValue(new PropertyTableRow("", A_amount.getText()));
+        Long taxother = getDecimalRowValue(new PropertyTableRow("", A_taxOthers.getText()));
         Integer tio = new TimeoutValues().getInteger(A_timeout.getValue());
         if (!invalid(seq, "sequenceNumber") && !invalid(amount, "amount") && !invalid(taxother, "taxOther") && !invalid(tio, "timeout"))
             new AuthorizeVoidHandler(seq, amount, taxother, tio).start();
@@ -1294,8 +1636,8 @@ public class ElectronicValueRWController extends CommonController implements Tra
         if (isMethodRunning())
             return;
         Integer seq = new IntValues().getInteger(A_sequenceNumber.getText());
-        Long amount = getDecimal(new PropertyTableRow("", A_amount.getText()));
-        Long taxother = getDecimal(new PropertyTableRow("", A_taxOthers.getText()));
+        Long amount = getDecimalRowValue(new PropertyTableRow("", A_amount.getText()));
+        Long taxother = getDecimalRowValue(new PropertyTableRow("", A_taxOthers.getText()));
         Integer tio = new TimeoutValues().getInteger(A_timeout.getValue());
         if (!invalid(seq, "sequenceNumber") && !invalid(amount, "amount") && !invalid(taxother, "taxOther") && !invalid(tio, "timeout"))
             new AuthorizeVoidPreSalesHandler(seq, amount, taxother, tio).start();
@@ -1405,7 +1747,7 @@ public class ElectronicValueRWController extends CommonController implements Tra
     public void setAmount(ActionEvent actionEvent) {
         if (!InUpdateGui && TheElectronicValueRW.getState() != JposConst.JPOS_S_CLOSED) {
             try {
-                long amount = getDecimal(new PropertyTableRow("", Amount.getText()));
+                long amount = getDecimalRowValue(new PropertyTableRow("", Amount.getText()));
                 TheElectronicValueRW.setAmount(amount);
             } catch (JposException e) {
                 getFullErrorMessageAndPrintTrace(e);
@@ -1417,7 +1759,7 @@ public class ElectronicValueRWController extends CommonController implements Tra
     public void setPoint(ActionEvent actionEvent) {
         if (!InUpdateGui && TheElectronicValueRW.getState() != JposConst.JPOS_S_CLOSED) {
             try {
-                long points = getDecimal(new PropertyTableRow("", Point.getText()));
+                long points = getDecimalRowValue(new PropertyTableRow("", Point.getText()));
                 TheElectronicValueRW.setPoint(points);
             } catch (JposException e) {
                 getFullErrorMessageAndPrintTrace(e);
@@ -1486,7 +1828,7 @@ public class ElectronicValueRWController extends CommonController implements Tra
     public void cashDeposit(ActionEvent actionEvent) {
         if (isMethodRunning())
             return;
-        Long amount = getDecimal(new PropertyTableRow("", CD_amount.getText()));
+        Long amount = getDecimalRowValue(new PropertyTableRow("", CD_amount.getText()));
         Integer seq = new IntValues().getInteger(CD_sequenceNumber.getText());
         Integer tio = new TimeoutValues().getInteger(CD_timeout.getValue());
         if (!invalid(seq, "sequenceNumber") && !invalid(amount, "amount") && !invalid(tio, "timeout"))

@@ -16,7 +16,6 @@
 
 package SPF_Test;
 
-import de.gmxhome.conrad.jpos.jpos_base.scale.DoPriceCalculating;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import jpos.*;
@@ -172,8 +171,8 @@ public class ScaleController extends CommonController {
             StatusNotify.setSelected(new StatusNotifyValues().getSymbol(ScaleConst.SCAL_SN_ENABLED).equals(StatusNotifyRow.getValue()));
             ZeroValid.setSelected(Boolean.TRUE.toString().equals(ZeroValidRow.getValue()));
             WeightUnit.setText(WeightUnitRow.getValue());
-            string2Decimal(SalesPriceRow);
-            string2Decimal(UnitPriceRow);
+            rowValue2Decimal(SalesPriceRow);
+            rowValue2Decimal(UnitPriceRow);
             UnitPrice.setText(UnitPriceRow.getValue());
             string2Weight(TareWeightRow);
             TareWeight.setText(TareWeightRow.getValue());
