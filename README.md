@@ -25,7 +25,7 @@ combobox will be filled with those categories where at least one device is avail
 combobox will be filled with the locical device names of that category.
 
 To start testing a specific device, you have to select its device category first, then select the logical device name and start testing.
-If there is only one logical device name per category, or of you want to test the first one in the list, you do not need to select it explicitly. After category selection, the first one is selected by default.
+If there is only one logical device name per category, or if you want to test the first one in the list, you do not need to select it explicitly. After category selection, the first one is selected by default.
 
 After selecting a device category, the test screen for the selected category will be shown. In the upper area, you have methods and properties common for all device categories and a table view where you can find all available property values.  
 
@@ -43,7 +43,7 @@ you click into a property text field, you will get an error message when you lea
 property is invalid in the current device state!
 
 The following screen shots show some kinds of parameter passing for different methods. Which type of method passing has been used, depended
-on things like number of methods, number of parameters, number of common parameters for different methods, possiblesize of parameters...
+on things like number of methods, number of parameters, number of common parameters for different methods, possible size of parameters...
 
 Look and marvel:
 
