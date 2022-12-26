@@ -21,7 +21,6 @@ import javafx.scene.control.*;
 import jpos.*;
 import jpos.events.DataEvent;
 
-import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 

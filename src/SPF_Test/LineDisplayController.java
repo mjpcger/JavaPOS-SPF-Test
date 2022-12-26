@@ -16,7 +16,6 @@
 
 package SPF_Test;
 
-import com.sun.javafx.cursor.CursorType;
 import javafx.event.ActionEvent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;

@@ -21,7 +21,6 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import jpos.*;
 
-import javax.swing.*;
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;

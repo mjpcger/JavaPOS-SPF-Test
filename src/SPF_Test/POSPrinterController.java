@@ -20,7 +20,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import jpos.*;
-import jpos.events.*;
 import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;

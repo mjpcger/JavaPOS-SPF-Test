@@ -17,8 +17,7 @@
 
 package SPF_Test;
 
-import de.gmxhome.conrad.jpos.jpos_base.JposTransitionEvent;
-import de.gmxhome.conrad.jpos.jpos_base.SyncObject;
+import de.gmxhome.conrad.jpos.jpos_base.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;

@@ -16,7 +16,6 @@
 
 package SPF_Test;
 
-import de.gmxhome.conrad.jpos.jpos_base.cashdrawer.CashDrawerProperties;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import jpos.JposConst;

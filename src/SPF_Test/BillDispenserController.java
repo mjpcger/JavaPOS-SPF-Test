@@ -26,7 +26,6 @@ import jpos.BillDispenser;
 import jpos.BillDispenserConst;
 import jpos.JposConst;
 import jpos.JposException;
-import jpos.events.DataEvent;
 
 import java.net.URL;
 import java.util.Arrays;

@@ -20,7 +20,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import jpos.*;
 
-import javax.swing.*;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
