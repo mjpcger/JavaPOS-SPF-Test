@@ -7,26 +7,29 @@ You need only the following files from the project root:
     <li/>jpos.xml
     <li/>jar\JavaPOS-SPF-Test.jar
 </ul>
-If the services you like to test use JavaPOS-SPF, the following additional file must be present in the jar folder:
+Even if the services you like to test uses JavaPOS-SPF, the following additional file from the JavaPOS-SPF project
+must be present in the jar folder:
 <ul>
-    <li/>jar\JavaPOS-SPF.jar
+    <li/>JavaPOS-SPF.jar
 </ul>
-If the device you like to test uses COM ports for communication (no matter if real COM ports, via Usb2Serial or Bluetooth),
-you need one of
+If the device you like to test uses COM ports for communication (no matter if real COM ports, via Usb2Serial or Bluetooth)
+via the specific JavaPOS-SPF interfaces, you need one of
 <ul>
-    <li/>jar\SerialIOJNAWindows.jar,
-    <li/>jar\SerialIOJSerialComm.jar or
-    <li/>jar\SerialIOJSSC.jar (only if Java version &lt; 9).
+    <li/>SerialIOJNAWindows.jar,
+    <li/>SerialIOJSerialComm.jar or
+    <li/>SerialIOJSSC.jar (only if Java version &lt; 9).
 </ul>
+from the JavaPOS-SPF project
 and the corresponding jar files from project JNA (version &ge; 5.5, needed by SerialIOJNAWindows.jar), JSerialComm (version
 &ge; 2.6, needed by SerialIOJSerialComm.jar) or jSSC (version &ge; 2.7, needed by SerialIOJSSC.jar).<br>
-Currently, recommended for serial communication are jar\SerialIOJSerialComm.jar in combination with jSerialComm-2.6.2.jar.<p/>
+Currently, recommended for serial communication are SerialIOJSerialComm.jar in combination with jSerialComm-2.6.2.jar.<p/>
 Since you like to test some device services, you need the corresponding jar files as well.<p/>
 If you like to use one of the device simulators of JavaPOS-SPF, add the corresponding jar file as well.<p/>
 In addition, you need the jar files from the following projects:
 <ul>
-    <li/>jpos (version 1.14),
+    <li/>jpos (version 1.15),
     <li/>log4j (version 1.2),
+    <li/>Log4pos (version 1.0.1)
     <li/>xalan-j (version &ge; 2.7).
 </ul>
 Here the steps for installation:
@@ -53,17 +56,19 @@ You need only the following files from the project root:
     <li/>jpos.xml
     <li/>jar\JavaPOS-SPF-Test.jar
 </ul>
-If the services you like to test use JavaPOS-SPF, the following additional file must be present in the jar folder:
+Even if the services you like to test uses JavaPOS-SPF, the following additional file from the JavaPOS-SPF project
+must be present in the jar folder:
 <ul>
-    <li/>jar\JavaPOS-SPF.jar
+    <li/>JavaPOS-SPF.jar
 </ul>
-If the device you like to test uses COM ports for communication (no matter if real COM ports, via Usb2Serial or Bluetooth),
-you need one of
+If the device you like to test uses COM ports for communication (no matter if real COM ports, via Usb2Serial or Bluetooth)
+via the specific JavaPOS-SPF interfaces, you need one of
 <ul>
-    <li/>jar\SerialIOJNALinux.jar,
-    <li/>jar\SerialIOJSerialComm.jar or
-    <li/>jar\SerialIOJSSC.jar (only if Java version &lt; 9).
+    <li/>SerialIOJNALinux.jar,
+    <li/>SerialIOJSerialComm.jar or
+    <li/>SerialIOJSSC.jar (only if Java version &lt; 9).
 </ul>
+from the JavaPOS-SPF project
 and the corresponding jar files from project JNA (version &ge; 5.5, needed by SerialIOJNALinux.jar), JSerialComm (version
 &ge; 2.6, needed by SerialIOJSerialComm.jar) or jSSC (version &ge; 2.7, needed by SerialIOJSSC.jar). if you use SerialIOJNALinux.jar,
 it can be necessary to create a property file <i>de.gmxhome.conrad.JNALinux.JnaLinuxSerial.properties</i> as well.<br>
@@ -74,6 +79,7 @@ In addition, you need the jar files from the following projects:
 <ul>
     <li/>jpos (version 1.14),
     <li/>log4j (version 1.2),
+    <li/>Log4pos (version 1.0.1)
     <li/>xalan (version 2.7).
     <li/>xerces (version 2.7).
 </ul>
@@ -107,7 +113,7 @@ You can get binary versions of xalan-j at
 <a href="https://archive.apache.org/dist/xml/xalan-j/binaries/xalan-j_2_7_1-bin.zip">
     https://archive.apache.org/dist/xml/xalan-j/binaries/xalan-j_2_7_1-bin.zip
 </a>.<br>
-You can get a binary version of JavaPOS 1.14 at
+You can get a binary version of JavaPOS 1.15.1 at
 <a href="https://search.maven.org/search?q=org.javapos">
     https://search.maven.org/search?q=org.javapos
 </a>.<br>
