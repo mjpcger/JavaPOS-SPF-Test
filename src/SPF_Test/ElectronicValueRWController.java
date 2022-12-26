@@ -151,29 +151,6 @@ public class ElectronicValueRWController extends CommonController implements Tra
     private PropertyTableRow VoucherIDListRow;
     private PropertyTableRow CapPINDeviceRow;
 
-    static Integer NIT_ALL;
-    static Integer NIT_UPDATED;
-    static Integer TT_COMPLETION;
-    static Integer TT_PRE_SALES;
-
-    static {
-        // Missing constants, use OPOS values from https://github.com/kunif/OPOS-CCO/blob/v1.16.0/Common/Opos/OposEvrw.h
-        try {   // Missing in 1.14
-            NIT_ALL = (Integer)ElectronicValueRWConst.class.getField("EVRW_TAG_NIT_ALL").get(null);
-            NIT_UPDATED = (Integer)ElectronicValueRWConst.class.getField("EVRW_TAG_NIT_UPDATED").get(null);
-        } catch (Exception e) {
-            NIT_ALL = 1;
-            NIT_UPDATED = 2;
-        }
-        try {   // Missing in 1.15
-            TT_COMPLETION = (Integer)ElectronicValueRWConst.class.getField("EVRW_TAG_TT_COMPLETION").get(null);
-            TT_PRE_SALES = (Integer)ElectronicValueRWConst.class.getField("EVRW_TAG_TT_PRE_SALES").get(null);
-        } catch (Exception e) {
-            TT_COMPLETION = 10;
-            TT_PRE_SALES = 11;
-        }
-    }
-
     private Object[] TagValues = {
             "AccessLogLastDateTime", LocalDateTime.class,
             "AccountNumber", null,
@@ -234,8 +211,8 @@ public class ElectronicValueRWController extends CommonController implements Tra
             "MerchantID", null,
             "ModuleID", Integer.class,
             "NegativeInformationType",new Object[]{
-                    NIT_ALL, "NIT_ALL",
-                    NIT_UPDATED, "NIT_UPDATED"
+                    ElectronicValueRWConst.EVRW_TAG_NIT_ALL, "NIT_ALL",
+                    ElectronicValueRWConst.EVRW_TAG_NIT_UPDATED, "NIT_UPDATED"
             },
             "NegativeInformationUpdateDateTime", LocalDateTime.class,
             "NumberOfAddition", Integer.class,
@@ -328,8 +305,8 @@ public class ElectronicValueRWController extends CommonController implements Tra
                     ElectronicValueRWConst.EVRW_TAG_TT_RETURN, "TT_RETURN",
                     ElectronicValueRWConst.EVRW_TAG_TT_SUBTRACT, "TT_SUBTRACT",
                     ElectronicValueRWConst.EVRW_TAG_TT_WRITE, "TT_WRITE",
-                    TT_COMPLETION, "TT_COMPLETION",
-                    TT_PRE_SALES, "TT_PRE_SALES"
+                    ElectronicValueRWConst.EVRW_TAG_TT_COMPLETION, "TT_COMPLETION",
+                    ElectronicValueRWConst.EVRW_TAG_TT_PRE_SALES, "TT_PRE_SALES"
             },
             "UILCDControl", new String[]{"True", "False"},
             "UILEDControl", new String[]{"True", "False"},
