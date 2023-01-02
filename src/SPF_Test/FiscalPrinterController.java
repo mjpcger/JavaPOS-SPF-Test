@@ -2489,8 +2489,8 @@ public class FiscalPrinterController extends CommonController {
                 ValueList = new AdjustmentTypeValues().ValueList;
             else {
                 ValueList = new Object[]{
-                        TheService.FPTR_AT_DISCOUNT, "AT_DISCOUNT",
-                        TheService.FPTR_AT_SURCHARGE, "AT_SURCHARGE"
+                        FiscalPrinterConst.FPTR_AT_DISCOUNT, "AT_DISCOUNT",
+                        FiscalPrinterConst.FPTR_AT_SURCHARGE, "AT_SURCHARGE"
                 };
             }
         }

@@ -77,15 +77,8 @@ public class ScaleController extends CommonController {
     private PropertyTableRow WeightUnitRow;
     private PropertyTableRow ZeroValidRow;
 
-    Integer SUE_UNDERWEIGHT;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            SUE_UNDERWEIGHT = ScaleConst.class.getField("SCAL_SUE_WEIGHT_UNDERWEIGHT").getInt(null);
-        } catch (Exception e) {
-            SUE_UNDERWEIGHT = null;
-        }
         PropertyNameColumnWidth = 165;
         PropertyValueColumnWidth = 229;
         Conversion = ByteConversion.Ascii;
@@ -555,21 +548,14 @@ public class ScaleController extends CommonController {
 
     private class SUE_stateValues extends Values {
         SUE_stateValues(){
-            ValueList = SUE_UNDERWEIGHT == null ? new Object[]{
-                    ScaleConst.SCAL_SUE_STABLE_WEIGHT, "SUE_STABLE_WEIGHT",
-                    ScaleConst.SCAL_SUE_WEIGHT_UNSTABLE, "SUE_WEIGHT_UNSTABLE",
-                    ScaleConst.SCAL_SUE_WEIGHT_ZERO, "SUE_WEIGHT_ZERO",
-                    ScaleConst.SCAL_SUE_WEIGHT_OVERWEIGHT, "SUE_WEIGHT_OVERWEIGHT",
-                    ScaleConst.SCAL_SUE_NOT_READY, "SUE_NOT_READY",
-                    ScaleConst.SCAL_SUE_WEIGHT_UNDER_ZERO, "SUE_WEIGHT_UNDER_ZERO"
-            } : new Object[]{
+            ValueList = new Object[]{
                     ScaleConst.SCAL_SUE_STABLE_WEIGHT, "SUE_STABLE_WEIGHT",
                     ScaleConst.SCAL_SUE_WEIGHT_UNSTABLE, "SUE_WEIGHT_UNSTABLE",
                     ScaleConst.SCAL_SUE_WEIGHT_ZERO, "SUE_WEIGHT_ZERO",
                     ScaleConst.SCAL_SUE_WEIGHT_OVERWEIGHT, "SUE_WEIGHT_OVERWEIGHT",
                     ScaleConst.SCAL_SUE_NOT_READY, "SUE_NOT_READY",
                     ScaleConst.SCAL_SUE_WEIGHT_UNDER_ZERO, "SUE_WEIGHT_UNDER_ZERO",
-                    SUE_UNDERWEIGHT, "SUE_UNDERWEIGHT"
+                    ScaleConst.SCAL_SUE_WEIGHT_UNDERWEIGHT, "SUE_WEIGHT_UNDERWEIGHT"
             };
         }
     }
