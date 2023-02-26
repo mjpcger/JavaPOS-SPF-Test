@@ -41,6 +41,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -1030,6 +1031,149 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             }
             InUpdateGui = false;
         }
+    }
+
+    /**
+     * Convert byte array to hexadecimal string. limit specifies the maximum number of bytes that will be converted.
+     * If separator is true, whitespace characters (' ' or '\n') will be inserted between bytes, if false, each byte
+     * will be represented by two hexadecimal digits. If separators will be used, bytesPerLine specifies the maximum
+     * number of space separators between a newline separator will be inserted.
+     * <br>If data.length &gt; limit, "..." will be appended to the string.
+     *
+     * @param data  byte array to be converted.
+     * @param limit Maximum number of bytes to be converted.
+     * @param separator If true, byte separators will be used.
+     * @param bytesPerLine Number of bytes per line. If &lt; 1, no newline will be used as separator.
+     * @return Hexadecimal string
+     */
+    public String byteArrayToHexString(byte[] data, int limit, boolean separator, int bytesPerLine) {
+        String result = "";
+        int i;
+        for (i = 0; i < limit && i < data.length; i++) {
+            if (!separator) {
+                result += String.format("%02X", 0xff & (int)data[i]);
+            } else {
+                if (result.length() > 0)
+                    result += (bytesPerLine > 0 && i % bytesPerLine == 0) ? "\n" : " ";
+                result += String.format("%02X", 0xff & (int) data[i]);
+            }
+        }
+        if (i < data.length)
+            result += "...";
+        return result;
+    }
+
+    /**
+     * Converts hexadecimal string to byte array. Whitespace are allowed as byte separators and will be skipped.
+     * @param data  Hexadecimal string.
+     * @return The corresponding byte array.
+     */
+    public byte[] hexStringToByteArray(String data) {
+        data = data.toUpperCase();
+        byte[] result = new byte[data.length()];
+        int i, j = 0;
+        for (i = 0; i < result.length; i++) {
+            try {
+                while (j < data.length() && (data.charAt(j) & 0xff) <= 0x20)
+                    j++;
+                if (j >= data.length())
+                    break;
+                byte b = 0;
+                for (int k = 0; k < 2 && j < data.length(); k++, j++) {
+                    int c = data.charAt(j);
+                    byte v = (byte) "0123456789ABCDEF".indexOf(c);
+                    if (v < 0) {
+                        if (c <= 0x20)            // whitespace: byte finished
+                            break;
+                        throw new Exception("");  // No hex digit, no whitespace: Break all loops
+                    }
+                    b = (byte) (b * 0x10 + v);
+                }
+                result[i] = b;
+            } catch (Exception e) {
+                break;
+            }
+        }
+        return Arrays.copyOf(result, i);
+    }
+
+    /**
+     * Converts byte array to ASCII string with backslash escape sequences: A single backslash will be replaced by
+     * two backslashes and byte values &lt; 0x20 and 0x7f will be replaced by one backslash, followed by the byte value
+     * in octal representation. If maxLineLength &gt; 5, backslash followed by newline will be inserted whenever a
+     * line would become longer than maxLineLength characters. Escape sequences will not be separated by
+     * backslash-newline.
+     * @param data          Byte array to be converted.
+     * @param maxLineLength Maximum length of a line within the converted string
+     * @return Resulting ASCII string with escape sequences.
+     */
+    public String byteArrayToAsciiString(byte[]data, int maxLineLength) {
+        String result = "";
+        int len = 0;
+        for (int i = 0; i < data.length; i++) {
+            String c;
+            if (data[i] < 0x20 || data[i] > 0x7e)
+                c = String.format("\\%03o", 0xff & (int) data[i]);
+            else if (data[i] == '\\')
+                c = "\\\\";
+            else
+                c = new String(data, i, 1);
+            if (len + c.length() + 1 > maxLineLength && maxLineLength > 5) {
+                result += "\\\n";
+                len = c.length();
+            } else
+                len += c.length();
+            result += c;
+        }
+        return result;
+    }
+
+    /**
+     * Converts ASCII string to byte array. The following backslash escape sequences are allowed:
+     * <ul>
+     *     <li>backslash backslash: Will be replaced by a single backslash.</li>
+     *     <li>backslash newline: Only for better visibility, will be discarded.</li>
+     *     <li>backslash ol1 ol2 ol3: Will be replaced by (byte)((ol1 * 8 + ol2) * 8 + ol3. ol2 and ol3 must be
+     *     octal letters and ol1 must be between 0 and 3.</li>
+     * </ul>
+     * Whitespace characters will be discarded.
+     * @param data  Ascii string.
+     * @return The corresponding byte array.
+     */
+    public byte[] asciiStringToByteArray(String data) {
+        byte[] result = new byte[data.length()];
+        int i = 0, j = 0;
+        while (i < result.length && j < data.length()) {
+            int c = data.charAt(j++);
+            if (c > 0x7e)
+                break;      // Not an ASCII string
+            if (c >= 0x20) {
+                if (c != '\\')
+                    result[i++] = (byte) c;
+                else if (j < data.length()){
+                    c = data.charAt(j++);
+                    if (c == '\\') {
+                        result[i++] = '\\';
+                    } else if (c != '\n') {
+                        if ((c = "0123".indexOf(c)) < 0 || j + 2 > data.length())
+                            break;  // Invalid character: Stop conversion
+                        else {
+                            int k = -1;
+                            while (++k < 2) {
+                                int oc = "01234567".indexOf(data.charAt(j++));
+                                if (oc < 0)
+                                    break;
+                                c = c * 8 + oc;
+                            }
+                            if (k < 2)
+                                break;
+                            result[i++] = (byte)c;
+                        }
+                    }
+                }
+            }
+        }
+        return Arrays.copyOf(result, i);
     }
 
     public void updateGuiLater() {
