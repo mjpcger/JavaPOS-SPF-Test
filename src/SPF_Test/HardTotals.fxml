@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  ~ Copyright 2023 Martin Conrad
+  ~ <p>
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ <p>
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ <p>
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<?import javafx.scene.shape.Line?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="SPF_Test.HardTotalsControl"
+            prefHeight="540.0" prefWidth="980.0">
+    <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutY="5" onAction="#setDeviceEnabled"/>
+    <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="110" layoutY="5" onAction="#setFreezeEvents"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="210" editable="true" onAction="#setPowerNotify"/>
+    <Label text="PowerNotify" layoutX="360" layoutY="5"/>
+    <TableView fx:id="Properties" layoutX="570" prefWidth="410" prefHeight="115"/>
+    <Button text="Open" layoutX="0" layoutY="35" onAction="#open" prefWidth="70"/>
+    <Button text="Claim" layoutX="80" layoutY="35" onAction="#claim" prefWidth="70"/>
+    <ComboBox fx:id="claim_timeout" prefWidth="70" layoutX="80" layoutY="60" promptText="timeout" editable="true"/>
+    <Button text="Release" layoutX="160" layoutY="35" onAction="#release" prefWidth="70"/>
+    <Button text="Close" layoutX="240" layoutY="35" onAction="#close" prefWidth="70"/>
+    <Button text="CheckHealth" layoutX="320" layoutY="35" onAction="#checkHealth" prefWidth="90"/>
+    <ComboBox fx:id="CH_level" prefWidth="90" layoutX="320" layoutY="60" promptText="level" editable="true"/>
+    <Button text="DirectIO" layoutX="420" layoutY="35" onAction="#directIO" prefWidth="140"/>
+    <TextField fx:id="DIO_command" prefWidth="70" layoutX="420" layoutY="60" promptText="command"/>
+    <TextField fx:id="DIO_data" prefWidth="70" layoutX="490" layoutY="60" promptText="data"/>
+    <TextField fx:id="DIO_obj" prefWidth="140" layoutX="420" layoutY="85" promptText="obj"/>
+    <Label fx:id="MethodActive" layoutX="0" layoutY="530"/>
+    <Separator layoutY="85" prefWidth="415" orientation="HORIZONTAL"/>
+    <Label layoutY="90" text="No.Of Files:"/>
+    <Label fx:id="NumberOfFiles" layoutY="90" layoutX="60"/>
+    <Label layoutX="90" layoutY="90" text="Size:"/>
+    <Label fx:id="TotalsSize" layoutY="90" layoutX="120"/>
+    <Label layoutX="170" layoutY="90" text="Free:"/>
+    <Label fx:id="FreeData" layoutY="90" layoutX="200"/>
+    <Label layoutX="250" layoutY="90" text="In Transaction:"/>
+    <Label fx:id="TransactionInProgress" layoutY="90" layoutX="330"/>
+    <TabPane layoutY="116" prefWidth="695" prefHeight="424" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="HardTotals Methods">
+            <AnchorPane prefHeight="409" prefWidth="695">
+                <Label layoutY="10" text="Handle used or returned from most HardTotals methods:"/>
+                <TextField fx:id="Handle" prefWidth="80" layoutX="300" layoutY="5" promptText="hTotalsFile"/>
+                <Label layoutY="35" text="Filename used or returned from some HartTotals methods:"/>
+                <TextField fx:id="FileName" prefWidth="150" layoutX="300" layoutY="30" promptText="fileName"/>
+                <Button text="ClaimFile" prefWidth="80" onAction="#claimFile" layoutY="60"/>
+                <ComboBox fx:id="CF_timeout" prefWidth="80" layoutX="80" layoutY="60" promptText="timeout" editable="true"/>
+                <Button text="ReleaseFile" prefWidth="80" onAction="#releaseFile" layoutY="60" layoutX="320"/>
+                <Button text="Create" prefWidth="80" onAction="#create" layoutY="90"/>
+                <TextField fx:id="C_size" prefWidth="80" layoutY="90" layoutX="80" promptText="size"/>
+                <ComboBox fx:id="ErrorDetection" prefWidth="120" layoutX="160" layoutY="90" promptText="errorDetection"/>
+                <Button text="SetAll" prefWidth="80" onAction="#setAll" layoutX="320" layoutY="90"/>
+                <TextField fx:id="SA_value" prefWidth="50" layoutY="90" layoutX="400" promptText="value"/>
+                <Button text="Rename" prefWidth="85" onAction="#rename" layoutY="90" layoutX="490"/>
+                <Button text="Delete" prefWidth="80" onAction="#delete" layoutX="610" layoutY="90"/>
+                <Button text="Find" prefWidth="80" onAction="#find" layoutY="120"/>
+                <TextField fx:id="F_size" prefWidth="80" layoutY="120" layoutX="80" promptText="size"/>
+                <Button text="FindByIndex" prefWidth="80" onAction="#findByIndex" layoutX="320" layoutY="120"/>
+                <TextField fx:id="F_index" prefWidth="50" layoutY="120" layoutX="400" promptText="index"/>
+                <Button text="Read" prefWidth="80" onAction="#read" layoutY="150"/>
+                <Button text="Write" prefWidth="80" onAction="#write" layoutY="172.5"/>
+                <TextArea fx:id="RW_data" prefWidth="200" prefHeight="45" layoutY="150" layoutX="80" promptText="data" styleClass="FixedFont"/>
+                <TextField fx:id="RW_offset" prefWidth="50" prefHeight="45" layoutY="150" layoutX="280" promptText="offset"/>
+                <TextField fx:id="RW_count" prefWidth="50" prefHeight="45" layoutY="150" layoutX="330" promptText="count"/>
+                <Label text="Conversion for data:" layoutX="390" layoutY="165"/>
+                <ComboBox fx:id="RW_conversion" layoutX="490" layoutY="160" prefWidth="120"/>
+                <Button text="BeginTrans" prefWidth="80" onAction="#beginTrans" layoutY="205" layoutX="0"/>
+                <Button text="CommitTrans" prefWidth="85" onAction="#commitTrans" layoutY="205" layoutX="320"/>
+                <Button text="Rollback" prefWidth="80" onAction="#rollback" layoutY="205" layoutX="610"/>
+                <Button text="ValidateData" prefWidth="80" onAction="#validateData" layoutY="235"/>
+                <Button text="RecalculateValidationData" prefWidth="120" onAction="#recalculateValidationData" layoutY="235" layoutX="320"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Maintenance Methods">
+            <AnchorPane prefHeight="409" prefWidth="695">
+                <Button onAction="#compareFirmwareVersion" layoutX="0" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
+                <TextField fx:id="CFV_firmwareFileName" layoutX="0" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button styleClass="FileButton" onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" prefWidth="25"/>
+                <TextField fx:id="CFV_result" layoutX="0" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
+                <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
+                <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button styleClass="FileButton" onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" prefWidth="25"/>
+                <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
+                <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
+                <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
+                <TextArea fx:id="_statisticsBuffer" layoutX="330" layoutY="30" prefWidth="350" prefHeight="75" promptText="statisticsBuffer"/>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+    <Label text="Events" layoutY="121" layoutX="700" prefWidth="280" underline="true" alignment="CENTER"/>
+    <TextArea fx:id="EventOutput" layoutX="700" layoutY="146" prefWidth="280" prefHeight="389"/>
+</AnchorPane>
