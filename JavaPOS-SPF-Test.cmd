@@ -16,8 +16,9 @@ if exist "%JAVA_HOME%\bin\java.exe" goto JavaPresent
 :JavaPresent
 
 rem ***************************************************************
-rem * Check if environment variable JFX_HOME has been set. This   *
-rem * will not be done automatically during JavaFX installation!! *
+rem * Check if JavaFX has been integrated into the Java           *
+rem * runtime. This is normally not the case for current Java     *
+rem * versions!!                                                  *
 rem ***************************************************************
 
 set internalfx=
@@ -29,6 +30,13 @@ popd
 set classpath=%cd%
 
 if not "%internalfx%"=="" goto :JavaWithFX
+
+rem ***************************************************************
+rem * If JavaFX is not part of the Java runtime:                  *
+rem * Check if environment variable JFX_HOME has been set. This   *
+rem * will not be done automatically during JavaFX installation!! *
+rem ***************************************************************
+
 if not "%JFX_HOME%"=="" goto :FXPresent
 	echo JFX_HOME (path to current JavaFX installation) not set.
 	goto :prompt
@@ -62,7 +70,7 @@ if exist jpos.xml if exist jpos\res\jpos.properties goto :AddExternals
 :AddExternals
 
 rem ****************************************************************
-rem * Add jpos114, xalan-j and all other necessary jar files from  *
+rem * Add jpos115 and all other necessary jar files from           *
 rem * sub-folder jar                                               *
 rem ****************************************************************
 
