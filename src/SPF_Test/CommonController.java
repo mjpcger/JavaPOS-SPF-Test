@@ -17,32 +17,24 @@
 package SPF_Test;
 
 import de.gmxhome.conrad.jpos.jpos_base.*;
-import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.application.*;
+import javafx.beans.property.*;
+import javafx.beans.value.*;
+import javafx.event.*;
+import javafx.fxml.*;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
-import javafx.util.Callback;
-import jpos.BaseJposControl;
-import jpos.JposConst;
-import jpos.JposException;
+import javafx.scene.text.*;
+import javafx.stage.*;
+import javafx.util.*;
+import jpos.*;
 import jpos.events.*;
 
 import javax.swing.*;
 import java.io.File;
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.ResourceBundle;
+import java.lang.reflect.*;
+import java.math.*;
+import java.net.*;
+import java.util.*;
 
 /**
  * GUI control for common properties, methods and events.

@@ -17,16 +17,12 @@
 
 package SPF_Test;
 
-import javafx.event.ActionEvent;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import jpos.HardTotals;
-import jpos.JposException;
+import javafx.event.*;
+import javafx.scene.control.*;
+import jpos.*;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.net.*;
+import java.util.*;
 
 public class HardTotalsControl extends CommonController {
     public Label TotalsSize;
@@ -68,7 +64,7 @@ public class HardTotalsControl extends CommonController {
         Properties.getItems().add(new PropertyTableRow("CapTransactions", ""));
         Properties.getItems().add(TransactionInProgressRow = new PropertyTableRow("TransactionInProgress", ""));
         Properties.getItems().add(new PropertyTableRow("CapSingleFile", ""));
-        Properties.getItems().add(new PropertyTableRow("CapTransactions", ""));
+        Properties.getItems().add(new PropertyTableRow("CapErrorDetection", ""));
         Properties.getItems().add(new PropertyTableRow("DeviceServiceDescription", ""));
         Properties.getItems().add(new PropertyTableRow("DeviceServiceVersion", ""));
         Properties.getItems().add(new PropertyTableRow("PhysicalDeviceDescription", ""));
