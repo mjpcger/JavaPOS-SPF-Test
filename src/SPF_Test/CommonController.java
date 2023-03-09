@@ -16,6 +16,7 @@
 
 package SPF_Test;
 
+import SampleCAT.Device;
 import de.gmxhome.conrad.jpos.jpos_base.*;
 import javafx.application.*;
 import javafx.beans.property.*;
@@ -237,6 +238,13 @@ public class CommonController implements Initializable, Runnable, DataListener, 
          */
         public Values getValueConverter() {
             return ValueConverter;
+        }
+
+        /**
+         *
+         */
+        public void setValueConverter(Values vals) {
+            ValueConverter = vals;
         }
     }
 
@@ -520,7 +528,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             running = CurrentMethod;
         }
         if (running != null)
-            JOptionPane.showMessageDialog(null, "Method " + running.getClass().getSimpleName() + " is currently running");
+            myMessageDialog("Method " + running.getClass().getSimpleName() + " is currently running");
         synchronized (this) {
             return CurrentMethod != null;
         }
@@ -1285,7 +1293,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             }
         });
         String message = getLogString(errorEvent);
-        int doit = JOptionPane.showOptionDialog(null, "Error occurred:\n" + message + "\nClear error?", "Processing Error",JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
+        int doit = myOptionDialog("Error occurred:\n" + message + "\nClear error?", "Processing Error",JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
         if (doit == JOptionPane.YES_OPTION)
             errorEvent.setErrorResponse(JposConst.JPOS_ER_CLEAR);
         else if (doit == JOptionPane.NO_OPTION && errorEvent.getErrorLocus() != JposConst.JPOS_EL_INPUT_DATA)
@@ -1296,6 +1304,16 @@ public class CommonController implements Initializable, Runnable, DataListener, 
                 gotError(errorEvent);
             }
         });
+    }
+
+    static void myMessageDialog(String message) {
+        Device.synchronizedMessageBox(message, "Message", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    static int myOptionDialog(String message, String title, int optionType, int messageType) {
+        SynchronizedMessageBox box = new SynchronizedMessageBox();
+        box.synchronizedConfirmationBox(message, title, null, String.valueOf(optionType), messageType, JposConst.JPOS_FOREVER);
+        return box.Result;
     }
 
     Values ErrorCodeExtendedValueConverter = new IntValues();
@@ -1377,7 +1395,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             InExceptionHandling = true;
             String message = getFullErrorMessageAndPrintTrace(e);
             InExceptionHandling = false;
-             JOptionPane.showMessageDialog(null, message);
+             myMessageDialog(message);
             return message;
         } else {
             if (e instanceof InvocationTargetException)
@@ -1401,7 +1419,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
 
     public boolean invalid(Object obj, String name) {
         if (obj == null) {
-            JOptionPane.showMessageDialog(null, "No valid " + name + " specified.");
+            myMessageDialog("No valid " + name + " specified.");
             return true;
         }
         return false;
@@ -1409,7 +1427,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
 
     public boolean validate(Object[] values) {
         if (values.length % 2 != 0) {
-            JOptionPane.showMessageDialog(null, "validate: Odd number of parameters, cannot validate (contact software developer)");
+            myMessageDialog("validate: Odd number of parameters, cannot validate (contact software developer)");
             return true;
         }
         for (int i = 0; i < values.length; i += 2) {
