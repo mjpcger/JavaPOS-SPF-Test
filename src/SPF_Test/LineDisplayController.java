@@ -458,7 +458,7 @@ public class LineDisplayController extends CommonController {
             for (int i = 0; i < DG_glyph.getText().length(); i++) {
                 char c = DG_glyph.getText().toUpperCase().charAt(i);
                 if ("0123456789ABCDEF".indexOf(c) < 0) {
-                    int doit = JOptionPane.showOptionDialog(null, "Character " + (i + 1) + " not hexadecimal.\nClear?", "Processing Error", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
+                    int doit = myOptionDialog("Character " + (i + 1) + " not hexadecimal.\nClear?", "Processing Error", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
                     if (doit == JOptionPane.YES_OPTION) {
                         DG_glyph.setText("");
                     }
@@ -467,7 +467,7 @@ public class LineDisplayController extends CommonController {
             }
             ValidGlyph = true;
         } else {
-            int doit = JOptionPane.showOptionDialog(null, "Odd number of characters.\nClear?", "Processing Error", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
+            int doit = myOptionDialog("Odd number of characters.\nClear?", "Processing Error", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
             if (doit == JOptionPane.YES_OPTION) {
                 DG_glyph.setText("");
             }
@@ -540,7 +540,7 @@ public class LineDisplayController extends CommonController {
             else if ("nre\\".indexOf(data[++i]) >= 0)
                 data[j++] = "\n\r\027\\".toCharArray()["nre\\".indexOf(data[i++])];
             else {
-                JOptionPane.showMessageDialog(null, "Invalid control character specification in data: \\" + data[i]);
+                myMessageDialog("Invalid control character specification in data: \\" + data[i]);
                 return null;
             }
         }
@@ -552,7 +552,7 @@ public class LineDisplayController extends CommonController {
         Integer encoding = new CharacterSetValues().getInteger(CharacterSet.getValue());
         String charset;
         if (encoding < 400) {
-            JOptionPane.showMessageDialog(null, "Device specific character set " + encoding + " not supported.");
+            myMessageDialog("Device specific character set " + encoding + " not supported.");
             return null;
         } else if (encoding > 990 && encoding < 1000) {
             if (encoding == LineDisplayConst.DISP_CS_ANSI)
@@ -562,7 +562,7 @@ public class LineDisplayController extends CommonController {
             else if (encoding == LineDisplayConst.DISP_CS_UNICODE)
                 return text;
             else {
-                JOptionPane.showMessageDialog(null, "Character set " + encoding + " not supported.");
+                myMessageDialog("Character set " + encoding + " not supported.");
                 return null;
             }
         } else
@@ -574,7 +574,7 @@ public class LineDisplayController extends CommonController {
                 target[k] = (char)(array[k] & 0xff);
             return new String(target);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Character set " + encoding + " not supported:\n" + e.getMessage());
+            myMessageDialog("Character set " + encoding + " not supported:\n" + e.getMessage());
             e.printStackTrace();
             return null;
         }

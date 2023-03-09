@@ -209,7 +209,7 @@ public class ScaleController extends CommonController {
             if (e instanceof JposException)
                 getFullErrorMessageAndPrintTrace(e);
             else
-                JOptionPane.showMessageDialog(null, "No valid TareWeight value\n" + getFullErrorMessageAndPrintTrace(false, e));
+                myMessageDialog("No valid TareWeight value\n" + getFullErrorMessageAndPrintTrace(false, e));
         }
         CurrentWeighingMethod = DataEventSource.Inactive;
     }
@@ -239,7 +239,7 @@ public class ScaleController extends CommonController {
             if (e instanceof JposException)
                 getFullErrorMessageAndPrintTrace(e);
             else
-                JOptionPane.showMessageDialog(null, "No valid TareWeight value\n" + getFullErrorMessageAndPrintTrace(false, e));
+                myMessageDialog("No valid TareWeight value\n" + getFullErrorMessageAndPrintTrace(false, e));
         }
         updateGui();
     }
@@ -252,7 +252,7 @@ public class ScaleController extends CommonController {
             if (e instanceof JposException)
                 getFullErrorMessageAndPrintTrace(e);
             else
-                JOptionPane.showMessageDialog(null, "No valid UnitPrice value\n" + getFullErrorMessageAndPrintTrace(false, e));
+                myMessageDialog("No valid UnitPrice value\n" + getFullErrorMessageAndPrintTrace(false, e));
         }
         updateGui();
     }

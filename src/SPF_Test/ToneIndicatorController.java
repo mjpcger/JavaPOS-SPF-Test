@@ -16,6 +16,7 @@
 
 package SPF_Test;
 
+import de.gmxhome.conrad.jpos.jpos_base.SynchronizedMessageBox;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import jpos.*;
@@ -151,12 +152,12 @@ public class ToneIndicatorController extends CommonController {
     public void sound(ActionEvent actionEvent) {
         Integer count = new TimeoutValues().getInteger(S_numberOfCycles.getValue());
         if (count == null) {
-            JOptionPane.showMessageDialog(null, "No valid entry for argument numberOfCycles.");
+            myMessageDialog("No valid entry for argument numberOfCycles.");
             return;
         }
         Integer wait = new IntValues().getInteger(S_interSoundWait.getText());
         if (wait == null) {
-            JOptionPane.showMessageDialog(null, "No valid entry for argument interSoundWait.");
+            myMessageDialog("No valid entry for argument interSoundWait.");
             return;
         }
         new SoundHandler(count, wait).start();

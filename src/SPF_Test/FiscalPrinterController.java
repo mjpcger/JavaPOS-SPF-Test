@@ -907,11 +907,11 @@ public class FiscalPrinterController extends CommonController {
 
     boolean validInt(Long val, String valstr, String decimals) {
         if ("".equals(decimals)) {
-            JOptionPane.showMessageDialog(null, "Number of decimals unknown for parameter " + valstr + ".");
+            myMessageDialog("Number of decimals unknown for parameter " + valstr + ".");
         } else if (!invalid(val, valstr)) {
             if (val >= Integer.MIN_VALUE && val <= Integer.MAX_VALUE)
                 return true;
-            JOptionPane.showMessageDialog(null, "Value " + val + " out of int range for parameter " + valstr + ".");
+            myMessageDialog("Value " + val + " out of int range for parameter " + valstr + ".");
         }
         return false;
     }
@@ -999,7 +999,7 @@ public class FiscalPrinterController extends CommonController {
             if (!invalid(price, "amount") && !invalid(vatInfo, "vatInfo"))
                 new PrintRecRefundVoid(description, price, vatInfo).start();
         } else {
-            JOptionPane.showMessageDialog(null, "Select PrintRec method first");
+            myMessageDialog("Select PrintRec method first");
         }
     }
 
@@ -1041,7 +1041,7 @@ public class FiscalPrinterController extends CommonController {
             if (!invalid(adjustmentType, "adjustmentType"))
                 new PrintRecPackageAdjustVoid(adjustmentType, vatAdjustment).start();
         } else {
-            JOptionPane.showMessageDialog(null, "Select PrintRecPackage method first");
+            myMessageDialog("Select PrintRecPackage method first");
         }
     }
 
@@ -1100,7 +1100,7 @@ public class FiscalPrinterController extends CommonController {
             if (!invalid(adjustmentType, "adjustmentType") && !invalid(amount, "amount"))
                 new PrintRecSubtotalAdjustVoid(adjustmentType, amount).start();
         } else {
-            JOptionPane.showMessageDialog(null, "Select PrintRecSubtotal method first");
+            myMessageDialog("Select PrintRecSubtotal method first");
         }
     }
 
@@ -1179,7 +1179,7 @@ public class FiscalPrinterController extends CommonController {
             if (!invalid(adjustmentType, "adjustmentType") && !invalid(adjustment, "adjustment") && !invalid(vatInfo, "vatInfo"))
                 new PrintRecVoidItem(description, amount, quantity.intValue(), adjustmentType, adjustment, vatInfo).start();
         } else {
-            JOptionPane.showMessageDialog(null, "Select PrintRecVoid method first");
+            myMessageDialog("Select PrintRecVoid method first");
         }
     }
 
@@ -1515,9 +1515,9 @@ public class FiscalPrinterController extends CommonController {
                         int index = "nre\\".indexOf(data[i + 1]);
                         if (index < 0 || hexmode) {
                             if (hexmode)
-                                JOptionPane.showMessageDialog(null, "Invalid control character specification in data: \\" + data[i + 1]);
+                                myMessageDialog("Invalid control character specification in data: \\" + data[i + 1]);
                             else
-                                JOptionPane.showMessageDialog(null, "Invalid control character specification in hex-data: \\" + data[i + 1]);
+                                myMessageDialog("Invalid control character specification in hex-data: \\" + data[i + 1]);
                             break;
                         }
                         data[j++] = new char[]{10, 13, 27, '\\'}[index];
@@ -1530,9 +1530,9 @@ public class FiscalPrinterController extends CommonController {
                         int l = i + 1 < data.length ? "0123456789ABCDEF".indexOf(new String(new char[]{data[i + 1]}).toUpperCase()) : -999;
                         if (h < 0 || l < 0) {
                             if (l == -999)
-                                JOptionPane.showMessageDialog(null, "Unexpected hex-data end");
+                                myMessageDialog("Unexpected hex-data end");
                             else
-                                JOptionPane.showMessageDialog(null, "Invalid hex-data: " + data[i] + data[i + 1]);
+                                myMessageDialog("Invalid hex-data: " + data[i] + data[i + 1]);
                             break;
                         }
                         data[j++] = (char)((h << 4) + l);
@@ -2179,7 +2179,7 @@ public class FiscalPrinterController extends CommonController {
                 }
             }
             if (vatids.length() == 0) {
-                JOptionPane.showMessageDialog(null, "No VAT IDs available in interval [" + start + "," + end + "].");
+                myMessageDialog("No VAT IDs available in interval [" + start + "," + end + "].");
                 VatIDs.setText("");
             } else {
                 VatIDs.setText(vatids.substring(1));
@@ -2198,7 +2198,7 @@ public class FiscalPrinterController extends CommonController {
                     hint.setVisible(false);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "No VAT table available.");
+            myMessageDialog("No VAT table available.");
             VatIDs.setText("");
         }
     }

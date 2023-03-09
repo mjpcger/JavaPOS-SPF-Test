@@ -1176,9 +1176,9 @@ public class POSPrinterController extends CommonController {
                     int index = "nre\\".indexOf(data[i + 1]);
                     if (index < 0 || hexmode) {
                         if (hexmode)
-                            JOptionPane.showMessageDialog(null, "Invalid control character specification in data: \\" + data[i + 1]);
+                            myMessageDialog("Invalid control character specification in data: \\" + data[i + 1]);
                         else
-                            JOptionPane.showMessageDialog(null, "Invalid control character specification in hex-data: \\" + data[i + 1]);
+                            myMessageDialog("Invalid control character specification in hex-data: \\" + data[i + 1]);
                         break;
                     }
                     data[j++] = new char[]{10, 13, 27, '\\'}[index];
@@ -1191,9 +1191,9 @@ public class POSPrinterController extends CommonController {
                     int l = i + 1 < data.length ? "0123456789ABCDEF".indexOf(new String(new char[]{data[i + 1]}).toUpperCase()) : -999;
                     if (h < 0 || l < 0) {
                         if (l == -999)
-                            JOptionPane.showMessageDialog(null, "Unexpected hex-data end");
+                            myMessageDialog("Unexpected hex-data end");
                         else
-                            JOptionPane.showMessageDialog(null, "Invalid hex-data: " + data[i] + data[i + 1]);
+                            myMessageDialog("Invalid hex-data: " + data[i] + data[i + 1]);
                         break;
                     }
                     data[j++] = (char)((h << 4) + l);
@@ -1211,10 +1211,10 @@ public class POSPrinterController extends CommonController {
         Integer encoding = new CharacterSetValues().getInteger(CharacterSet.getValue());
         String charset;
         if (encoding == null) {
-            JOptionPane.showMessageDialog(null, "No CharacterSet not specified.");
+            myMessageDialog("No CharacterSet not specified.");
             return null;
         } else if (encoding < 400) {
-            JOptionPane.showMessageDialog(null, "Device specific character set " + encoding + " not supported.");
+            myMessageDialog("Device specific character set " + encoding + " not supported.");
             return null;
         } else if (encoding > 990 && encoding < 1000) {
             if (encoding == LineDisplayConst.DISP_CS_ANSI)
@@ -1224,7 +1224,7 @@ public class POSPrinterController extends CommonController {
             else if (encoding == LineDisplayConst.DISP_CS_UNICODE)
                 return text;
             else {
-                JOptionPane.showMessageDialog(null, "Character set " + encoding + " not supported.");
+                myMessageDialog("Character set " + encoding + " not supported.");
                 return null;
             }
         } else
@@ -1236,7 +1236,7 @@ public class POSPrinterController extends CommonController {
                 target[k] = (char)(array[k] & 0xff);
             return new String(target);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Character set " + encoding + " not supported:\n" + e.getMessage());
+            myMessageDialog("Character set " + encoding + " not supported:\n" + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -1281,7 +1281,7 @@ public class POSPrinterController extends CommonController {
         }
         if (station1 != null && station2 != null) {
             if (station1 == POSPrinterConst.PTR_S_JOURNAL || (station1 == POSPrinterConst.PTR_S_RECEIPT && station2 != POSPrinterConst.PTR_TWO_RECEIPT_JOURNAL)) {
-                JOptionPane.showMessageDialog(null, "Inconsistent station specifications, data / data1 validation not possible");
+                myMessageDialog("Inconsistent station specifications, data / data1 validation not possible");
                 return;
             }
             station2 = station2 == POSPrinterConst.PTR_TWO_SLIP_RECEIPT ? POSPrinterConst.PTR_S_RECEIPT : POSPrinterConst.PTR_S_JOURNAL;

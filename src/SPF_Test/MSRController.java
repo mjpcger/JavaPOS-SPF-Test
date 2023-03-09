@@ -541,11 +541,11 @@ public class MSRController extends CommonController {
 
     public void writeTracks(ActionEvent actionEvent) {
         if (Track1Encrypted.isSelected() || Track1Discretionary.isSelected() || Track2Encrypted.isSelected() || Track2Discretionary.isSelected() || Track3Encrypted.isSelected() || Track4Encrypted.isSelected()) {
-            JOptionPane.showMessageDialog(null, "Neither encrypted nor discretionary track data allowed");
+            myMessageDialog("Neither encrypted nor discretionary track data allowed");
             return;
         }
         if (Conversion != ByteConversion.Hexadecimal) {
-            JOptionPane.showMessageDialog(null, "Only hexadecimal conversion allowed for writing track data");
+            myMessageDialog("Only hexadecimal conversion allowed for writing track data");
             return;
         }
         byte[][] tracks = new byte[][]{null, null, null, null};
