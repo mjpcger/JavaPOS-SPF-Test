@@ -43,8 +43,8 @@
         <Label layoutX="20" layoutY="150" wrapText="true" prefWidth="950" text="Belt, BillAcceptor, BillDispenser,
  Biometrics, BumpBar, CashChanger, CashDrawer, CAT, CheckScanner, CoinAcceptor, CoinDispenser, ElectronicJournal,
  ElectronicValueRW, FiscalPrinter, Gate, HardTotals, ImageScanner, ItemDispenser, Keylock, Lights, LineDisplay,
- MICR, MotionSensor, MSR, POSKeyboard, POSPower, POSPrinter, RemoteOrderDisplay, Scale, Scanner, SignatureCapture
- and ToneIndicator."/>
+ MICR, MotionSensor, MSR, POSKeyboard, POSPower, POSPrinter, RemoteOrderDisplay, Scale, Scanner, SignatureCapture,
+ SmartCardRW and ToneIndicator."/>
         <Label layoutX="20" layoutY="200" text="To integrate a service into the test program, follow these steps:"/>
         <Label layoutX="40" layoutY="230" text="● Add the necessary entries to jpos.xml, located in the working directory of the test program."/>
         <Label layoutX="40" layoutY="250" text="● Add the necessary jar files to the classpath. You can adjust the startup script to do this."/>

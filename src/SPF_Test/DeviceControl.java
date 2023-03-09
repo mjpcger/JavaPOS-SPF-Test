@@ -27,6 +27,8 @@ import javax.swing.*;
 import java.io.File;
 import java.util.*;
 
+import static SPF_Test.CommonController.myMessageDialog;
+
 /**
  * Class containing device controls with corresponding name, category and usage description.
  */
@@ -259,6 +261,9 @@ public class DeviceControl {
                         } else if (category.equals("SignatureCapture")) {
                             actdev.Control = new SignatureCapture();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("SignatureCapture.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("SmartCardRW")) {
+                            actdev.Control = new SmartCardRW();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("SmartCardRW.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("ToneIndicator")) {
                             actdev.Control = new ToneIndicator();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("ToneIndicator.fxml"), new DeviceResources(actdev));
@@ -266,7 +271,7 @@ public class DeviceControl {
                             continue;
                         Devices.put(actdev.Name, actdev);
                     } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
+                        myMessageDialog(e.getMessage());
                         e.printStackTrace();
                     }
                 }
