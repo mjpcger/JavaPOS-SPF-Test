@@ -255,6 +255,9 @@ public class DeviceControl {
                         } else if (category.equals("Scale")) {
                             actdev.Control = new Scale();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("Scale.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("RFIDScanner")) {
+                            actdev.Control = new RFIDScanner();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("RFIDScanner.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("Scanner")) {
                             actdev.Control = new Scanner();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("Scanner.fxml"), new DeviceResources(actdev));

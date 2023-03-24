@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  ~ Copyright 2023 Martin Conrad
+  ~ <p>
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ <p>
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ <p>
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="SPF_Test.RFIDScannerController"
+            prefHeight="540.0" prefWidth="980.0">
+    <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutY="5" onAction="#setDeviceEnabled"/>
+    <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="105" layoutY="5" onAction="#setFreezeEvents"/>
+    <CheckBox fx:id="DataEventEnabled" text="DataEventEnabled" layoutX="200" layoutY="5" onAction="#setDataEventEnabled"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="320" editable="true" onAction="#setPowerNotify"/>
+    <Label text="PowerNotify" layoutX="470" layoutY="5"/>
+    <CheckBox fx:id="AutoDisable" text="AutoDisable" layoutX="570" onAction="#setAutoDisable"/>
+    <Label text="OutputID:" layoutX="720"/>
+    <Label fx:id="OutputID" layoutX="770" prefWidth="50" textAlignment="RIGHT"/>
+    <Label fx:id="DataCount" layoutX="830"/>
+    <TableView fx:id="Properties" layoutX="570" layoutY="19" prefWidth="410" prefHeight="96"/>
+    <Button text="Open" layoutY="35" onAction="#open" prefWidth="70"/>
+    <Button text="Claim" layoutX="80" layoutY="35" onAction="#claim" prefWidth="70"/>
+    <ComboBox fx:id="claim_timeout" prefWidth="70" layoutX="80" layoutY="60" promptText="timeout" editable="true"/>
+    <Button text="Release" layoutX="160" layoutY="35" onAction="#release" prefWidth="70"/>
+    <Button text="Close" layoutX="240" layoutY="35" onAction="#close" prefWidth="70"/>
+    <Button text="CheckHealth" layoutX="320" layoutY="35" onAction="#checkHealth" prefWidth="90"/>
+    <ComboBox fx:id="CH_level" prefWidth="90" layoutX="320" layoutY="60" promptText="level" editable="true"/>
+    <Button text="DirectIO" layoutX="420" layoutY="35" onAction="#directIO" prefWidth="140"/>
+    <TextField fx:id="DIO_command" prefWidth="70" layoutX="420" layoutY="60" promptText="command"/>
+    <TextField fx:id="DIO_data" prefWidth="70" layoutX="490" layoutY="60" promptText="data"/>
+    <TextField fx:id="DIO_obj" prefWidth="140" layoutX="420" layoutY="85" promptText="obj"/>
+    <Button text="ClearInput" layoutX="0" layoutY="90" onAction="#clearInput" prefWidth="110"/>
+    <Button text="ClearOutput" layoutX="120" layoutY="90" onAction="#clearOutput" prefWidth="110"/>
+    <Button text="ClearInputProperties" layoutX="240" layoutY="90" onAction="#clearInputProperties" prefWidth="170"/>
+    <Label fx:id="MethodActive" layoutY="530"/>
+    <TabPane layoutY="116" prefWidth="695" prefHeight="424" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Specific Properties And Methods">
+            <AnchorPane prefHeight="409" prefWidth="695">
+                <Label text="ReadTimerInterval: " layoutY="10"/>
+                <TextField fx:id="ReadTimerInterval" prefWidth="70" layoutX="93" layoutY="5"/>
+                <Label text="ProtocolMask: " layoutY="10" layoutX="170"/>
+                <ComboBox fx:id="ProtocolMask" layoutX="240" layoutY="5" prefWidth="90" editable="true" onAction="#setProtocolMask"/>
+                <ComboBox fx:id="MaskBit" layoutX="330" layoutY="5" prefWidth="150" promptText="Select Bit"/>
+                <Button text="Add Bit" layoutX="480" layoutY="5" prefWidth="60" onAction="#addProtocolBit"/>
+                <Button text="Clear Bit" layoutX="540" layoutY="5" prefWidth="60" onAction="#clearProtocolBit"/>
+                <ComboBox fx:id="ProtocolMaskHelp" layoutY="5" layoutX="605" prefWidth="85" onAction="#protokolMaskHelp"/>
+                <Label text="General Method Parameter 'timeout':" layoutY="40"/>
+                <ComboBox fx:id="GMP_timeout" promptText="timeout" layoutY="35" layoutX="190" editable="true" prefWidth="90"/>
+                <Label text="General Method Parameter 'password':" layoutY="80"/>
+                <TextArea fx:id="GMP_password" promptText="password" layoutY="60" layoutX="190" prefWidth="150" styleClass="FixedFont" prefHeight="60"/>
+                <Label text="General Method Parameter" layoutX="365" layoutY="70"/>
+                <Label text="'tagID', 'filterID' or 'sourceID':" layoutX="365" layoutY="90"/>
+                <TextArea fx:id="GMP_tagID" promptText="tagID, filterID or sourceID" layoutY="60" layoutX="510" prefWidth="180" styleClass="FixedFont" prefHeight="60"/>
+                <Button text="StartReadTags" prefWidth="90" prefHeight="30" layoutY="125" onAction="#startReadTags"/>
+                <Button text="ReadTags" prefWidth="90" prefHeight="30" layoutY="155" onAction="#readTags"/>
+                <ComboBox fx:id="RT_cmd" promptText="cmd" layoutY="125" layoutX="90" prefWidth="100" prefHeight="60" editable="true"/>
+                <TextArea fx:id="RT_filtermask" promptText="filtermask" layoutX="190" layoutY="125" prefWidth="150" styleClass="FixedFont" prefHeight="60"/>
+                <TextField fx:id="RT_start" promptText="start" layoutX="340" layoutY="125" prefWidth="35" prefHeight="60"/>
+                <TextField fx:id="RT_length" promptText="length" layoutX="375" layoutY="125" prefWidth="35" prefHeight="60"/>
+                <Button text="StopReadTags" prefWidth="90" prefHeight="27" layoutX="430" layoutY="125" onAction="#stopReadTags"/>
+                <Button text="LockTag" prefWidth="90" prefHeight="27" layoutX="430" layoutY="158" onAction="#lockTag"/>
+                <Button text="DisableTag" prefWidth="90" prefHeight="27" layoutX="540" layoutY="158" onAction="#disableTag"/>
+                <Button text="WriteTagData" onAction="#writeTagData" layoutY="190" prefWidth="90" prefHeight="60"/>
+                <TextArea fx:id="WD_userdata" promptText="userdata" layoutX="90" layoutY="190" prefWidth="250" styleClass="FixedFont" prefHeight="60"/>
+                <TextField fx:id="WD_start" promptText="start" layoutX="340" layoutY="190" prefWidth="35" prefHeight="60"/>
+                <Button text="WriteTagID" onAction="#writeTagID" layoutY="190" layoutX="430" prefWidth="80" prefHeight="60"/>
+                <TextArea fx:id="WI_destID" promptText="destID" layoutY="190" layoutX="510" prefWidth="180" styleClass="FixedFont" prefHeight="60"/>
+                <Button text="FirstTag" onAction="#firstTag" layoutY="255" prefWidth="100"/>
+                <Button text="NextTag" onAction="#nextTag" layoutX="110" layoutY="255" prefWidth="100"/>
+                <Button text="PreviousTag" onAction="#previousTag" layoutX="220" layoutY="255" prefWidth="100"/>
+                <Label text="TagCount: " layoutX="350" layoutY="260"/>
+                <Label fx:id="TagCount" layoutX="405" layoutY="260"/>
+                <Label text="CurrentTagProtocol: " layoutX="430" layoutY="260"/>
+                <Label fx:id="CurrentTagProtocol" layoutX="530" layoutY="260"/>
+                <Label text="CurrentTagID:" layoutY="310"/>
+                <TextArea fx:id="CurrentTagID" layoutX="90" layoutY="290" prefWidth="150" prefHeight="60" editable="false" styleClass="FixedFont"/>
+                <Label text="CurrentTagUserData:" layoutX="260" layoutY="310"/>
+                <TextArea fx:id="CurrentTagUserData" layoutX="380" layoutY="290" prefWidth="310" prefHeight="60" editable="false" styleClass="FixedFont"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Maintenance Methods">
+            <AnchorPane prefHeight="409" prefWidth="695">
+                <Button onAction="#compareFirmwareVersion" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
+                <TextField fx:id="CFV_firmwareFileName" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button styleClass="FileButton" onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" prefWidth="25"/>
+                <TextField fx:id="CFV_result" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
+                <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
+                <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button styleClass="FileButton" onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" prefWidth="25"/>
+                <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
+                <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
+                <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
+                <TextArea fx:id="_statisticsBuffer" layoutX="330" layoutY="30" prefWidth="350" prefHeight="75" promptText="statisticsBuffer"/>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+    <Label text="Events" layoutY="121" layoutX="700" prefWidth="280" underline="true" alignment="CENTER"/>
+    <TextArea fx:id="EventOutput" layoutX="700" layoutY="146" prefWidth="280" prefHeight="389"/>
+</AnchorPane>

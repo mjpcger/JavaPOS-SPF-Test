@@ -1065,10 +1065,17 @@ public class CommonController implements Initializable, Runnable, DataListener, 
 
     /**
      * Converts hexadecimal string to byte array. Whitespace are allowed as byte separators and will be skipped.
+     * <br>Parameter strong specifies the behavior when data contains invalid characters:
+     * <ul>
+     *     <li>If strong is true, this method returns null if data contains an invalid character.</li>
+     *     <li>If strong is false, this method returns a byte array that represents the contents of the string
+     *     up to the invalid character.</li>
+     * </ul>
      * @param data  Hexadecimal string.
+     * @param strong Specifies behavior in case of invalid string.
      * @return The corresponding byte array.
      */
-    public byte[] hexStringToByteArray(String data) {
+    public byte[] hexStringToByteArray(String data, boolean strong) {
         data = data.toUpperCase();
         byte[] result = new byte[data.length()];
         int i, j = 0;
@@ -1085,7 +1092,9 @@ public class CommonController implements Initializable, Runnable, DataListener, 
                     if (v < 0) {
                         if (c <= 0x20)            // whitespace: byte finished
                             break;
-                        throw new Exception("");  // No hex digit, no whitespace: Break all loops
+                        if (strong)               // No hex digit, no whitespace: Break all loops
+                            return null;
+                        throw new Exception("");
                     }
                     b = (byte) (b * 0x10 + v);
                 }
@@ -1095,6 +1104,15 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             }
         }
         return Arrays.copyOf(result, i);
+    }
+
+    /**
+     * Converts hexadecimal string to byte array. Whitespace are allowed as byte separators and will be skipped.
+     * @param data  Hexadecimal string.
+     * @return The corresponding byte array.
+     */
+    public byte[] hexStringToByteArray(String data) {
+        return hexStringToByteArray(data, false);
     }
 
     /**
@@ -1319,8 +1337,6 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     Values ErrorCodeExtendedValueConverter = new IntValues();
 
     String getLogString(ErrorEvent event) {
-        if (event instanceof JposErrorEvent)
-            return ((JposErrorEvent) event).toLogString();
         String errorcodes = new ErrorLocusValues().getSymbol(event.getErrorLocus());
         errorcodes += " - " + new ErrorCodeValues().getSymbol(event.getErrorCode());
         if (event.getErrorCodeExtended() != 0) {
