@@ -46,6 +46,11 @@ public class DeviceControl {
     Parent Gui = null;
 
     /**
+     * The CommonController that handles Control
+     */
+    CommonController Controller = null;
+
+    /**
      * Retrieves JavaPOS control belonging to this DeviceControl instance.
      */
     public BaseJposControl getControl() {
@@ -240,6 +245,9 @@ public class DeviceControl {
                         } else if (category.equals("MSR")) {
                             actdev.Control = new MSR();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("MSR.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("PINPad")) {
+                            actdev.Control = new PINPad();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("PINPad.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("POSKeyboard")) {
                             actdev.Control = new POSKeyboard();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("POSKeyboard.fxml"), new DeviceResources(actdev));

@@ -351,6 +351,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         @Override
         public void run() {
             long timeout = SyncObject.INFINITE;
+            Integer oldcount = null;
             while (Control.getState() != JposConst.JPOS_S_CLOSED) {
                 CheckWaiter.suspend(timeout);
                 try {
@@ -358,26 +359,25 @@ public class CommonController implements Initializable, Runnable, DataListener, 
                 } catch (JposException e) {
                     timeout = SyncObject.INFINITE;
                 }
+                Integer count;
+                try {
+                        Method getDataCount = Control.getClass().getMethod("getDataCount");
+                        count =  (Integer) getDataCount.invoke(Control);
+                } catch (Exception e) {
+                    count = null;
+                }
                 final long tio = timeout;
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            if (tio > 0) {
-                                Method getDataCount = Class.forName(Control.getClass().getName()).getMethod("getDataCount");
-                                DataCount.setText("DataCount: " + (Integer) getDataCount.invoke(Control));
-                            }
-                        } catch (Exception e) {
-                            DataCount.setText("");
+                final Integer datacount = count;
+                boolean equal = count == null ? oldcount == null : count.equals(oldcount);
+                if (!equal) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            DataCount.setText(datacount == null ? "" : "DataCount: " + datacount);
+                            updateGui();
                         }
-                        int i = JposConst.JPOS_EL_INPUT_DATA; // 3
-                        i = JposConst.JPOS_EL_INPUT; // 2
-                        i = JposConst.JPOS_EL_OUTPUT; // 1
-                        i = JposConst.JPOS_ER_CONTINUEINPUT; // 13
-                        i = JposConst.JPOS_ER_CLEAR; // 12
-                        i = JposConst.JPOS_ER_RETRY; // 11
-                    }
-                });
+                    });
+                }
             }
         }
     }
@@ -925,33 +925,16 @@ public class CommonController implements Initializable, Runnable, DataListener, 
                         String result = "";
                         switch (Conversion) {
                             case Hexadecimal: {
-                                for (byte b : data) {
-                                    result += new String(new char[]{
-                                            "0123456789ABCDEF".charAt((b & 0xf0) >> 4),
-                                            "0123456789ABCDEF".charAt(b & 0xf)
-                                    });
-                                    if (result.length() >= MaxConversionLength - 1)
-                                        break;
-                                }
-                                row.setValue(result);
+                                if (data.length > MaxConversionLength / 2)
+                                    data = Arrays.copyOf(data, MaxConversionLength / 2);
+                                row.setValue(byteArrayToHexString(data, data.length, false, 0));
                                 break;
                             }
                             case Ascii: {
-                                for (byte b : data) {
-                                    if ((b & 0xff) >= 0x20 && (b & 0xff) < 0x7f && b != (byte) '\\' && b != (byte) ']') {
-                                        result += new String(new char[]{(char) (b & 0xff)});
-                                    } else if (b == (byte) '\\' || b == (byte) ']') {
-                                        result += "\\" + new String(new byte[]{b});
-                                    } else {
-                                        result += "\\x" + new String(new char[]{
-                                                "0123456789ABCDEF".charAt((b & 0xf0) >> 4),
-                                                "0123456789ABCDEF".charAt(b & 0xf)
-                                        });
-                                    }
-                                    if (result.length() >= MaxConversionLength - 1)
-                                        break;
-                                }
-                                row.setValue(result);
+                                if (data.length > MaxConversionLength)
+                                    data = Arrays.copyOf(data, MaxConversionLength);
+                                result = byteArrayToAsciiString(data, MaxConversionLength * 4);
+                                row.setValue(result.length() > MaxConversionLength ? result.substring(0, MaxConversionLength) : result);
                                 break;
                             }
                             case Decoded: {
@@ -1213,6 +1196,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         DeviceControl resource = (DeviceControl)(((DeviceControl.DeviceResources)resourceBundle).getContents()[0][0]);
         Control = resource.getControl();
         LogicalDeviceName = resource.getName();
+        resource.Controller = this;
         Properties.getItems().add(new PropertyTableRow("State", new StateValues().getSymbol(Control.getState()), new StateValues()));
         Properties.getItems().add(new PropertyTableRow("PowerState", "", new PowerStateValues()));
         TableColumn<PropertyTableRow, String> column = new TableColumn<>("Name");

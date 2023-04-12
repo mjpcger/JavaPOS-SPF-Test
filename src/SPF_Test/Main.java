@@ -51,8 +51,8 @@ public class Main extends Application {
             for (DeviceControl dev : DeviceControl.Devices.values()) {
                 if (dev.getControl() != null && dev.getControl().getState() != JposConst.JPOS_S_CLOSED) {
                     try {
-                        dev.getControl().close();
-                    } catch (JposException e) {
+                        dev.Controller.close(null);
+                    } catch (Throwable e) {
                         e.printStackTrace();
                     }
                 }
