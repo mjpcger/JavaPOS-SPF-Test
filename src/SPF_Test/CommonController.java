@@ -734,7 +734,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     /**
-     * Processor for method DirectIO
+     * Processor for method UpdateStatistics
      */
     class UpdateStatisticsHandler extends MethodProcessor {
         /**
@@ -774,7 +774,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
 
 
     /**
-     * Processor for method DirectIO
+     * Processor for method RetrieveStatistics
      */
     class RetrieveStatisticsHandler extends MethodProcessor {
         /**
@@ -827,7 +827,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     /**
-     * Processor for method DirectIO
+     * Processor for method ResetStatistics
      */
     class ResetStatisticsHandler extends MethodProcessor {
         /**
