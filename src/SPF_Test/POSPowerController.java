@@ -31,14 +31,11 @@ import java.util.ResourceBundle;
  * GUI control for POSPower properties, methods and events.
  */
 public class POSPowerController extends CommonController {
-
     public TextField BatteryCriticallyLowThreshold;
     public TextField BatteryLowThreshold;
     public TextField EnforcedShutdownDelayTime;
     public ComboBox<String> SP_reason;
     private POSPower ThePOSPower;
-    private PropertyTableRow CapVariableBatteryCriticallyLowThresholdRow;
-    private PropertyTableRow CapVariableBatteryLowThresholdRow;
     private PropertyTableRow BatteryCriticallyLowThresholdRow;
     private PropertyTableRow BatteryLowThresholdRow;
     private PropertyTableRow EnforcedShutdownDelayTimeRow;
@@ -56,12 +53,15 @@ public class POSPowerController extends CommonController {
         StatusUpdateEventStatusValueConverter = new POSPStatusUpdateValues();
         Properties.getItems().add(new PropertyTableRow("Claimed", ""));
         Properties.getItems().add(BatteryCapacityRemainingRow = new PropertyTableRow("BatteryCapacityRemaining", ""));
+        Properties.getItems().add(new PropertyTableRow("BatteryCapacityRemainingInSeconds", ""));
         Properties.getItems().add(PowerSourceRow = new PropertyTableRow("PowerSource", "", new PowerSourceValues()));
         Properties.getItems().add(new PropertyTableRow("UPSChargeState", "", new UPSChargeStateValues()));
         Properties.getItems().add(new PropertyTableRow("PowerFailDelayTime", ""));
         Properties.getItems().add(new PropertyTableRow("QuickChargeMode", ""));
         Properties.getItems().add(new PropertyTableRow("QuickChargeTime", ""));
         Properties.getItems().add(new PropertyTableRow("CapBatteryCapacityRemaining", ""));
+        Properties.getItems().add(new PropertyTableRow("CapBatteryCapacityRemainingInSeconds", ""));
+        Properties.getItems().add(new PropertyTableRow("CapChargeTime", ""));
         Properties.getItems().add(new PropertyTableRow("CapFanAlarm", ""));
         Properties.getItems().add(new PropertyTableRow("CapHeatAlarm", ""));
         Properties.getItems().add(new PropertyTableRow("CapQuickCharge", ""));
@@ -70,10 +70,15 @@ public class POSPowerController extends CommonController {
         Properties.getItems().add(new PropertyTableRow("CapStandbyPOS", ""));
         Properties.getItems().add(new PropertyTableRow("CapSuspendPOS", ""));
         Properties.getItems().add(new PropertyTableRow("CapUPSChargeState", "", new HexValues()));
-        Properties.getItems().add(CapVariableBatteryCriticallyLowThresholdRow = new PropertyTableRow("CapVariableBatteryCriticallyLowThreshold", ""));
-        Properties.getItems().add(CapVariableBatteryLowThresholdRow = new PropertyTableRow("CapVariableBatteryLowThreshold", ""));
+        Properties.getItems().add(new PropertyTableRow("CapVariableBatteryCriticallyLowThreshold", ""));
+        Properties.getItems().add(new PropertyTableRow("CapVariableBatteryCriticallyLowThresholdInSeconds", ""));
+        Properties.getItems().add(new PropertyTableRow("CapVariableBatteryLowThreshold", ""));
+        Properties.getItems().add(new PropertyTableRow("CapVariableBatteryLowThresholdInSeconds", ""));
         Properties.getItems().add(BatteryCriticallyLowThresholdRow = new PropertyTableRow("BatteryCriticallyLowThreshold", ""));
+        Properties.getItems().add(new PropertyTableRow("BatteryCriticallyLowThresholdInSeconds", ""));
         Properties.getItems().add(BatteryLowThresholdRow = new PropertyTableRow("BatteryLowThreshold", ""));
+        Properties.getItems().add(new PropertyTableRow("BatteryLowThresholdInSeconds", ""));
+        Properties.getItems().add(new PropertyTableRow("ChargeTime", ""));
         Properties.getItems().add(EnforcedShutdownDelayTimeRow = new PropertyTableRow("EnforcedShutdownDelayTime", ""));
         Properties.getItems().add(new PropertyTableRow("CheckHealthText", ""));
         Properties.getItems().add(new PropertyTableRow("DeviceServiceDescription", ""));
