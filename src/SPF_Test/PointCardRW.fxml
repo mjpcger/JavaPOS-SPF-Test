@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  ~ Copyright 2023 Martin Conrad
+  ~ <p>
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ <p>
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ <p>
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="SPF_Test.PointCardRWController"
+            prefHeight="540.0" prefWidth="980.0">
+    <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutY="5" onAction="#setDeviceEnabled"/>
+    <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="105" layoutY="5" onAction="#setFreezeEvents"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="200" editable="true" onAction="#setPowerNotify"/>
+    <Label text="PowerNotify" layoutX="350" layoutY="5"/>
+    <CheckBox fx:id="DataEventEnabled" text="DataEventEnabled" layoutX="420" layoutY="5" onAction="#setDataEventEnabled"/>
+    <TableView fx:id="Properties" layoutX="570" layoutY="0" prefWidth="410" prefHeight="115"/>
+    <Button text="Open" layoutY="35" onAction="#open" prefWidth="75"/>
+    <Button text="Claim" layoutX="82.5" layoutY="35" onAction="#claim" prefWidth="70"/>
+    <ComboBox fx:id="claim_timeout" prefWidth="70" layoutX="82.5" layoutY="60" promptText="timeout" editable="true"/>
+    <Button text="Release" layoutX="160" layoutY="35" onAction="#release" prefWidth="70"/>
+    <Button text="Close" layoutX="240" layoutY="35" onAction="#close" prefWidth="70"/>
+    <Button text="CheckHealth" layoutX="320" layoutY="35" onAction="#checkHealth" prefWidth="90"/>
+    <ComboBox fx:id="CH_level" prefWidth="90" layoutX="320" layoutY="60" promptText="level" editable="true"/>
+    <Button text="DirectIO" layoutX="420" layoutY="35" onAction="#directIO" prefWidth="140"/>
+    <TextField fx:id="DIO_command" prefWidth="70" layoutX="420" layoutY="60" promptText="command"/>
+    <TextField fx:id="DIO_data" prefWidth="70" layoutX="490" layoutY="60" promptText="data"/>
+    <TextField fx:id="DIO_obj" prefWidth="140" layoutX="420" layoutY="85" promptText="obj"/>
+    <Button text="ClearOutput" layoutY="90" onAction="#clearOutput" prefWidth="75"/>
+    <Button text="ClearInput" layoutX="82.5" layoutY="90" onAction="#clearInput" prefWidth="70"/>
+    <Button text="ClearInputProperties" layoutX="160" layoutY="90" onAction="#clearInputProperties" prefWidth="120"/>
+    <Label fx:id="DataCount" layoutX="290" layoutY="95" text="DataCount: 0"/>
+    <Label fx:id="MethodActive" layoutY="530"/>
+    <TabPane layoutY="116" prefWidth="695" prefHeight="424" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Specific Properties And Methods">
+            <AnchorPane prefHeight="409" prefWidth="695">
+                <Button onAction="#beginInsertion" layoutY="5" prefWidth="100" text="BeginInsertion"/>
+                <ComboBox fx:id="BI_timeout" layoutX="100" layoutY="5" editable="true" prefWidth="100" promptText="timeout"/>
+                <Button onAction="#endInsertion" layoutY="30" prefWidth="100" text="EndInsertion"/>
+                <Button onAction="#beginRemoval" layoutY="55" prefWidth="100" text="BeginRemoval "/>
+                <ComboBox fx:id="BR_timeout" layoutX="100" layoutY="55" editable="true" prefWidth="100" promptText="timeout"/>
+                <Button onAction="#endRemoval"  layoutY="80" prefWidth="100" text="EndRemoval"/>
+                <Button onAction="#cleanCard" layoutY="105" prefWidth="100" text="CleanCard"/>
+                <Button onAction="#rotatePrint" layoutY="130" prefWidth="100" text="RotatePrint"/>
+                <ComboBox fx:id="RP_rotation" layoutX="100" layoutY="130" editable="true" prefWidth="100" promptText="rotation"/>
+                <Button onAction="#validateData" layoutY="155" prefWidth="100" text="ValidateData"/>
+                <Label text="Method Parameter 'data': " prefWidth="140" alignment="CENTER_RIGHT" layoutX="170" layoutY="160"/>
+                <TextField fx:id="XX_data" layoutY="155" layoutX="310" prefWidth="300" promptText="data"/>
+                <ComboBox fx:id="DataHelp" layoutX="610" layoutY="155" prefWidth="85" onAction="#dataHelp"/>
+                <Button onAction="#printWrite" layoutY="180" prefWidth="100" text="PrintWrite"/>
+                <ComboBox fx:id="PW_kind" layoutY="180" layoutX="100" prefWidth="80" editable="true" promptText="kind"/>
+                <TextField fx:id="PW_hposition" layoutY="180" layoutX="180" prefWidth="60" promptText="hposition"/>
+                <TextField fx:id="PW_vposition" layoutY="180" layoutX="240" prefWidth="60" promptText="vposition"/>
+                <Button onAction="#clearPrintWrite" layoutY="205" prefWidth="100" text="ClearPrintWrite"/>
+                <ComboBox fx:id="CPW_kind" layoutY="205" layoutX="100" prefWidth="80" editable="true" promptText="kind"/>
+                <TextField fx:id="CPW_hposition" layoutY="205" layoutX="180" prefWidth="60" promptText="hposition"/>
+                <TextField fx:id="CPW_vposition" layoutY="205" layoutX="240" prefWidth="60" promptText="vposition"/>
+                <TextField fx:id="CPW_width" layoutY="205" layoutX="300" prefWidth="50" promptText="width"/>
+                <TextField fx:id="CPW_height" layoutY="205" layoutX="350" prefWidth="50" promptText="height"/>
+                <Label text="Track 1: " layoutY="235" prefWidth="50" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="Write1Data" layoutY="230" layoutX="50" prefWidth="645" promptText="Track1Data / Write1Data"/>
+                <Label text="Track 2: " layoutY="260" prefWidth="50" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="Write2Data" layoutY="255" layoutX="50" prefWidth="645" promptText="Track2Data / Write2Data"/>
+                <Label text="Track 3: " layoutY="285" prefWidth="50" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="Write3Data" layoutY="280" layoutX="50" prefWidth="645" promptText="Track3Data / Write3Data"/>
+                <Label text="Track 4: " layoutY="310" prefWidth="50" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="Write4Data" layoutY="305" layoutX="50" prefWidth="645" promptText="Track4Data / Write4Data"/>
+                <Label text="Track 5: " layoutY="335" prefWidth="50" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="Write5Data" layoutY="330" layoutX="50" prefWidth="645" promptText="Track5Data / Write5Data"/>
+                <Label text="Track 6: " layoutY="360" prefWidth="50" alignment="CENTER_RIGHT"/>
+                <TextField fx:id="Write6Data" layoutY="355" layoutX="50" prefWidth="645" promptText="Track6Data / Write6Data"/>
+                <Label text="Track Specific Properties" layoutY="10" layoutX="260" prefWidth="435" underline="true"/>
+                <Label text="TracksToRead:" layoutX="260" layoutY="35" prefWidth="80"/>
+                <CheckBox fx:id="TTR1" text="Track1" layoutX="340" layoutY="35" onAction="#trackToRead"/>
+                <CheckBox fx:id="TTR2" text="Track2" layoutX="400" layoutY="35" onAction="#trackToRead"/>
+                <CheckBox fx:id="TTR3" text="Track3" layoutX="460" layoutY="35" onAction="#trackToRead"/>
+                <CheckBox fx:id="TTR4" text="Track4" layoutX="520" layoutY="35" onAction="#trackToRead"/>
+                <CheckBox fx:id="TTR5" text="Track5" layoutX="580" layoutY="35" onAction="#trackToRead"/>
+                <CheckBox fx:id="TTR6" text="Track6" layoutX="640" layoutY="35" onAction="#trackToRead"/>
+                <Label text="TracksToWrite:" layoutX="260" layoutY="55" prefWidth="80"/>
+                <CheckBox fx:id="TTW1" text="Track1" layoutX="340" layoutY="55" onAction="#trackToWrite"/>
+                <CheckBox fx:id="TTW2" text="Track2" layoutX="400" layoutY="55" onAction="#trackToWrite"/>
+                <CheckBox fx:id="TTW3" text="Track3" layoutX="460" layoutY="55" onAction="#trackToWrite"/>
+                <CheckBox fx:id="TTW4" text="Track4" layoutX="520" layoutY="55" onAction="#trackToWrite"/>
+                <CheckBox fx:id="TTW5" text="Track5" layoutX="580" layoutY="55" onAction="#trackToWrite"/>
+                <CheckBox fx:id="TTW6" text="Track6" layoutX="640" layoutY="55" onAction="#trackToWrite"/>
+                <AnchorPane layoutX="260" layoutY="80" prefHeight="70" prefWidth="435">
+                    <Label text="Print Setup" layoutY="-3" underline="true"/>
+                    <ComboBox fx:id="CharacterSet" layoutY="15" prefWidth="90" editable="true" onAction="#setCharacterSet"/>
+                    <Label text="CharacterSet" layoutX="95" layoutY="20"/>
+                    <CheckBox fx:id="MapCharacterSet" text="MapCharacterSet" layoutY="20" layoutX="170" onAction="#setMapCharacterSet"/>
+                    <ComboBox fx:id="MapMode" layoutY="15" layoutX="290" prefWidth="90" editable="true" onAction="#setMapMode"/>
+                    <Label text="MapMode" layoutX="385" layoutY="20"/>
+                    <ComboBox fx:id="LineChars" layoutY="40" prefWidth="60" editable="true" onAction="#setLineChars"/>
+                    <Label text="LineChars" layoutX="65" layoutY="45"/>
+                    <TextField fx:id="LineHeight" layoutX="170" layoutY="40" prefWidth="40"/>
+                    <Label text="LineHeight" layoutX="215" layoutY="45"/>
+                    <TextField fx:id="LineSpacing" layoutX="290" layoutY="40" prefWidth="40"/>
+                    <Label text="LineSpacing" layoutX="335" layoutY="45"/>
+                </AnchorPane>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Maintenance Methods">
+            <AnchorPane prefHeight="409" prefWidth="695">
+                <Button onAction="#compareFirmwareVersion" layoutY="5" text="CompareFirmwareVersion" prefWidth="155"/>
+                <TextField fx:id="CFV_firmwareFileName" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button styleClass="FileButton" onAction="#browseCFVName" layoutX="130" layoutY="30" text="▼" prefWidth="25"/>
+                <TextField fx:id="CFV_result" layoutY="55" prefWidth="155" promptText="result" disable="true"/>
+                <Button onAction="#updateFirmware" layoutX="165" layoutY="5" text="UpdateFirmware" prefWidth="155"/>
+                <TextField fx:id="UF_firmwareFileName" layoutX="165" layoutY="30" prefWidth="130" promptText="firmwareFileName"/>
+                <Button styleClass="FileButton" onAction="#browseUFName" layoutX="295" layoutY="30" text="▼" prefWidth="25"/>
+                <Button onAction="#resetStatistics" layoutX="330" layoutY="5" text="ResetStatistics" prefWidth="110"/>
+                <Button onAction="#retrieveStatistics" layoutX="450" layoutY="5" text="RetrieveStatistics" prefWidth="110"/>
+                <Button onAction="#updateStatistics" layoutX="570" layoutY="5" text="UpdateStatistics" prefWidth="110"/>
+                <TextArea fx:id="_statisticsBuffer" layoutX="330" layoutY="30" prefWidth="350" prefHeight="75" promptText="statisticsBuffer"/>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+    <Label text="Events" layoutY="121" layoutX="700" prefWidth="280" underline="true" alignment="CENTER"/>
+    <TextArea fx:id="EventOutput" layoutX="700" layoutY="146" prefWidth="280" prefHeight="389"/>
+</AnchorPane>
