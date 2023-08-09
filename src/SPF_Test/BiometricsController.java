@@ -311,16 +311,9 @@ public class BiometricsController extends CommonController {
             return new byte[0];
         else {
             if (new File(filename).isFile()) {
-                try {
-                    RandomAccessFile source = new RandomAccessFile(filename, "r");
+                try (RandomAccessFile source = new RandomAccessFile(filename, "r")) {
                     byte[] buffer = new byte[(int) source.length()];
-                    try {
-                        source.read(buffer);
-                    } catch (Exception e) {
-                        throw e;
-                    } finally {
-                        source.close();
-                    }
+                    source.read(buffer);
                     return buffer;
                 } catch (Exception e) {
                     throw new JposException(JposConst.JPOS_E_FAILURE, e.getMessage(), e);
@@ -337,13 +330,8 @@ public class BiometricsController extends CommonController {
         if (data == null)
             throw new JposException(JposConst.JPOS_E_DISABLED, "No contents available");
         if (filename != null && !filename.equals("")) {
-            try {
-                RandomAccessFile source = new RandomAccessFile(filename, "rw");
-                try {
-                    source.write(data);
-                } finally {
-                    source.close();
-                }
+            try (RandomAccessFile source = new RandomAccessFile(filename, "rw")) {
+                source.write(data);
             } catch (Exception e) {
                 throw new JposException(JposConst.JPOS_E_FAILURE, e.getMessage(), e);
             }

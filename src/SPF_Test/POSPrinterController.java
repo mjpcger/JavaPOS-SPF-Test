@@ -1084,9 +1084,9 @@ public class POSPrinterController extends CommonController {
         Integer alignment = new B_alignmentValues().getInteger(PMB_alignment.getValue());
         if (!invalid(station, "station") && !invalid(type, "type") && !invalid(width, "width") && !invalid(alignment, "alignment")) {
             byte[] data;
-            try {
+            try (FileInputStream stream = new FileInputStream(PMB_data.getText())) {
                 data = new byte[(int) new File(PMB_data.getText()).length()];
-                new FileInputStream(PMB_data.getText()).read(data);
+                stream.read(data);
             } catch (Exception e) {
                 invalid(null, "data");
                 return;

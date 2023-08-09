@@ -402,13 +402,8 @@ public class CheckScannerController extends CommonController {
             File file = TheFileChooser.showSaveDialog(null);
             if (file != null) {
                 TheFileChooser.setInitialDirectory(file.getParentFile());
-                try {
-                    RandomAccessFile target = new RandomAccessFile(file, "rw");
-                    try {
-                        target.write(imagedata);
-                    } finally {
-                        target.close();
-                    }
+                try (RandomAccessFile target = new RandomAccessFile(file, "rw")) {
+                    target.write(imagedata);
                 } catch (Exception e) {
                     throw new JposException(JposConst.JPOS_E_FAILURE, e.getMessage(), e);
                 }
