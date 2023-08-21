@@ -28,6 +28,7 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 /**
@@ -48,7 +49,12 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DeviceControl.loadDevices("jpos.xml", this);
         ArrayList<String> categories = DeviceControl.getCategories();
-        Collections.sort(categories);
+        Collections.sort(categories, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.toLowerCase().compareTo(o2.toLowerCase());
+            }
+        });
         DeviceCategory.setItems(FXCollections.observableList(categories));
         DeviceCategory.setVisibleRowCount(categories.size());
         DeviceCategory.setOnAction(new EventHandler<ActionEvent>() {

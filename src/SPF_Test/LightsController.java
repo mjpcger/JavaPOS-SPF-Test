@@ -187,7 +187,7 @@ public class LightsController extends CommonController {
         })){
             try {
                 TheLights.switchOnMultiple(lights, blinkOnCycle, blinkOffCycle, color, alarm);
-            } catch (JposException e) {
+            } catch (Throwable e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
         }
@@ -200,10 +200,10 @@ public class LightsController extends CommonController {
         if (validate(new Object[]{
                 pattern, "pattern",
                 alarm, "alarm"
-        })){
+        })) {
             try {
                 TheLights.switchOnPattern(pattern, alarm);
-            } catch (JposException e) {
+            } catch (Throwable e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
         }
@@ -213,7 +213,7 @@ public class LightsController extends CommonController {
     public void switchOffPattern(ActionEvent actionEvent) {
         try {
             TheLights.switchOffPattern();
-        } catch (JposException e) {
+        } catch (Throwable e) {
             getFullErrorMessageAndPrintTrace(e);
         }
         updateGui();

@@ -72,9 +72,11 @@ if exist jpos.xml if exist jpos\res\jpos.properties goto :AddExternals
 rem ****************************************************************
 rem * Add jpos115 and all other necessary jar files from           *
 rem * sub-folder jar                                               *
+rem * Jpos116Dummy must be added to class path first, if present   *
 rem ****************************************************************
 
-for %%k in (jar\*.jar) do call :addtoclasspath %%~dpfk
+for %%k in (jar\Jpos116Dummy.jar) do call :addtoclasspath %%~dpfk
+for %%k in (jar\*.jar) do if not %%k==jar\Jpos116Dummy.jar call :addtoclasspath %%~dpfk
 
 rem ****************************************************************
 rem * Now call the Java command                                    *

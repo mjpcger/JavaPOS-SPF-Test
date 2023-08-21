@@ -59,12 +59,16 @@
     <TextArea fx:id="_statisticsBuffer" layoutX="330" layoutY="200" prefWidth="350" prefHeight="75" promptText="statisticsBuffer"/>
     <Separator layoutX="0" layoutY="280" prefWidth="980" orientation="HORIZONTAL"/>
     <Label text="Specific Properties And Methods" layoutX="10" layoutY="285" underline="true"/>
-    <Label text="BatteryCriticallyLowThreshold" layoutX="0" layoutY="320" alignment="CENTER_RIGHT" prefWidth="150"/>
-    <TextField fx:id="BatteryCriticallyLowThreshold" layoutX="155" layoutY="315" prefWidth="155" promptText="BatteryCriticallyLowThreshold"/>
-    <Label text="BatteryLowThreshold" layoutX="0" layoutY="350" alignment="CENTER_RIGHT" prefWidth="150"/>
-    <TextField fx:id="BatteryLowThreshold" layoutX="155" layoutY="345" prefWidth="155" promptText="BatteryLowThreshold"/>
-    <Label text="EnforcedShutdownDelayTime" layoutX="0" layoutY="380" alignment="CENTER_RIGHT" prefWidth="150"/>
-    <TextField fx:id="EnforcedShutdownDelayTime" layoutX="155" layoutY="375" prefWidth="155" promptText="EnforcedShutdownDelayTime"/>
+    <Label text="BatteryCriticallyLowThreshold" layoutX="0" layoutY="320" alignment="CENTER_RIGHT" prefWidth="195"/>
+    <TextField fx:id="BatteryCriticallyLowThreshold" layoutX="200" layoutY="315" prefWidth="110" promptText="BatteryCriticallyLowThreshold"/>
+    <Label text="BatteryCriticallyLowThresholdInSeconds" layoutX="0" layoutY="350" alignment="CENTER_RIGHT" prefWidth="195"/>
+    <TextField fx:id="BatteryCriticallyLowThresholdInSeconds" layoutX="200" layoutY="345" prefWidth="110" promptText="BatteryCriticallyLowThresholdInSeconds"/>
+    <Label text="BatteryLowThreshold" layoutX="0" layoutY="380" alignment="CENTER_RIGHT" prefWidth="195"/>
+    <TextField fx:id="BatteryLowThreshold" layoutX="200" layoutY="375" prefWidth="110" promptText="BatteryLowThreshold"/>
+    <Label text="BatteryLowThresholdInSeconds" layoutX="0" layoutY="410" alignment="CENTER_RIGHT" prefWidth="195"/>
+    <TextField fx:id="BatteryLowThresholdInSeconds" layoutX="200" layoutY="405" prefWidth="110" promptText="BatteryLowThresholdInSeconds"/>
+    <Label text="EnforcedShutdownDelayTime" layoutX="0" layoutY="440" alignment="CENTER_RIGHT" prefWidth="195"/>
+    <TextField fx:id="EnforcedShutdownDelayTime" layoutX="200" layoutY="435" prefWidth="110" promptText="EnforcedShutdownDelayTime"/>
     <Button onAction="#restartPOS" layoutX="330" layoutY="315" prefWidth="100" text="RestartPOS"/>
     <Button onAction="#shutdownPOS" layoutX="330" layoutY="345" prefWidth="100" text="ShutdownPOS"/>
     <Button onAction="#standbyPOS" layoutX="330" layoutY="375" prefWidth="100" text="StandbyPOS"/>

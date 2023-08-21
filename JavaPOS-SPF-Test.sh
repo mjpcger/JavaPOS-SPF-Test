@@ -23,9 +23,10 @@ else
   fi
 fi
 classpath=$(pwd)
+test -f jar/Jpos116Dummy.jar && classpath="$classpath:$i"
 for i in $(pwd)/jar/*.jar
 do
-	classpath="$classpath:$i"
+	test $i = "jar/Jpos116Dummy.jar" || classpath="$classpath:$i"
 done
 echo "java $VM_Flags -cp $classpath SPF_Test.Main"
 java $VM_Flags -cp $classpath SPF_Test.Main || error "Press Enter to continue"

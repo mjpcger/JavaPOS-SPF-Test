@@ -32,12 +32,16 @@ import java.util.ResourceBundle;
  */
 public class POSPowerController extends CommonController {
     public TextField BatteryCriticallyLowThreshold;
+    public TextField BatteryCriticallyLowThresholdInSeconds;
     public TextField BatteryLowThreshold;
+    public TextField BatteryLowThresholdInSeconds;
     public TextField EnforcedShutdownDelayTime;
     public ComboBox<String> SP_reason;
     private POSPower ThePOSPower;
     private PropertyTableRow BatteryCriticallyLowThresholdRow;
+    private PropertyTableRow BatteryCriticallyLowThresholdInSecondsRow;
     private PropertyTableRow BatteryLowThresholdRow;
+    private PropertyTableRow BatteryLowThresholdInSecondsRow;
     private PropertyTableRow EnforcedShutdownDelayTimeRow;
     private PropertyTableRow BatteryCapacityRemainingRow;
     private PropertyTableRow PowerSourceRow;
@@ -75,9 +79,9 @@ public class POSPowerController extends CommonController {
         Properties.getItems().add(new PropertyTableRow("CapVariableBatteryLowThreshold", ""));
         Properties.getItems().add(new PropertyTableRow("CapVariableBatteryLowThresholdInSeconds", ""));
         Properties.getItems().add(BatteryCriticallyLowThresholdRow = new PropertyTableRow("BatteryCriticallyLowThreshold", ""));
-        Properties.getItems().add(new PropertyTableRow("BatteryCriticallyLowThresholdInSeconds", ""));
+        Properties.getItems().add(BatteryCriticallyLowThresholdInSecondsRow = new PropertyTableRow("BatteryCriticallyLowThresholdInSeconds", ""));
         Properties.getItems().add(BatteryLowThresholdRow = new PropertyTableRow("BatteryLowThreshold", ""));
-        Properties.getItems().add(new PropertyTableRow("BatteryLowThresholdInSeconds", ""));
+        Properties.getItems().add(BatteryLowThresholdInSecondsRow = new PropertyTableRow("BatteryLowThresholdInSeconds", ""));
         Properties.getItems().add(new PropertyTableRow("ChargeTime", ""));
         Properties.getItems().add(EnforcedShutdownDelayTimeRow = new PropertyTableRow("EnforcedShutdownDelayTime", ""));
         Properties.getItems().add(new PropertyTableRow("CheckHealthText", ""));
@@ -92,6 +96,8 @@ public class POSPowerController extends CommonController {
         Properties.getItems().add(new PropertyTableRow("CapUpdateStatistics", ""));
         setPropertyOnFocusLost(BatteryCriticallyLowThreshold, "BatteryCriticallyLowThreshold");
         setPropertyOnFocusLost(BatteryLowThreshold, "BatteryLowThreshold");
+        setPropertyOnFocusLost(BatteryCriticallyLowThresholdInSeconds, "BatteryCriticallyLowThresholdInSeconds");
+        setPropertyOnFocusLost(BatteryLowThresholdInSeconds, "BatteryLowThresholdInSeconds");
         setPropertyOnFocusLost(EnforcedShutdownDelayTime, "EnforcedShutdownDelayTime");
         Values val = new SP_reasonValues();
         for (int i = 1; i < val.ValueList.length; i += 2)
@@ -106,6 +112,8 @@ public class POSPowerController extends CommonController {
             InUpdateGui = true;
             BatteryLowThreshold.setText(BatteryLowThresholdRow.getValue());
             BatteryCriticallyLowThreshold.setText(BatteryCriticallyLowThresholdRow.getValue());
+            BatteryLowThresholdInSeconds.setText(BatteryLowThresholdInSecondsRow.getValue());
+            BatteryCriticallyLowThresholdInSeconds.setText(BatteryCriticallyLowThresholdInSecondsRow.getValue());
             EnforcedShutdownDelayTime.setText(EnforcedShutdownDelayTimeRow.getValue());
             InUpdateGui = false;
         }
@@ -141,6 +149,30 @@ public class POSPowerController extends CommonController {
             try {
                 ThePOSPower.setBatteryLowThreshold(batteryLowThreshold);
             } catch (JposException e) {
+                getFullErrorMessageAndPrintTrace(e);
+            }
+            updateGui();
+        }
+    }
+
+    public void setBatteryCriticallyLowThresholdInSeconds(ActionEvent dummy) {
+        Integer batteryCriticallyLowThresholdInSeconds = new IntValues().getInteger(BatteryCriticallyLowThresholdInSeconds.getText());
+        if (!invalid(batteryCriticallyLowThresholdInSeconds, "batteryCriticallyLowThresholdInSeconds")) {
+            try {
+                ThePOSPower.setBatteryCriticallyLowThresholdInSeconds(batteryCriticallyLowThresholdInSeconds);
+            } catch (Throwable e) {
+                getFullErrorMessageAndPrintTrace(e);
+            }
+            updateGui();
+        }
+    }
+
+    public void setBatteryLowThresholdInSeconds(ActionEvent dummy) {
+        Integer batteryLowThresholdInSeconds = new IntValues().getInteger(BatteryLowThresholdInSeconds.getText());
+        if (!invalid(batteryLowThresholdInSeconds, "batteryLowThresholdInSeconds")) {
+            try {
+                ThePOSPower.setBatteryLowThresholdInSeconds(batteryLowThresholdInSeconds);
+            } catch (Throwable e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
             updateGui();
@@ -209,6 +241,7 @@ public class POSPowerController extends CommonController {
                     POSPowerConst.PWR_SUE_BAT_LOW, "SUE_BAT_LOW",
                     POSPowerConst.PWR_SUE_BAT_CRITICAL, "SUE_BAT_CRITICAL",
                     POSPowerConst.PWR_SUE_BAT_CAPACITY_REMAINING, "SUE_BAT_CAPACITY_REMAINING",
+                    POSPowerConst.PWR_SUE_BAT_CAPACITY_REMAINING_IN_SECONDS, "SUE_BAT_CAPACITY_REMAINING_IN_SECONDS",
                     POSPowerConst.PWR_SUE_FAN_RUNNING, "SUE_FAN_RUNNING",
                     POSPowerConst.PWR_SUE_FAN_STOPPED, "SUE_FAN_STOPPED",
                     POSPowerConst.PWR_SUE_PWR_SOURCE, "SUE_PWR_SOURCE",
