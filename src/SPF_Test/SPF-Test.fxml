@@ -37,20 +37,15 @@
       <Separator layoutX="0" layoutY="45" prefWidth="1000" orientation="HORIZONTAL" />
       <AnchorPane fx:id="DevicePane" prefWidth="990" prefHeight="550" layoutX="5" layoutY="50">
         <Label styleClass="LargeFont" layoutX="0" layoutY="50" text="JavaPOS-SPF Test Program" prefWidth="990" alignment="CENTER"/>
-        <Label layoutX="20" layoutY="90" text="Welcome to the JavaPOS-SPF test program. Even if designed to test JavaPOS services,
+        <Label layoutX="20" layoutY="90" wrapText="true" prefWidth="850" text="Welcome to the JavaPOS-SPF test program. Even if designed to test JavaPOS service implementations based on JavaPOS-SPF,
  it can be used to test any JavaPOS service supported by this program."/>
-        <Label layoutX="20" layoutY="120" text="The following device classes are currently supported:"/>
-        <Label layoutX="20" layoutY="150" wrapText="true" prefWidth="950" text="Belt, BillAcceptor, BillDispenser,
- Biometrics, BumpBar, CashChanger, CashDrawer, CAT, CheckScanner, CoinAcceptor, CoinDispenser, ElectronicJournal,
- ElectronicValueRW, FiscalPrinter, Gate, HardTotals, ImageScanner, ItemDispenser, Keylock, Lights, LineDisplay,
- MICR, MotionSensor, MSR, PINPad, PointCardRW, POSKeyboard, POSPower, POSPrinter, RemoteOrderDisplay, RFIDScanner,
- Scale, Scanner, SignatureCapture, SmartCardRW and ToneIndicator."/>
-        <Label layoutX="20" layoutY="200" text="To integrate a service into the test program, follow these steps:"/>
-        <Label layoutX="40" layoutY="230" text="● Add the necessary entries to jpos.xml, located in the working directory of the test program."/>
-        <Label layoutX="40" layoutY="250" text="● Add the necessary jar files to the classpath. You can adjust the startup script to do this."/>
-        <Label layoutX="20" layoutY="280" text="To start a test, select a device category and one of the corresponding devices. All supported devices configured in jpos.xml
+        <Label layoutX="20" layoutY="130" text="All device classes specified in the UPOS 1.15 manual and GraphicDisplay from UPOS 1.16.1 manual are currently supported."/>
+        <Label layoutX="20" layoutY="160" text="To integrate a service into the test program, follow these steps:"/>
+        <Label layoutX="40" layoutY="190" text="● Add the necessary entries to jpos.xml, located in the working directory of the test program."/>
+        <Label layoutX="40" layoutY="220" text="● Add the necessary jar files to the classpath. You can adjust the startup script to do this."/>
+        <Label layoutX="20" layoutY="250" text="To start a test, select a device category and one of the corresponding devices. All supported devices configured in jpos.xml
  are available via these two steps."/>
-        <Label layoutX="20" layoutY="340" text="Good luck!"/>
+        <Label layoutX="20" layoutY="300" text="Good luck!"/>
 
       </AnchorPane>
     </Pane>
