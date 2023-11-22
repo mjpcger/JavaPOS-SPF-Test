@@ -16,7 +16,6 @@
 
 package SPF_Test;
 
-import SampleCAT.Device;
 import de.gmxhome.conrad.jpos.jpos_base.*;
 import javafx.application.*;
 import javafx.beans.property.*;
@@ -1309,7 +1308,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     static void myMessageDialog(String message) {
-        Device.synchronizedMessageBox(message, "Message", JOptionPane.INFORMATION_MESSAGE);
+        JposDevice.synchronizedMessageBox(message, "Message", JOptionPane.INFORMATION_MESSAGE);
     }
 
     static int myOptionDialog(String message, String title, int optionType, int messageType) {
