@@ -46,6 +46,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     public CheckBox DataEventEnabled;
     public CheckBox AsyncMode;
     public Label    DataCount;
+    public CheckBox LockDataEventEnabled;
 
     /**
      * Converter class for values of PowerNotify property.
@@ -1239,6 +1240,16 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             @Override
             public void run() {
                 gotData(dataEvent);
+                if (LockDataEventEnabled.isSelected()) {
+                    try {
+                        Method setDataEventEnabled = Class.forName(Control.getClass().getName()).getMethod("setDataEventEnabled", Boolean.TYPE);
+                        setDataEventEnabled.invoke(Control, true);
+                        DataEventEnabled.setSelected(true);
+                    } catch (Exception e) {
+                        getFullErrorMessageAndPrintTrace(e);
+                    }
+                    updateGui();
+                }
             }
         });
     }

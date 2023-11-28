@@ -44,7 +44,6 @@ public class CoinAcceptorController extends CommonController {
     public ComboBox<String> ED_success;
     public Label FullStatus;
     public Label DepositStatus;
-    public CheckBox LockDataEventEnabled;
     public Label DepositAmountText;
     public Label DepositAmount;
     private CoinAcceptor TheCoinAcceptor;
@@ -131,19 +130,6 @@ public class CoinAcceptorController extends CommonController {
                 }
             }
             InUpdateGui = false;
-        }
-    }
-
-    @Override
-    public void gotData(DataEvent event) {
-        super.gotData(event);
-        if (LockDataEventEnabled.isSelected()) {
-            try {
-                TheCoinAcceptor.setDataEventEnabled(true);
-            } catch (JposException e) {
-                getFullErrorMessageAndPrintTrace(e);
-            }
-            updateGui();
         }
     }
 

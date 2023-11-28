@@ -45,7 +45,6 @@ public class BillDispenserController extends CommonController {
     public Label AsyncResultCode;
     public Label AsyncResultCodeExtended;
     public Label DeviceStatus;
-    public CheckBox LockDataEventEnabled;
     private BillDispenser TheBillDispenser;
     private PropertyTableRow CurrencyCodeRow;
     private PropertyTableRow CurrencyCodeListRow;

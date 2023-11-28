@@ -52,7 +52,6 @@ public class CashChangerController extends CommonController {
     public Label DeviceStatus;
     public Label FullStatus;
     public Label DepositStatus;
-    public CheckBox LockDataEventEnabled;
     public Label DepositAmountText;
     public Label DepositAmount;
     private CashChanger TheCashChanger;
@@ -195,19 +194,6 @@ public class CashChangerController extends CommonController {
                 }
             }
             InUpdateGui = false;
-        }
-    }
-
-    @Override
-    public void gotData(DataEvent event) {
-        super.gotData(event);
-        if (LockDataEventEnabled.isSelected()) {
-            try {
-                TheCashChanger.setDataEventEnabled(true);
-            } catch (JposException e) {
-                getFullErrorMessageAndPrintTrace(e);
-            }
-            updateGui();
         }
     }
 

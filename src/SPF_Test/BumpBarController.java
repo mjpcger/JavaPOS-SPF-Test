@@ -158,7 +158,6 @@ public class BumpBarController extends CommonController {
     public CheckBox CurrentUnitID31;
     public CheckBox CurrentUnitID32;
     public ComboBox<String> CurrentUnitID;
-    public CheckBox LockDataEventEnabled;
     public TextField AutoToneDuration;
     public TextField AutoToneFrequency;
     public ComboBox<String> Timeout;
@@ -484,19 +483,6 @@ public class BumpBarController extends CommonController {
             AutoToneFrequency.setText(AutoToneFrequencyRow.getValue());
             Timeout.setValue(TimeoutRow.getValue());
             InUpdateGui = false;
-        }
-    }
-
-    @Override
-    public void gotData(DataEvent event) {
-        super.gotData(event);
-        if (LockDataEventEnabled.isSelected()) {
-            try {
-                TheBase.setDataEventEnabled(true);
-            } catch (JposException e) {
-                getFullErrorMessageAndPrintTrace(e);
-            }
-            updateGui();
         }
     }
 

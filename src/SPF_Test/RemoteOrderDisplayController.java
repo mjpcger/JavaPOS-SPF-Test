@@ -161,7 +161,6 @@ public class RemoteOrderDisplayController extends CommonController {
     public CheckBox CurrentUnitID31;
     public CheckBox CurrentUnitID32;
     public ComboBox<String> CurrentUnitID;
-    public CheckBox LockDataEventEnabled;
     public TextField AutoToneDuration;
     public TextField AutoToneFrequency;
     public ComboBox<String> CharacterSet;
@@ -680,14 +679,6 @@ public class RemoteOrderDisplayController extends CommonController {
         int row = (event.getStatus() >> 24) & 0xff;
         int column = (event.getStatus() >> 16) & 0xff;
         DataEvent.setText(String.format("%7s: %03d/%03d %s", unit, row, column, type));
-        if (LockDataEventEnabled.isSelected()) {
-            try {
-                TheBase.setDataEventEnabled(true);
-            } catch (JposException e) {
-                getFullErrorMessageAndPrintTrace(e);
-            }
-            updateGui();
-        }
     }
 
     public void setCurrentUnitID(ActionEvent actionEvent) {
