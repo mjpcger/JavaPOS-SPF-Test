@@ -206,6 +206,9 @@ public class DeviceControl {
                         } else if (category.equals("CoinDispenser")) {
                             actdev.Control = new CoinDispenser();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("CoinDispenser.fxml"), new DeviceResources(actdev));
+                        } else if (category.equals("DeviceMonitor")) {
+                            actdev.Control = new DeviceMonitor();
+                            actdev.Gui = FXMLLoader.load(control.getClass().getResource("DeviceMonitor.fxml"), new DeviceResources(actdev));
                         } else if (category.equals("ElectronicJournal")) {
                             actdev.Control = new ElectronicJournal();
                             actdev.Gui = FXMLLoader.load(control.getClass().getResource("ElectronicJournal.fxml"), new DeviceResources(actdev));
