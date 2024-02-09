@@ -106,7 +106,7 @@ public class HardTotalsControl extends CommonController {
          * @param timeout   timeout.
          */
         ClaimFileHandler(int handle, int timeout) {
-            super("ClaimHandler");
+            super("ClaimFileHandler");
             Timeout = timeout;
             FileHandle = handle;
         }
@@ -123,7 +123,7 @@ public class HardTotalsControl extends CommonController {
         Integer handle = new IntValues().getInteger(Handle.getText());
         Integer timeout = new TimeoutValues().getInteger(CF_timeout.getValue());
         if (!invalid(timeout, "timeout") && !invalid(handle, "hTotalsFile"))
-            new ClaimHandler(timeout).start();
+            new ClaimFileHandler(handle, timeout).start();
     }
 
     public void releaseFile(ActionEvent actionEvent) {

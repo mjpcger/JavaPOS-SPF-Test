@@ -24,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import jpos.GraphicDisplay;
 import jpos.GraphicDisplayConst;
+import jpos.JposException;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -332,76 +333,156 @@ public class GraphicDisplayController extends CommonController {
         }
     }
 
-    public void loadImage(ActionEvent actionEvent) {
-        try {
-            TheGraphicDisplay.loadImage(LI_fileName.getText());
-        } catch (Exception e) {
-            getFullErrorMessageAndPrintTrace(e);
+    class LoadImage extends MethodProcessor {
+        final String FileName;
+        LoadImage(String fileName) {
+            super("StopSound");
+            FileName = fileName;
         }
-        updateGui();
+
+        @Override
+        void runIt() throws JposException {
+            TheGraphicDisplay.loadImage(FileName);
+        }
+    }
+
+    public void loadImage(ActionEvent actionEvent) {
+        if (isMethodRunning())
+            return;
+        String fileName = LI_fileName.getText();
+        if (!invalid(fileName, "FileName"))
+            new LoadImage(fileName).start();
+    }
+
+    class PlayVideo extends MethodProcessor {
+        final String FileName;
+        final boolean Loop;
+        PlayVideo(String fileName, boolean loop) {
+            super("PlayVideo");
+            FileName = fileName;
+            Loop = loop;
+        }
+
+        @Override
+        void runIt() throws JposException {
+            TheGraphicDisplay.playVideo(FileName, Loop);
+        }
     }
 
     public void playVideo(ActionEvent actionEvent) {
-        try {
-            TheGraphicDisplay.playVideo(PV_fileName.getText(), PV_loop.isSelected());
-        } catch (Exception e) {
-            getFullErrorMessageAndPrintTrace(e);
-        }
-        updateGui();
+        if (isMethodRunning())
+            return;
+        String fileName = PV_fileName.getText();
+        boolean loop = PV_loop.isSelected();
+        if (!invalid(fileName, "FileName"))
+            new PlayVideo(fileName, loop).start();
     }
 
-    public void stopVideo(ActionEvent actionEvent) {
-        try {
-            TheGraphicDisplay.stopVideo();
-        } catch (Exception e) {
-            getFullErrorMessageAndPrintTrace(e);
+    class StopVideo extends MethodProcessor {
+        StopVideo() {
+            super("StopVideo");
         }
-        updateGui();
+
+        @Override
+        void runIt() throws JposException {
+            TheGraphicDisplay.stopVideo();
+        }
+    }
+
+        public void stopVideo(ActionEvent actionEvent) {
+        if (isMethodRunning())
+            return;
+        new StopVideo().start();
+    }
+
+    class LoadURL extends MethodProcessor {
+        final String URL;
+        LoadURL(String url) {
+            super("LoadURL");
+            URL = url;
+        }
+
+        @Override
+        void runIt() throws JposException {
+            TheGraphicDisplay.loadURL(URL);
+        }
     }
 
     public void loadURL(ActionEvent actionEvent) {
-        try {
-            TheGraphicDisplay.loadURL(LURL_URL.getText());
-        } catch (Exception e) {
-            getFullErrorMessageAndPrintTrace(e);
+        if (isMethodRunning())
+            return;
+        String url = LURL_URL.getText();
+        if (!invalid(url, "url"))
+            new LoadURL(url).start();
+    }
+
+    class GoURLBack extends MethodProcessor {
+        GoURLBack() {
+            super("GoURLBack");
         }
-        updateGui();
+
+        @Override
+        void runIt() throws JposException {
+            TheGraphicDisplay.goURLBack();
+        }
     }
 
     public void goURLBack(ActionEvent actionEvent) {
-        try {
-            TheGraphicDisplay.goURLBack();
-        } catch (Exception e) {
-            getFullErrorMessageAndPrintTrace(e);
+        if (isMethodRunning())
+            return;
+        new GoURLBack().start();
+    }
+
+    class GoURLForward extends MethodProcessor {
+        GoURLForward() {
+            super("GoURLForward");
         }
-        updateGui();
+
+        @Override
+        void runIt() throws JposException {
+            TheGraphicDisplay.goURLForward();
+        }
     }
 
     public void goURLForward(ActionEvent actionEvent) {
-        try {
-            TheGraphicDisplay.goURLForward();
-        } catch (Exception e) {
-            getFullErrorMessageAndPrintTrace(e);
+        if (isMethodRunning())
+            return;
+        new GoURLForward().start();
+    }
+
+    class UpdateURLPage extends MethodProcessor {
+        UpdateURLPage() {
+            super("UpdateURLPage");
         }
-        updateGui();
+
+        @Override
+        void runIt() throws JposException {
+            TheGraphicDisplay.updateURLPage();
+        }
     }
 
     public void updateURLPage(ActionEvent actionEvent) {
-        try {
-            TheGraphicDisplay.updateURLPage();
-        } catch (Exception e) {
-            getFullErrorMessageAndPrintTrace(e);
+        if (isMethodRunning())
+            return;
+        new UpdateURLPage().start();
+    }
+
+
+    class CancelURLLoading extends MethodProcessor {
+        CancelURLLoading() {
+            super("CancelURLLoading");
         }
-        updateGui();
+
+        @Override
+        void runIt() throws JposException {
+            TheGraphicDisplay.cancelURLLoading();
+        }
     }
 
     public void cancelURLLoading(ActionEvent actionEvent) {
-        try {
-            TheGraphicDisplay.cancelURLLoading();
-        } catch (Exception e) {
-            getFullErrorMessageAndPrintTrace(e);
-        }
-        updateGui();
+        if (isMethodRunning())
+            return;
+        new CancelURLLoading().start();
     }
 
     private class CapStorageValues extends IntValues {

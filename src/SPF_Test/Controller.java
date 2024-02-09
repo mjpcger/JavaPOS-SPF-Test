@@ -47,7 +47,7 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        DeviceControl.loadDevices("jpos.xml", this);
+        DeviceControl.loadDevices(this);
         ArrayList<String> categories = DeviceControl.getCategories();
         Collections.sort(categories, new Comparator<String>() {
             @Override
@@ -56,7 +56,7 @@ public class Controller implements Initializable {
             }
         });
         DeviceCategory.setItems(FXCollections.observableList(categories));
-        DeviceCategory.setVisibleRowCount(categories.size());
+        DeviceCategory.setVisibleRowCount(categories.size() > 25 ? 25 : categories.size());
         DeviceCategory.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

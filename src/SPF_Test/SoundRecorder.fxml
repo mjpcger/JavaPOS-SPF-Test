@@ -25,18 +25,17 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="SPF_Test.SmartCardRWController"
+            fx:controller="SPF_Test.SoundRecorderController"
             prefHeight="540.0" prefWidth="980.0">
     <CheckBox fx:id="DeviceEnabled" text="DeviceEnabled" layoutY="5" onAction="#setDeviceEnabled"/>
     <CheckBox fx:id="FreezeEvents" text="FreezeEvents" layoutX="105" layoutY="5" onAction="#setFreezeEvents"/>
-    <CheckBox fx:id="DataEventEnabled" text="DataEventEnabled" layoutX="580" layoutY="0" onAction="#setDataEventEnabled"/>
-    <CheckBox fx:id="AutoDisable" text="AutoDisable" layoutX="710" layoutY="0" onAction="#setAutoDisable"/>
-    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="320" editable="true" onAction="#setPowerNotify"/>
-    <Label text="PowerNotify" layoutX="470" layoutY="5"/>
-    <TableView fx:id="Properties" layoutX="570" prefWidth="410" prefHeight="115"/>
-    <Button text="Open" layoutY="35" onAction="#open" prefWidth="70"/>
-    <Button text="Claim" layoutX="80" layoutY="35" onAction="#claim" prefWidth="70"/>
-    <ComboBox fx:id="claim_timeout" prefWidth="70" layoutX="80" layoutY="60" promptText="timeout" editable="true"/>
+    <CheckBox fx:id="DataEventEnabled" text="DataEventEnabled" layoutX="420" layoutY="5" onAction="#setDataEventEnabled"/>
+    <ComboBox fx:id="PowerNotify" prefWidth="145" layoutX="200" editable="true" onAction="#setPowerNotify"/>
+    <Label text="PowerNotify" layoutX="350" layoutY="5"/>
+    <TableView fx:id="Properties" layoutX="570" layoutY="0" prefWidth="410" prefHeight="115"/>
+    <Button text="Open" layoutY="35" onAction="#open" prefWidth="75"/>
+    <Button text="Claim" layoutX="82.5" layoutY="35" onAction="#claim" prefWidth="70"/>
+    <ComboBox fx:id="claim_timeout" prefWidth="70" layoutX="82.5" layoutY="60" promptText="timeout" editable="true"/>
     <Button text="Release" layoutX="160" layoutY="35" onAction="#release" prefWidth="70"/>
     <Button text="Close" layoutX="240" layoutY="35" onAction="#close" prefWidth="70"/>
     <Button text="CheckHealth" layoutX="320" layoutY="35" onAction="#checkHealth" prefWidth="90"/>
@@ -46,36 +45,27 @@
     <TextField fx:id="DIO_data" prefWidth="70" layoutX="490" layoutY="60" promptText="data"/>
     <TextField fx:id="DIO_obj" prefWidth="140" layoutX="420" layoutY="85" promptText="obj"/>
     <Button text="ClearInput" layoutX="0" layoutY="90" onAction="#clearInput" prefWidth="110"/>
-    <Button text="ClearOutput" layoutX="120" layoutY="90" onAction="#clearOutput" prefWidth="110"/>
-    <Button text="ClearInputProperties" layoutX="240" layoutY="90" onAction="#clearInputProperties" prefWidth="170"/>
+    <Button text="ClearInputProperties" layoutX="115" layoutY="90" onAction="#clearInputProperties" prefWidth="170"/>
+    <CheckBox fx:id="AutoDisable" text="AutoDisable" layoutX="300" layoutY="93" onAction="#setAutoDisable"/>
     <Label fx:id="MethodActive" layoutY="530"/>
     <TabPane layoutY="116" prefWidth="695" prefHeight="424" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Specific Properties And Methods">
             <AnchorPane prefHeight="409" prefWidth="695">
-                <Button onAction="#beginInsertion" layoutY="10" prefWidth="100" text="BeginInsertion"/>
-                <ComboBox fx:id="BI_timeout" layoutX="100" layoutY="10" editable="true" prefWidth="100" promptText="timeout"/>
-                <Button onAction="#endInsertion" layoutY="40" prefWidth="100" text="EndInsertion"/>
-                <Button onAction="#beginRemoval" layoutY="70" prefWidth="100" text="BeginRemoval "/>
-                <ComboBox fx:id="BR_timeout" layoutX="100" layoutY="70" editable="true" prefWidth="100" promptText="timeout"/>
-                <Button onAction="#endRemoval"  layoutY="100" prefWidth="100" text="EndRemoval"/>
-                <Button text="ReadData" prefWidth="100" onAction="#readData" layoutY="130"/>
-                <ComboBox fx:id="R_action" layoutY="130" layoutX="100" prefWidth="200" promptText="action" editable="true"/>
-                <Label text="Conversion for data:" layoutX="350" layoutY="100"/>
-                <ComboBox fx:id="RW_conversion" layoutX="450" layoutY="100" prefWidth="170"/>
-                <Button text="WriteData" prefWidth="100" onAction="#writeData" layoutY="160"/>
-                <TextField fx:id="R_count" layoutX="300" layoutY="130" promptText="count" prefWidth="50"/>
-                <ComboBox fx:id="W_action" layoutY="160" layoutX="100" prefWidth="200" promptText="action" editable="true"/>
-                <TextField fx:id="W_count" layoutX="300" layoutY="160" promptText="count" prefWidth="50"/>
-                <TextArea fx:id="RW_data" prefWidth="300" prefHeight="53" layoutY="130" layoutX="350" promptText="data" styleClass="FixedFont"/>
-                <Label text="InterfaceMode" layoutY="215" prefWidth="110" alignment="CENTER_RIGHT"/>
-                <ComboBox fx:id="InterfaceMode" prefWidth="200" layoutY="210" layoutX="120" promptText="InterfaceMode" editable="true"/>
-                <Label text="IsoEmvMode" layoutY="245" prefWidth="110" alignment="CENTER_RIGHT"/>
-                <ComboBox fx:id="IsoEmvMode" prefWidth="200" layoutY="240" layoutX="120" promptText="InterfaceMode" editable="true"/>
-                <Label text="SCSlot" layoutY="275" prefWidth="110" alignment="CENTER_RIGHT"/>
-                <ComboBox fx:id="SCSlot" prefWidth="200" layoutY="270" layoutX="120" promptText="InterfaceMode" editable="true"/>
-                <Label text="TransactionInProgress" layoutY="305" prefWidth="110" alignment="CENTER_RIGHT"/>
-                <TextField fx:id="TransactionInProgress" layoutY="305" layoutX="120" prefWidth="100" disable="true" promptText=""/>
-                <Button text="Refresh" layoutX="330" layoutY="210" prefHeight="115" prefWidth="115" onAction="#refresh"/>
+                <Label layoutY="5" prefWidth="85" text="Storage:" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="Storage" layoutX="90" layoutY="0" prefWidth="150" editable="true" onAction="#setStorage"/>
+                <Label layoutY="30" prefWidth="85" text="Channel:" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="Channel" layoutX="90" layoutY="25" prefWidth="150" editable="true" onAction="#setChannel"/>
+                <Label layoutY="55" prefWidth="85" text="RecordingLevel:" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="RecordingLevel" layoutX="90" layoutY="50" prefWidth="150" editable="true" onAction="#setRecordingLevel"/>
+                <Label layoutY="80" prefWidth="85" text="SamplingRate:" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="SamplingRate" layoutX="90" layoutY="75" prefWidth="150" editable="true" onAction="#setSamplingRate"/>
+                <Label layoutY="105" prefWidth="85" text="SoundType:" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="SoundType" layoutX="90" layoutY="100" prefWidth="150" editable="true" onAction="#setSoundType"/>
+                <Button layoutY="135" prefWidth="140" text="StartRecording" onAction="#startRecording"/>
+                <TextField fx:id="SR_fileName" promptText="fileName" layoutX="140" layoutY="135" prefWidth="345"/>
+                <CheckBox fx:id="SR_overWrite" text="Over-Write" layoutY="138" layoutX="595"/>
+                <ComboBox fx:id="SR_recordingTime" promptText="recordingTime" layoutX="485" layoutY="135" prefWidth="105" editable="true"/>
+                <Button layoutY="160" prefWidth="140" text="StopRecording" onAction="#stopRecording"/>
             </AnchorPane>
         </Tab>
         <Tab text="Maintenance Methods">

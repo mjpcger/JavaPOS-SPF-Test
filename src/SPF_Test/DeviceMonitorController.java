@@ -146,48 +146,80 @@ public class DeviceMonitorController extends CommonController {
         }
     }
 
+    class GetDeviceValue extends MethodProcessor {
+        final String DeviceID;
+        int PValue = 0;
+        GetDeviceValue(String deviceID) {
+            super("GetDeviceValue");
+            DeviceID = deviceID;
+        }
+
+        @Override
+        void runIt() throws JposException {
+            int[] pValue = {0};
+            TheDeviceMonitor.getDeviceValue(DeviceID, pValue);
+            PValue = pValue[0];
+        }
+
+        @Override
+        void finish() {
+            String[] params = getDeviceParams(GDV_deviceID.getValue(), DeviceListRow);
+            GDV_pValue.setText(new BigDecimal(PValue).divide(new BigDecimal(params[3])).toString());
+            super.finish();
+        }
+    }
+
     public void getDeviceValue(ActionEvent actionEvent) {
-        if (!InUpdateGui) {
-            try {
-                int[] val = {0};
-                TheDeviceMonitor.getDeviceValue(GDV_deviceID.getValue(), val);
-                String[] params = getDeviceParams(GDV_deviceID.getValue(), DeviceListRow);
-                GDV_pValue.setText(new BigDecimal(val[0]).divide(new BigDecimal(params[3])).toString());
-            } catch (Throwable e) {
-                getFullErrorMessageAndPrintTrace(e);
-            }
+        if (isMethodRunning())
+            return;
+        String deviceID = GDV_deviceID.getValue();
+        if (!invalid(deviceID, "deviceID"))
+            new GetDeviceValue(deviceID).start();
+    }
+
+    class AddMonitoringDevice extends MethodProcessor {
+        String ID;
+        final int Mode, Upper, Lower, Time;
+        AddMonitoringDevice(String id, int mode, int upper, int lower, int time) {
+            super("AddMonitoringDevice");
+            ID = id;
+            Mode = mode;
+            Upper = upper;
+            Lower = lower;
+            Time = time;
+        }
+
+        @Override
+        void runIt() throws JposException {
+            TheDeviceMonitor.addMonitoringDevice(ID, Mode, Upper, Lower, Time);
         }
     }
 
     public void addMonitoringDevice(ActionEvent actionEvent) {
-        if (!InUpdateGui) {
-            IntValues val = new IntValues();
-            String id = AMD_deviceID.getValue();
-            String[] params = getDeviceParams(id, DeviceListRow);
-            Integer mode = new AMD_monitoringModeValues().getInteger(AMD_monitoringMode.getValue());
-            Integer upper = null;
-            Integer lower = null;
-            if (params == null) {
-                upper = val.getInteger(AMD_boundary.getText());
-                lower = val.getInteger(AMD_subBoundary.getText());
-            } else {
-                try {
-                    upper = new BigDecimal(AMD_boundary.getText()).multiply(new BigDecimal(params[3])).intValue();
-                } catch (Exception e) {}
-                try {
-                    lower = new BigDecimal(AMD_subBoundary.getText()).multiply(new BigDecimal(params[3])).intValue();
-                } catch (Exception e) {}
+        if (isMethodRunning())
+            return;
+        IntValues val = new IntValues();
+        String id = AMD_deviceID.getValue();
+        String[] params = getDeviceParams(id, DeviceListRow);
+        Integer mode = new AMD_monitoringModeValues().getInteger(AMD_monitoringMode.getValue());
+        Integer upper = null;
+        Integer lower = null;
+        if (params == null) {
+            upper = val.getInteger(AMD_boundary.getText());
+            lower = val.getInteger(AMD_subBoundary.getText());
+        } else {
+            try {
+                upper = new BigDecimal(AMD_boundary.getText()).multiply(new BigDecimal(params[3])).intValue();
+            } catch (Exception e) {
             }
-            Integer time = val.getInteger(AMD_intervalTime.getText());
-            if (validate(new Object[]{id, "deviceID", mode, "monitoringMode", upper, "boundary", lower, "subBoundary", time, "intervalTime"})) {
-                try {
-                    TheDeviceMonitor.addMonitoringDevice(id, mode, upper, lower, time);
-                } catch (Throwable e) {
-                    getFullErrorMessageAndPrintTrace(e);
-                }
+            try {
+                lower = new BigDecimal(AMD_subBoundary.getText()).multiply(new BigDecimal(params[3])).intValue();
+            } catch (Exception e) {
             }
-            updateGui();
         }
+        Integer time = val.getInteger(AMD_intervalTime.getText());
+        if (validate(new Object[]{id, "deviceID", mode, "monitoringMode", upper, "boundary", lower, "subBoundary", time, "intervalTime"}))
+            new AddMonitoringDevice(id, mode, upper, lower, time).start();
     }
 
     public void selectDeviceID(ActionEvent actionEvent) {
@@ -202,29 +234,42 @@ public class DeviceMonitorController extends CommonController {
         }
     }
 
+    class DeleteMonitoringDevice extends MethodProcessor {
+        final String ID;
+        DeleteMonitoringDevice(String id) {
+            super("DeleteMonitoringDevice");
+            ID = id;
+        }
+
+        @Override
+        void runIt() throws JposException {
+            TheDeviceMonitor.deleteMonitoringDevice(ID);
+        }
+    }
+
     public void deleteMonitoringDevice(ActionEvent actionEvent) {
-        if (!InUpdateGui) {
-            String id = DMD_deviceID.getValue();
-            if (!invalid(id, "deviceID")) {
-                try {
-                    TheDeviceMonitor.deleteMonitoringDevice(id);
-                } catch (Throwable e) {
-                    getFullErrorMessageAndPrintTrace(e);
-                }
-            }
-            updateGui();
+        if (isMethodRunning())
+            return;
+        String id = DMD_deviceID.getValue();
+        if (!invalid(id, "deviceID"))
+            new DeleteMonitoringDevice(id).start();
+    }
+
+    class ClearMonitoringDevices extends MethodProcessor {
+        ClearMonitoringDevices() {
+            super("ClearMonitoringDevices");
+        }
+
+        @Override
+        void runIt() throws JposException {
+            TheDeviceMonitor.clearMonitoringDevices();
         }
     }
 
     public void clearMonitoringDevices(ActionEvent actionEvent) {
-        if (!InUpdateGui) {
-            try {
-                TheDeviceMonitor.clearMonitoringDevices();
-            } catch (Throwable e) {
-                getFullErrorMessageAndPrintTrace(e);
-            }
-            updateGui();
-        }
+        if (isMethodRunning())
+            return;
+        new ClearMonitoringDevices().start();
     }
 
     private String[] getDeviceParams(String id, PropertyTableRow val) {
