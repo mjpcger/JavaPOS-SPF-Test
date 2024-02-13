@@ -677,7 +677,7 @@ public class VideoCaptureController extends CommonController {
     public void takePhoto(ActionEvent actionEvent) {
         if (isMethodRunning())
             return;
-        Integer timeout = new IntValues().getInteger(TP_timeout.getValue());
+        Integer timeout = new TimeoutValues().getInteger(TP_timeout.getValue());
         String filename = TP_fileName.getText();
         boolean overwrite = TP_overwrite.isSelected();
         if (!invalid(filename, "fileName") && !invalid(timeout, "timeout"))
