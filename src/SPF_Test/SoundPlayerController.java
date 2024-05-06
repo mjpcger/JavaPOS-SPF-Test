@@ -229,6 +229,7 @@ public class SoundPlayerController extends CommonController {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private class StorageValues extends IntValues {
         StorageValues() {
             ValueList = new Object[]{

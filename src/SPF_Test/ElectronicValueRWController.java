@@ -768,10 +768,10 @@ public class ElectronicValueRWController extends CommonController implements Tra
             String classname = CO_classname.getText();
             String factoryname = CO_method.getText();
             if (classname != null && classname.length() > 0) {
-                Class creatorclass = Class.forName(classname);
+                Class<?> creatorclass = Class.forName(classname);
                 if (factoryname == null || factoryname.length() == 0) {
                     // Factory for default object
-                    Constructor getObject = creatorclass.getConstructor(String.class);
+                    Constructor<?> getObject = creatorclass.getConstructor(String.class);
                     TheObject = getObject.newInstance(identifier);
                 } else {
                     Method getObject = creatorclass.getMethod(factoryname, String.class);
@@ -786,11 +786,9 @@ public class ElectronicValueRWController extends CommonController implements Tra
     }
 
     public void setCO_help(ActionEvent actionEvent) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                CO_help.setValue("Help");
-            }
+        Platform.runLater(() -> {
+            CO_help.setValue("Help");
+
         });
     }
 
@@ -1387,11 +1385,8 @@ public class ElectronicValueRWController extends CommonController implements Tra
         synchronized (this) {
             Transitions.add(tr);
         }
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                gotTransition(tr.Event);
-            }
+        Platform.runLater(() -> {
+            gotTransition(tr.Event);
         });
         tr.Waiter.suspend(SyncObject.INFINITE);
     }

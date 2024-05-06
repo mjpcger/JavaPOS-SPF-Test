@@ -68,8 +68,6 @@ public class BiometricsController extends CommonController {
     private Biometrics TheBiometrics;
     private PropertyTableRow AlgorithmRow;
     private PropertyTableRow AlgorithmListRow;
-    private PropertyTableRow BIRRow;
-    private PropertyTableRow RawSensorDataRow;
     private PropertyTableRow RealTimeDataEnabledRow;
     private PropertyTableRow SensorColorRow;
     private PropertyTableRow SensorOrientationRow;
@@ -98,8 +96,8 @@ public class BiometricsController extends CommonController {
         Properties.getItems().add(new PropertyTableRow("PhysicalDeviceName", ""));
         Properties.getItems().add(AlgorithmRow = new PropertyTableRow("Algorithm", "", new Values()));
         Properties.getItems().add(AlgorithmListRow = new PropertyTableRow("AlgorithmList", ""));
-        Properties.getItems().add(BIRRow = new PropertyTableRow("BIR", ""));
-        Properties.getItems().add(RawSensorDataRow = new PropertyTableRow("RawSensorData", ""));
+        Properties.getItems().add(new PropertyTableRow("BIR", ""));
+        Properties.getItems().add(new PropertyTableRow("RawSensorData", ""));
         Properties.getItems().add(new PropertyTableRow("SensorBPP", ""));
         Properties.getItems().add(new PropertyTableRow("SensorHeight", ""));
         Properties.getItems().add(new PropertyTableRow("SensorWidth", ""));
@@ -247,7 +245,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void setAlgorithm(ActionEvent actionEvent) {
+    public void setAlgorithm(ActionEvent ignore) {
         Integer algo = AlgorithmRow.getValueConverter().getInteger(Algorithm.getValue());
         if (!InUpdateGui && algo != null) {
             try {
@@ -259,7 +257,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void setRealTimeDataEnabled(ActionEvent actionEvent) {
+    public void setRealTimeDataEnabled(ActionEvent ignore) {
         if (!InUpdateGui) {
             try {
                 TheBiometrics.setRealTimeDataEnabled(RealTimeDataEnabled.isSelected());
@@ -270,7 +268,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void setSensorColor(ActionEvent actionEvent) {
+    public void setSensorColor(ActionEvent ignore) {
         Integer color = SensorColorRow.getValueConverter().getInteger(SensorColor.getValue());
         if (!InUpdateGui && color != null) {
             try {
@@ -282,7 +280,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void setSensorOrientation(ActionEvent actionEvent) {
+    public void setSensorOrientation(ActionEvent ignore) {
         Integer orientation = SensorOrientationRow.getValueConverter().getInteger(SensorOrientation.getValue());
         if (!InUpdateGui && orientation != null) {
             try {
@@ -294,7 +292,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void setSensorType(ActionEvent actionEvent) {
+    public void setSensorType(ActionEvent ignore) {
         Integer type = SensorTypeRow.getValueConverter().getInteger(SensorType.getValue());
         if (!InUpdateGui && type != null) {
             try {
@@ -367,7 +365,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void beginEnrollCapture(ActionEvent actionEvent) {
+    public void beginEnrollCapture(ActionEvent ignore) {
         if (!isMethodRunning()) {
             try {
                 byte[] referenceBIR = getFromFile(BECreferenceBIR.getText(), false);
@@ -383,7 +381,7 @@ public class BiometricsController extends CommonController {
 
     FileChooser TheFileChooser = new FileChooser();
 
-    public void setBECreferenceBIR(ActionEvent actionEvent) {
+    public void setBECreferenceBIR(ActionEvent ignore) {
         TheFileChooser.setTitle("Open File With referenceBIR contents");
         File name = TheFileChooser.showOpenDialog(null);
         if (name != null) {
@@ -392,7 +390,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void setBECpayload(ActionEvent actionEvent) {
+    public void setBECpayload(ActionEvent ignore) {
         TheFileChooser.setTitle("Open File With payload contents");
         File name = TheFileChooser.showOpenDialog(null);
         if (name != null) {
@@ -401,7 +399,7 @@ public class BiometricsController extends CommonController {
         } else {
             try {
                 BECpayload.setText(new String(ReturnedPayload));
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
         }
     }
 
@@ -416,7 +414,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void beginVerifyCapture(ActionEvent actionEvent) {
+    public void beginVerifyCapture(ActionEvent ignore) {
         if (!isMethodRunning())
             new BeginVerifyCapture().start();
     }
@@ -432,12 +430,12 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void endCapture(ActionEvent actionEvent) {
+    public void endCapture(ActionEvent ignore) {
         if (!isMethodRunning())
             new EndCapture().start();
     }
 
-    public void saveBIR(ActionEvent actionEvent) {
+    public void saveBIR(ActionEvent ignore) {
         try {
             byte[] bir = TheBiometrics.getBIR();
             TheFileChooser.setTitle("Save BIR As");
@@ -458,6 +456,8 @@ public class BiometricsController extends CommonController {
         byte[]PrematchDataBIR;
         ProcessPrematchData(byte[]sampleBIR, byte[]prematchDataBIR) {
             super("ProcessPrematchData");
+            SampleBIR = sampleBIR;
+            PrematchDataBIR = prematchDataBIR;
         }
 
         @Override
@@ -468,7 +468,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void processPrematchData(ActionEvent actionEvent) {
+    public void processPrematchData(ActionEvent ignore) {
         if (!isMethodRunning()) {
             try {
                 byte[] sampleBIR = getFromFile(PPDsampleBIR.getValue(), null);
@@ -480,7 +480,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void setPPDsampleBIR(ActionEvent actionEvent) {
+    public void setPPDsampleBIR(ActionEvent ignore) {
         TheFileChooser.setTitle("Open File With sampleBIR contents");
         File file = TheFileChooser.showOpenDialog(null);
         if (file != null) {
@@ -491,7 +491,7 @@ public class BiometricsController extends CommonController {
             PPDsampleBIR.setValue("BIR");
     }
 
-    public void setPPDprematchDataBIR(ActionEvent actionEvent) {
+    public void setPPDprematchDataBIR(ActionEvent ignore) {
         TheFileChooser.setTitle("Open File With prematchDataBIR contents");
         File file = TheFileChooser.showOpenDialog(null);
         if (file != null) {
@@ -500,7 +500,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void storePPDprocessedBIR(ActionEvent actionEvent) {
+    public void storePPDprocessedBIR(ActionEvent ignore) {
         TheFileChooser.setTitle("Save Contents of processedBIR to File");
         File file = TheFileChooser.showSaveDialog(null);
         if (file != null) {
@@ -544,7 +544,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void identify(ActionEvent actionEvent) {
+    public void identify(ActionEvent ignore) {
         if (!isMethodRunning()) {
             Values ival = new IntValues();
             Integer maxFARRequested = ival.getInteger(MaxFARRequested.getText());
@@ -593,7 +593,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void identifyMatch(ActionEvent actionEvent) {
+    public void identifyMatch(ActionEvent ignore) {
         if (!isMethodRunning()) {
             Values ival = new IntValues();
             Integer maxFARRequested = ival.getInteger(MaxFARRequested.getText());
@@ -612,19 +612,19 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void setIreferenceBIRPopulation(ActionEvent actionEvent) {
+    public void setIreferenceBIRPopulation(ActionEvent ignore) {
         TheFileChooser.setTitle("Open Files With referenceBIRPopulation contents");
         List<File> files = TheFileChooser.showOpenMultipleDialog(null);
         if (files != null && files.size() > 0) {
-            String names = "";
+            StringBuilder names = new StringBuilder();
             for (File file : files)
-                names += "," + file.getPath();
+                names.append(",").append(file.getPath());
             IreferenceBIRPopulation.setText(names.substring(1));
             TheFileChooser.setInitialDirectory(files.get(0).getParentFile());
         }
     }
 
-    public void setIMsampleBIR(ActionEvent actionEvent) {
+    public void setIMsampleBIR(ActionEvent ignore) {
         TheFileChooser.setTitle("Open File With sampleBIR contents");
         File file = TheFileChooser.showOpenDialog(null);
         if (file != null) {
@@ -635,13 +635,13 @@ public class BiometricsController extends CommonController {
             IMsampleBIR.setValue("BIR");
     }
 
-    public void setIMreferenceBIRPopulation(ActionEvent actionEvent) {
+    public void setIMreferenceBIRPopulation(ActionEvent ignore) {
         TheFileChooser.setTitle("Open Files With referenceBIRPopulation contents");
         List<File> files = TheFileChooser.showOpenMultipleDialog(null);
         if (files != null && files.size() > 0) {
-            String names = "";
+            StringBuilder names = new StringBuilder();
             for (File file : files)
-                names += "," + file.getPath();
+                names.append(",").append(file.getPath());
             IMreferenceBIRPopulation.setText(names.substring(1));
             TheFileChooser.setInitialDirectory(files.get(0).getParentFile());
         }
@@ -686,7 +686,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void verify(ActionEvent actionEvent) {
+    public void verify(ActionEvent ignore) {
         if (!isMethodRunning()) {
             Values ival = new IntValues();
             Integer maxFARRequested = ival.getInteger(MaxFARRequested.getText());
@@ -743,7 +743,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void verifyMatch(ActionEvent actionEvent) {
+    public void verifyMatch(ActionEvent ignore) {
         if (!isMethodRunning()) {
             Values ival = new IntValues();
             Integer maxFARRequested = ival.getInteger(MaxFARRequested.getText());
@@ -763,7 +763,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void setVreferenceBIR(ActionEvent actionEvent) {
+    public void setVreferenceBIR(ActionEvent ignore) {
         TheFileChooser.setTitle("Open File With referenceBIR contents");
         File file = TheFileChooser.showOpenDialog(null);
         if (file != null) {
@@ -772,7 +772,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void setVadaptedBIR(ActionEvent actionEvent) {
+    public void setVadaptedBIR(ActionEvent ignore) {
         TheFileChooser.setTitle("Open File With adaptedBIR contents");
         File file = TheFileChooser.showOpenDialog(null);
         if (file != null) {
@@ -781,7 +781,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void saveVadaptedBIR(ActionEvent actionEvent) {
+    public void saveVadaptedBIR(ActionEvent ignore) {
         TheFileChooser.setTitle("Save Contents of adaptedBIR to File");
         File file = TheFileChooser.showSaveDialog(null);
         if (file != null) {
@@ -794,7 +794,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void saveVpayload(ActionEvent actionEvent) {
+    public void saveVpayload(ActionEvent ignore) {
         TheFileChooser.setTitle("Save Contents of payload to File");
         File file = TheFileChooser.showSaveDialog(null);
         if (file != null) {
@@ -807,11 +807,11 @@ public class BiometricsController extends CommonController {
         } else {
             try {
                 Vpayload.setText(new String(ReturnedPayload));
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
         }
     }
 
-    public void setVMsampleBIR(ActionEvent actionEvent) {
+    public void setVMsampleBIR(ActionEvent ignore) {
         TheFileChooser.setTitle("Open File With sampleBIR contents");
         File file = TheFileChooser.showOpenDialog(null);
         if (file != null) {
@@ -822,7 +822,7 @@ public class BiometricsController extends CommonController {
             VMsampleBIR.setValue("BIR");
     }
 
-    public void setVMreferenceBIR(ActionEvent actionEvent) {
+    public void setVMreferenceBIR(ActionEvent ignore) {
         TheFileChooser.setTitle("Open File With referenceBIR contents");
         File file = TheFileChooser.showOpenDialog(null);
         if (file != null) {
@@ -831,7 +831,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void setVMadaptedBIR(ActionEvent actionEvent) {
+    public void setVMadaptedBIR(ActionEvent ignore) {
         TheFileChooser.setTitle("Open File With adaptedBIR contents");
         File file = TheFileChooser.showOpenDialog(null);
         if (file != null) {
@@ -840,7 +840,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void saveVMadaptedBIR(ActionEvent actionEvent) {
+    public void saveVMadaptedBIR(ActionEvent ignore) {
         TheFileChooser.setTitle("Save Contents of adaptedBIR to File");
         File file = TheFileChooser.showSaveDialog(null);
         if (file != null) {
@@ -853,7 +853,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    public void saveVMpayload(ActionEvent actionEvent) {
+    public void saveVMpayload(ActionEvent ignore) {
         TheFileChooser.setTitle("Save Contents of payload to File");
         File file = TheFileChooser.showSaveDialog(null);
         if (file != null) {
@@ -866,7 +866,7 @@ public class BiometricsController extends CommonController {
         } else {
             try {
                 VMpayload.setText(new String(ReturnedPayload));
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
         }
     }
 
@@ -895,7 +895,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    private class SensorColorValues extends Values {
+    private static class SensorColorValues extends Values {
         SensorColorValues() {
             super();
             ValueList = new Object[]{
@@ -908,7 +908,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    private class SensorOrientationValues extends Values {
+    private static class SensorOrientationValues extends Values {
         SensorOrientationValues() {
             super();
             ValueList = new Object[]{
@@ -920,7 +920,7 @@ public class BiometricsController extends CommonController {
         }
     }
 
-    private class SensorTypeValues extends Values {
+    private static class SensorTypeValues extends Values {
         SensorTypeValues() {
             super();
             ValueList = new Object[]{

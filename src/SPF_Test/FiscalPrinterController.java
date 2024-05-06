@@ -16,6 +16,7 @@
 
 package SPF_Test;
 
+import de.gmxhome.conrad.jpos.jpos_base.JposDevice;
 import de.gmxhome.conrad.jpos.jpos_base.fiscalprinter.FiscalPrinterService;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -30,6 +31,8 @@ import javax.swing.*;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.*;
+
+import static de.gmxhome.conrad.jpos.jpos_base.JposDevice.getArrayOf;
 
 /**
  * GUI control for FiscalPrinter properties, methods and events.
@@ -2093,7 +2096,7 @@ public class FiscalPrinterController extends CommonController {
         setNewListener(PRS_amountListener, PRS_adjustmentType, PRS_adjustment);
     }
 
-    ChangeListener<Boolean> setNewListener(ChangeListener listener, ComboBox<String> type, TextField adjustment) {
+    ChangeListener<Boolean> setNewListener(ChangeListener<Boolean> listener, ComboBox<String> type, TextField adjustment) {
         if (listener != null)
             adjustment.focusedProperty().removeListener(listener);
         if (isPercentage(type)) {
@@ -2184,7 +2187,7 @@ public class FiscalPrinterController extends CommonController {
             } else {
                 VatIDs.setText(vatids.substring(1));
                 String[] ids = vatids.substring(1).split(",");
-                ComboBox<String>[] boxes = new ComboBox[]{GT_vatID, GVE_vatID, SVV_vatID, BIL_vatID, VI_vatID};
+                ComboBox<String>[] boxes = getArrayOf(0, GT_vatID, GVE_vatID, SVV_vatID, BIL_vatID, VI_vatID);
                 for (ComboBox<String> box : boxes) {
                     String current = box.getValue();
                     box.getItems().clear();
@@ -2483,6 +2486,7 @@ public class FiscalPrinterController extends CommonController {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private class PackageAdjustmentTypeValues extends Values {
         PackageAdjustmentTypeValues() {
             if (TheService != null && TheService.AllowItemAdjustmentTypesInPackageAdjustment)

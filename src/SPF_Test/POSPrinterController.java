@@ -20,7 +20,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import jpos.*;
-import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
@@ -238,7 +237,7 @@ public class POSPrinterController extends CommonController {
         Properties.getItems().add(MapCharacterSetRow = new PropertyTableRow("MapCharacterSet", ""));
         Properties.getItems().add(MapModeRow = new PropertyTableRow("MapMode", "", new MapModeValues()));
         Properties.getItems().add(new PropertyTableRow("PageModeArea", ""));
-        Properties.getItems().add(new PropertyTableRow("PageModeDescriptor", "",new HexValues()));
+        Properties.getItems().add(new PropertyTableRow("PageModeDescriptor", "", new HexValues()));
         Properties.getItems().add(PageModeHorizontalPositionRow = new PropertyTableRow("PageModeHorizontalPosition", ""));
         Properties.getItems().add(PageModePrintAreaRow = new PropertyTableRow("PageModePrintArea", ""));
         Properties.getItems().add(PageModePrintDirectionRow = new PropertyTableRow("PageModePrintDirection", "", new PageModePrintDirectionValues()));
@@ -395,9 +394,9 @@ public class POSPrinterController extends CommonController {
             if (CharacterSet.getItems().size() == 0 && !CharacterSetListRow.getValue().equals("")) {
                 String[] supported = CharacterSetListRow.getValue().split(",");
                 try {
-                    for (int i = 0; i < supported.length; i++)
-                        CharacterSet.getItems().add(CharacterSetRow.getValueConverter().getSymbol(Integer.parseInt(supported[i])));
-                } catch (Exception e) {}
+                    for (String s : supported)
+                        CharacterSet.getItems().add(CharacterSetRow.getValueConverter().getSymbol(Integer.parseInt(s)));
+                } catch (Exception ignored) {}
             }
             CharacterSet.setValue(CharacterSetRow.getValue());
             MapMode.setValue(MapModeRow.getValue());
@@ -478,7 +477,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void setFlagWhenIdle(ActionEvent actionEvent) {
+    public void setFlagWhenIdle(ActionEvent ignore) {
         try {
             ThePrinter.setFlagWhenIdle(FlagWhenIdle.isSelected());
         } catch (JposException e) {
@@ -487,7 +486,7 @@ public class POSPrinterController extends CommonController {
         updateGui();
     }
 
-    public void setPageModePrintArea(ActionEvent event) {
+    public void setPageModePrintArea(ActionEvent ignore) {
         try {
             ThePrinter.setPageModePrintArea(PageModePrintArea.getText());
         } catch (JposException e) {
@@ -496,7 +495,7 @@ public class POSPrinterController extends CommonController {
         updateGui();
     }
 
-    public void setPageModeHorizontalPosition(ActionEvent event) {
+    public void setPageModeHorizontalPosition(ActionEvent ignore) {
         try {
             ThePrinter.setPageModeHorizontalPosition(Integer.parseInt(PageModeHorizontalPosition.getText()));
         } catch (Exception e) {
@@ -505,7 +504,7 @@ public class POSPrinterController extends CommonController {
         updateGui();
     }
 
-    public void setPageModeVerticalPosition(ActionEvent event) {
+    public void setPageModeVerticalPosition(ActionEvent ignore) {
         try {
             ThePrinter.setPageModeVerticalPosition(Integer.parseInt(PageModeVerticalPosition.getText()));
         } catch (Exception e) {
@@ -514,7 +513,7 @@ public class POSPrinterController extends CommonController {
         updateGui();
     }
 
-    public void setJrnLineHeight(ActionEvent event) {
+    public void setJrnLineHeight(ActionEvent ignore) {
         try {
             ThePrinter.setJrnLineHeight(Integer.parseInt(JrnLineHeight.getText()));
         } catch (Exception e) {
@@ -523,7 +522,7 @@ public class POSPrinterController extends CommonController {
         updateGui();
     }
 
-    public void setJrnLineSpacing(ActionEvent event) {
+    public void setJrnLineSpacing(ActionEvent ignore) {
         try {
             ThePrinter.setJrnLineSpacing(Integer.parseInt(JrnLineSpacing.getText()));
         } catch (Exception e) {
@@ -532,7 +531,7 @@ public class POSPrinterController extends CommonController {
         updateGui();
     }
 
-    public void setRecLineHeight(ActionEvent event) {
+    public void setRecLineHeight(ActionEvent ignore) {
         try {
             ThePrinter.setRecLineHeight(Integer.parseInt(RecLineHeight.getText()));
         } catch (Exception e) {
@@ -541,7 +540,7 @@ public class POSPrinterController extends CommonController {
         updateGui();
     }
 
-    public void setRecLineSpacing(ActionEvent event) {
+    public void setRecLineSpacing(ActionEvent ignore) {
         try {
             ThePrinter.setRecLineSpacing(Integer.parseInt(RecLineSpacing.getText()));
         } catch (Exception e) {
@@ -550,7 +549,7 @@ public class POSPrinterController extends CommonController {
         updateGui();
     }
 
-    public void setSlpLineHeight(ActionEvent event) {
+    public void setSlpLineHeight(ActionEvent ignore) {
         try {
             ThePrinter.setSlpLineHeight(Integer.parseInt(SlpLineHeight.getText()));
         } catch (Exception e) {
@@ -559,7 +558,7 @@ public class POSPrinterController extends CommonController {
         updateGui();
     }
 
-    public void setSlpLineSpacing(ActionEvent event) {
+    public void setSlpLineSpacing(ActionEvent ignore) {
         try {
             ThePrinter.setSlpLineSpacing(Integer.parseInt(SlpLineSpacing.getText()));
         } catch (Exception e) {
@@ -568,7 +567,7 @@ public class POSPrinterController extends CommonController {
         updateGui();
     }
 
-    public void setMapCharacterSet(ActionEvent actionEvent) {
+    public void setMapCharacterSet(ActionEvent ignore) {
         try {
             ThePrinter.setMapCharacterSet(MapCharacterSet.isSelected());
         } catch (JposException e) {
@@ -577,7 +576,7 @@ public class POSPrinterController extends CommonController {
         updateGui();
     }
 
-    public void setJrnLetterQuality(ActionEvent actionEvent) {
+    public void setJrnLetterQuality(ActionEvent ignore) {
         try {
             ThePrinter.setJrnLetterQuality(JrnLetterQuality.isSelected());
         } catch (JposException e) {
@@ -586,7 +585,7 @@ public class POSPrinterController extends CommonController {
         updateGui();
     }
 
-    public void setRecLetterQuality(ActionEvent actionEvent) {
+    public void setRecLetterQuality(ActionEvent ignore) {
         try {
             ThePrinter.setRecLetterQuality(RecLetterQuality.isSelected());
         } catch (JposException e) {
@@ -595,7 +594,7 @@ public class POSPrinterController extends CommonController {
         updateGui();
     }
 
-    public void setSlpLetterQuality(ActionEvent actionEvent) {
+    public void setSlpLetterQuality(ActionEvent ignore) {
         try {
             ThePrinter.setSlpLetterQuality(SlpLetterQuality.isSelected());
         } catch (JposException e) {
@@ -604,7 +603,7 @@ public class POSPrinterController extends CommonController {
         updateGui();
     }
 
-    public void setCartridgeNotify(ActionEvent actionEvent) {
+    public void setCartridgeNotify(ActionEvent ignore) {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setCartridgeNotify(CartridgeNotifyRow.getValueConverter().getInteger(CartridgeNotify.getValue()));
@@ -615,7 +614,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void setCharacterSet(ActionEvent actionEvent) {
+    public void setCharacterSet(ActionEvent ignore) {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setCharacterSet(CharacterSetRow.getValueConverter().getInteger(CharacterSet.getValue()));
@@ -626,7 +625,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void setMapMode(ActionEvent actionEvent) {
+    public void setMapMode(ActionEvent ignore) {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setMapMode(MapModeRow.getValueConverter().getInteger(MapMode.getValue()));
@@ -637,7 +636,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void setRotateSpecial(ActionEvent actionEvent) {
+    public void setRotateSpecial(ActionEvent ignore) {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setRotateSpecial(RotateSpecialRow.getValueConverter().getInteger(RotateSpecial.getValue()));
@@ -648,7 +647,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void setPageModePrintDirection(ActionEvent actionEvent) {
+    public void setPageModePrintDirection(ActionEvent ignore) {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setPageModePrintDirection(PageModePrintDirectionRow.getValueConverter().getInteger(PageModePrintDirection.getValue()));
@@ -659,7 +658,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void setPageModeStation(ActionEvent actionEvent) {
+    public void setPageModeStation(ActionEvent ignore) {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setPageModeStation(PageModeStationRow.getValueConverter().getInteger(PageModeStation.getValue()));
@@ -670,7 +669,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void setJrnCurrentCartridge(ActionEvent actionEvent) {
+    public void setJrnCurrentCartridge(ActionEvent ignore) {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setJrnCurrentCartridge(JrnCurrentCartridgeRow.getValueConverter().getInteger(JrnCurrentCartridge.getValue()));
@@ -681,7 +680,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void setJrnLineChars(ActionEvent actionEvent) {
+    public void setJrnLineChars(ActionEvent ignore) {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setJrnLineChars(Integer.parseInt(JrnLineChars.getValue()));
@@ -692,7 +691,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void setRecCurrentCartridge(ActionEvent actionEvent) {
+    public void setRecCurrentCartridge(ActionEvent ignore) {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setRecCurrentCartridge(RecCurrentCartridgeRow.getValueConverter().getInteger(RecCurrentCartridge.getValue()));
@@ -703,7 +702,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void setRecLineChars(ActionEvent actionEvent) {
+    public void setRecLineChars(ActionEvent ignore) {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setRecLineChars(Integer.parseInt(RecLineChars.getValue()));
@@ -714,7 +713,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void setSlpCurrentCartridge(ActionEvent actionEvent) {
+    public void setSlpCurrentCartridge(ActionEvent ignore) {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setSlpCurrentCartridge(SlpCurrentCartridgeRow.getValueConverter().getInteger(SlpCurrentCartridge.getValue()));
@@ -725,7 +724,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void setSlpLineChars(ActionEvent actionEvent) {
+    public void setSlpLineChars(ActionEvent ignore) {
         if (!InUpdateGui) {
             try {
                 ThePrinter.setSlpLineChars(Integer.parseInt(SlpLineChars.getValue()));
@@ -750,7 +749,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void beginInsertion(ActionEvent actionEvent) {
+    public void beginInsertion(ActionEvent ignore) {
         Integer timeout = new TimeoutValues().getInteger(BI_timeout.getValue());
         if (!invalid(timeout, "timeout"))
             new BeginInsertion(timeout).start();
@@ -767,7 +766,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void endInsertion(ActionEvent actionEvent) {
+    public void endInsertion(ActionEvent ignore) {
         new EndInsertion().start();
     }
 
@@ -785,7 +784,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void beginRemoval(ActionEvent actionEvent) {
+    public void beginRemoval(ActionEvent ignore) {
         Integer timeout = new TimeoutValues().getInteger(BR_timeout.getValue());
         if (!invalid(timeout, "timeout"))
             new BeginRemoval(timeout).start();
@@ -802,7 +801,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void endRemoval(ActionEvent actionEvent) {
+    public void endRemoval(ActionEvent ignore) {
         new EndRemoval().start();
     }
 
@@ -820,7 +819,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void changePrintSide(ActionEvent actionEvent) {
+    public void changePrintSide(ActionEvent ignore) {
         Integer side = new CPS_sideValues().getInteger(CPS_side.getValue());
         if (!invalid(side, "side"))
             new ChangePrintSide(side).start();
@@ -840,7 +839,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void pageModePrint(ActionEvent actionEvent) {
+    public void pageModePrint(ActionEvent ignore) {
         Integer control = new PMP_controlValues().getInteger(PMP_control.getValue());
         if (!invalid(control, "control"))
             new PageModePrint(control).start();
@@ -857,7 +856,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void clearPrintArea(ActionEvent actionEvent) {
+    public void clearPrintArea(ActionEvent ignore) {
         new ClearPrintArea().start();
     }
 
@@ -877,7 +876,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void rotatePrint(ActionEvent actionEvent) {
+    public void rotatePrint(ActionEvent ignore) {
         Integer station = new PageModeStationValues().getInteger(RP_station.getValue());
         Integer rotation = new RP_rotationValues().getInteger(RP_rotation.getValue());
         if (!invalid(station, "station") && !invalid(rotation, "rotation"))
@@ -900,7 +899,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void transactionPrint(ActionEvent actionEvent) {
+    public void transactionPrint(ActionEvent ignore) {
         Integer station = new P_stationValues().getInteger(TP_station.getValue());
         Integer control = new TP_controlValues().getInteger(TP_control.getValue());
         if (!invalid(station, "station") && !invalid(control, "control"))
@@ -921,7 +920,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void cutPaper(ActionEvent actionEvent) {
+    public void cutPaper(ActionEvent ignore) {
         Integer percentage = new TP_controlValues().getInteger(CP_percentage.getText());
         if (!invalid(percentage, "percentage"))
             new CutPaper(percentage).start();
@@ -941,7 +940,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void markFeed(ActionEvent actionEvent) {
+    public void markFeed(ActionEvent ignore) {
         Integer type = new MF_typeValues().getInteger(MF_type.getValue());
         if (!invalid(type, "type"))
             new MarkFeed(type).start();
@@ -971,7 +970,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void drawRuledLine(ActionEvent actionEvent) {
+    public void drawRuledLine(ActionEvent ignore) {
         Integer station = new PageModeStationValues().getInteger(DRL_station.getValue());
         Integer lineDirection = new DRL_lineDirectionValues().getInteger(DRL_lineDirection.getValue());
         Integer lineWidth = new IntValues().getInteger(DRL_lineWidth.getText());
@@ -1007,7 +1006,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void printBarCode(ActionEvent actionEvent) {
+    public void printBarCode(ActionEvent ignore) {
         Integer station = new PageModeStationValues().getInteger(PBC_station.getValue());
         Integer symbology = new PBC_symbologyValues().getInteger(PBC_symbology.getValue());
         Integer height = new IntValues().getInteger(PBC_height.getText());
@@ -1038,7 +1037,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void printBitmap(ActionEvent actionEvent) {
+    public void printBitmap(ActionEvent ignore) {
         Integer station = new PageModeStationValues().getInteger(PB_station.getValue());
         Integer width = new B_widthValues().getInteger(PB_width.getValue());
         Integer alignment = new B_alignmentValues().getInteger(PB_alignment.getValue());
@@ -1046,7 +1045,7 @@ public class POSPrinterController extends CommonController {
             new PrintBitmap(station, PB_fileName.getText(), width, alignment).start();
     }
 
-    public void browsePBName(ActionEvent actionEvent) {
+    public void browsePBName(ActionEvent ignore) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Select Bitmap File");
         chooser.setInitialDirectory(new File("."));
@@ -1077,7 +1076,8 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void printMemoryBitmap(ActionEvent actionEvent) {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public void printMemoryBitmap(ActionEvent ignore) {
         Integer station = new PageModeStationValues().getInteger(PMB_station.getValue());
         Integer type = new PMB_typeValues().getInteger(PMB_type.getValue());
         Integer width = new B_widthValues().getInteger(PMB_width.getValue());
@@ -1095,7 +1095,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void browsePMBName(ActionEvent actionEvent) {
+    public void browsePMBName(ActionEvent ignored) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Select File Containing Bitmap Data");
         chooser.setInitialDirectory(new File("."));
@@ -1126,7 +1126,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void setBitmap(ActionEvent actionEvent) {
+    public void setBitmap(ActionEvent ignored) {
         Integer bitmapNumber = new IntValues().getInteger(SB_bitmapNumber.getValue());
         Integer station = new PageModeStationValues().getInteger(SB_station.getValue());
         Integer width = new B_widthValues().getInteger(SB_width.getValue());
@@ -1135,7 +1135,7 @@ public class POSPrinterController extends CommonController {
             new SetBitmap(bitmapNumber, station, PB_fileName.getText(), width, alignment).start();
     }
 
-    public void browseSBName(ActionEvent actionEvent) {
+    public void browseSBName(ActionEvent ignored) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Select Bitmap File");
         chooser.setInitialDirectory(new File("."));
@@ -1161,7 +1161,10 @@ public class POSPrinterController extends CommonController {
     }
 
     private String getData(TextArea text) {
-        char[] data = (MapCharacterSet.isSelected() ? text.getText() : mapData(text.getText())).toCharArray();
+        String area = (MapCharacterSet.isSelected() ? text.getText() : mapData(text.getText()));
+        if (area == null)
+            return null;
+        char[] data = area.toCharArray();
         int i = 0, j = 0;
         boolean hexmode = false;
         while (i < data.length) {
@@ -1187,8 +1190,8 @@ public class POSPrinterController extends CommonController {
             }
             else {
                 if (hexmode) {
-                    int h = "0123456789ABCDEF".indexOf(new String(new char[]{data[i]}).toUpperCase());
-                    int l = i + 1 < data.length ? "0123456789ABCDEF".indexOf(new String(new char[]{data[i + 1]}).toUpperCase()) : -999;
+                    int h = "0123456789ABCDEF".indexOf(String.valueOf(data[i]).toUpperCase());
+                    int l = i + 1 < data.length ? "0123456789ABCDEF".indexOf(String.valueOf(data[i + 1]).toUpperCase()) : -999;
                     if (h < 0 || l < 0) {
                         if (l == -999)
                             myMessageDialog("Unexpected hex-data end");
@@ -1246,7 +1249,7 @@ public class POSPrinterController extends CommonController {
         return "cp" + encoding;
     }
 
-    public void printImmediate(ActionEvent actionEvent) {
+    public void printImmediate(ActionEvent ignore) {
         Integer station = new P_stationValues().getInteger(P_station.getValue());
         String data = getData(P_data);
         if (!invalid(station, "station") && data != null)
@@ -1265,14 +1268,14 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void printNormal(ActionEvent actionEvent) {
+    public void printNormal(ActionEvent ignore) {
         Integer station = new P_stationValues().getInteger(P_station.getValue());
         String data = getData(P_data);
         if (!invalid(station, "station") && data != null)
             new PrintNormal(station, data).start();
     }
 
-    public void validateData(ActionEvent actionEvent) {
+    public void validateData(ActionEvent ignore) {
         Integer station1 = (Integer) new P_stationValues().getValue(P_station.getValue());
         Integer station2 = (Integer) new PTN_stationValues().getValue(PTN_station.getValue());
         if (station1 == null && station2 == null) {
@@ -1326,7 +1329,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void setLogo(ActionEvent actionEvent) {
+    public void setLogo(ActionEvent ignore) {
         Integer location = new SL_locationValues().getInteger(SL_location.getValue());
         String data = getData(P_data);
         if (!invalid(location, "station") && data != null)
@@ -1351,7 +1354,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    public void printTwoNormal(ActionEvent actionEvent) {
+    public void printTwoNormal(ActionEvent ignore) {
         Integer station = new PTN_stationValues().getInteger(PTN_station.getValue());
         String data1 = getData(P_data);
         String data2 = getData(PTN_data2);
@@ -1359,7 +1362,7 @@ public class POSPrinterController extends CommonController {
             new PrintTwoNormal(station, data1, data2).start();
     }
 
-    private class CapCharacterSetValues extends Values {
+    private static class CapCharacterSetValues extends Values {
         CapCharacterSetValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_CCS_ALPHA, "CCS_ALPHA",
@@ -1371,7 +1374,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class CapRuledLineValues extends Values {
+    private static class CapRuledLineValues extends Values {
         CapRuledLineValues() {
             ValueList = new Object[] {
                     0, "-",
@@ -1382,7 +1385,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class CartridgeNotifyValues extends Values {
+    private static class CartridgeNotifyValues extends Values {
         CartridgeNotifyValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_CN_DISABLED, "CN_DISABLED",
@@ -1391,7 +1394,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class CharacterSetValues extends Values {
+    private static class CharacterSetValues extends Values {
         CharacterSetValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_CS_UNICODE, "CS_UNICODE",
@@ -1401,7 +1404,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class ErrorLevelValues extends Values {
+    private static class ErrorLevelValues extends Values {
         ErrorLevelValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_EL_NONE, "EL_NONE",
@@ -1411,7 +1414,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class ErrorStationValues extends Values {
+    private static class ErrorStationValues extends Values {
         ErrorStationValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_S_JOURNAL, "S_JOURNAL",
@@ -1427,7 +1430,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class CartridgeStateValues extends Values {
+    private static class CartridgeStateValues extends Values {
         CartridgeStateValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_CART_UNKNOWN, "CART_UNKNOWN",
@@ -1440,7 +1443,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class CurrentCartridgeValues extends Values {
+    private static class CurrentCartridgeValues extends Values {
         CurrentCartridgeValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_COLOR_PRIMARY, "COLOR_PRIMARY",
@@ -1457,7 +1460,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class MapModeValues extends Values {
+    private static class MapModeValues extends Values {
         MapModeValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_MM_DOTS, "MM_DOTS",
@@ -1468,7 +1471,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class PageModePrintDirectionValues extends Values {
+    private static class PageModePrintDirectionValues extends Values {
         PageModePrintDirectionValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_PD_LEFT_TO_RIGHT, "PD_LEFT_TO_RIGHT",
@@ -1479,7 +1482,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class PageModeStationValues extends Values {
+    private static class PageModeStationValues extends Values {
         PageModeStationValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_S_RECEIPT, "S_RECEIPT",
@@ -1488,7 +1491,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class P_stationValues extends Values {
+    private static class P_stationValues extends Values {
         P_stationValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_S_RECEIPT, "S_RECEIPT",
@@ -1498,7 +1501,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class RotateSpecialValues extends Values {
+    private static class RotateSpecialValues extends Values {
         RotateSpecialValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_RP_NORMAL, "RP_NORMAL",
@@ -1509,7 +1512,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class SlpPrintSideValues extends Values {
+    private static class SlpPrintSideValues extends Values {
         SlpPrintSideValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_PS_UNKNOWN, "PS_UNKNOWN",
@@ -1519,7 +1522,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class CPS_sideValues extends SlpPrintSideValues {
+    private static class CPS_sideValues extends SlpPrintSideValues {
         CPS_sideValues() {
             super();
             ValueList[0] = POSPrinterConst.PTR_PS_OPPOSITE;
@@ -1527,7 +1530,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class SL_locationValues extends SlpPrintSideValues {
+    private static class SL_locationValues extends SlpPrintSideValues {
         SL_locationValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_L_TOP, "L_TOP",
@@ -1536,7 +1539,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class PTN_stationValues extends SlpPrintSideValues {
+    private static class PTN_stationValues extends SlpPrintSideValues {
         PTN_stationValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_TWO_RECEIPT_JOURNAL, "TWO_RECEIPT_JOURNAL",
@@ -1546,7 +1549,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class MF_typeValues extends SlpPrintSideValues {
+    private static class MF_typeValues extends SlpPrintSideValues {
         MF_typeValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_MF_TO_TAKEUP, "MF_TO_TAKEUP",
@@ -1557,7 +1560,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class DRL_lineDirectionValues extends Values {
+    private static class DRL_lineDirectionValues extends Values {
         DRL_lineDirectionValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_RL_HORIZONTAL, "RL_HORIZONTAL",
@@ -1566,7 +1569,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class DRL_lineStyleValues extends Values {
+    private static class DRL_lineStyleValues extends Values {
         DRL_lineStyleValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_LS_SINGLE_SOLID_LINE, "LS_SINGLE_SOLID_LINE",
@@ -1577,7 +1580,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class PBC_symbologyValues extends Values {
+    private static class PBC_symbologyValues extends Values {
         PBC_symbologyValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_BCS_AZTEC, "BCS_AZTEC",
@@ -1623,7 +1626,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class PBC_alignmentValues extends Values {
+    private static class PBC_alignmentValues extends Values {
         PBC_alignmentValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_BC_LEFT, "BC_LEFT",
@@ -1633,7 +1636,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class PBC_textPositionValues extends Values {
+    private static class PBC_textPositionValues extends Values {
         PBC_textPositionValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_BC_TEXT_NONE, "BC_TEXT_NONE",
@@ -1643,7 +1646,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class B_widthValues extends Values {
+    private static class B_widthValues extends Values {
         B_widthValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_BM_ASIS, "BM_ASIS"
@@ -1651,7 +1654,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class B_alignmentValues extends Values {
+    private static class B_alignmentValues extends Values {
         B_alignmentValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_BM_LEFT, "BM_LEFT",
@@ -1661,7 +1664,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class PMB_typeValues extends Values {
+    private static class PMB_typeValues extends Values {
         PMB_typeValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_BMT_BMP, "BMT_BMP",
@@ -1671,7 +1674,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class PMP_controlValues extends Values {
+    private static class PMP_controlValues extends Values {
         PMP_controlValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_PM_PAGE_MODE, "PM_PAGE_MODE",
@@ -1682,7 +1685,7 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class RP_rotationValues extends Values {
+    private static class RP_rotationValues extends Values {
         RP_rotationValues() {
             ValueList = new Object[] {
                     POSPrinterConst.PTR_RP_NORMAL, "RP_NORMAL",
@@ -1695,16 +1698,16 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class TP_controlValues extends Values {
+    private static class TP_controlValues extends Values {
         TP_controlValues() {
             ValueList = new Object[] {
-                   POSPrinterConst.PTR_TP_TRANSACTION, "TP_TRANSACTION",
+                    POSPrinterConst.PTR_TP_TRANSACTION, "TP_TRANSACTION",
                     POSPrinterConst.PTR_TP_NORMAL, "TP_NORMAL"
             };
         }
     }
 
-    private class PrtStatusUpdateValues extends StatusUpdateValues {
+    private static class PrtStatusUpdateValues extends StatusUpdateValues {
         PrtStatusUpdateValues() {
             super();
             Object[] prtvalues = new Object[]{
@@ -1744,7 +1747,8 @@ public class POSPrinterController extends CommonController {
         }
     }
 
-    private class ExtendedErrorCodeValues extends Values {
+    @SuppressWarnings("unused")
+    private static class ExtendedErrorCodeValues extends Values {
         ExtendedErrorCodeValues() {
             ValueList = new Object[] {
                     POSPrinterConst.JPOS_EPTR_COVER_OPEN, "EPTR_COVER_OPEN",

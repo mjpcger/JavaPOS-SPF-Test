@@ -16,6 +16,7 @@
 
 package SPF_Test;
 
+import de.gmxhome.conrad.jpos.jpos_base.JposDevice;
 import de.gmxhome.conrad.jpos.jpos_base.JposErrorEvent;
 import javafx.event.ActionEvent;
 import javafx.scene.control.CheckBox;
@@ -27,6 +28,8 @@ import jpos.events.*;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+
+import static de.gmxhome.conrad.jpos.jpos_base.JposDevice.getArrayOf;
 
 /**
  * GUI control for RemoteOrderDisplay properties, methods and events.
@@ -781,7 +784,7 @@ public class RemoteOrderDisplayController extends CommonController {
 
     private void updateAttributes() {
         String editor = String.format("Editor (%s)", AE_value.getText());
-        for (ComboBox<String> cb : new ComboBox[]{CCl_attribute, CV_attribute, CVR_attribute, DD_attribute, DB_attribute, UVRA_attribute}) {
+        for (ComboBox<String> cb : getArrayOf(0, CCl_attribute, CV_attribute, CVR_attribute, DD_attribute, DB_attribute, UVRA_attribute)) {
             String old = cb.getValue();
             cb.getItems().clear();
             cb.getItems().add(editor);

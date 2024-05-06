@@ -36,6 +36,8 @@ import java.math.*;
 import java.net.*;
 import java.util.*;
 
+import static de.gmxhome.conrad.jpos.jpos_base.JposBaseDevice.synchronizedMessageBox;
+
 /**
  * GUI control for common properties, methods and events.
  */
@@ -51,7 +53,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     /**
      * Converter class for values of PowerNotify property.
      */
-    public class PowerNotifyValues extends Values {
+    public static class PowerNotifyValues extends Values {
         PowerNotifyValues() {
             ValueList = new Object[]{
                     JposConst.JPOS_PN_DISABLED, "PN_DISABLED",
@@ -64,7 +66,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     /**
      * Converter class for timeout values.
      */
-    public class TimeoutValues extends Values {
+    public static class TimeoutValues extends Values {
         TimeoutValues() {
             ValueList = new Object[]{
                     JposConst.JPOS_FOREVER, "FOREVER"
@@ -76,7 +78,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     /**
      * Converter class for checkHealth parameter <i>level</i>.
      */
-    public class CH_levelValues extends Values {
+    public static class CH_levelValues extends Values {
         CH_levelValues() {
             ValueList = new Object[]{
                     JposConst.JPOS_CH_INTERNAL, "CH_INTERNAL",
@@ -94,7 +96,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     /**
      * Converter class for compareFirmwareVersion parameter <i>result</i>.
      */
-    public class CFV_resultValues extends Values {
+    public static class CFV_resultValues extends Values {
         CFV_resultValues() {
             ValueList = new Object[]{
                     JposConst.JPOS_CFV_FIRMWARE_OLDER, "CFV_FIRMWARE_OLDER",
@@ -119,7 +121,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     /**
      * Converter class for CapPowerReporting values.
      */
-    public class CapPowerReportingValues extends Values {
+    public static class CapPowerReportingValues extends Values {
         CapPowerReportingValues() {
             ValueList = new Object[]{
                     JposConst.JPOS_PR_NONE, "PR_NONE",
@@ -133,7 +135,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     /**
      * Converter class for PowerState values.
      */
-    public class PowerStateValues extends Values {
+    public static class PowerStateValues extends Values {
         PowerStateValues() {
             ValueList = new Object[]{
                     JposConst.JPOS_PS_UNKNOWN, "PS_UNKNOWN",
@@ -149,7 +151,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     /**
      * Converter class for State values.
      */
-    public class StateValues extends Values {
+    public static class StateValues extends Values {
         StateValues() {
             ValueList = new Object[]{
                     JposConst.JPOS_S_CLOSED, "S_CLOSED",
@@ -164,9 +166,9 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     /**
      * Helper class for property Name - Value TableView.
      */
-    class PropertyTableRow {
-        private StringProperty Name;
-        private StringProperty Value;
+    static class PropertyTableRow {
+        private final StringProperty Name;
+        private final StringProperty Value;
         private Values ValueConverter;
 
         /**
@@ -326,11 +328,11 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void setCurrencyDigits(ActionEvent actionEvent) {
+    public void setCurrencyDigits(ActionEvent ignore) {
         updateGui();
     }
     @FXML
-    public void setAutoDisable(ActionEvent actionEvent) {
+    public void setAutoDisable(ActionEvent ignore) {
         try {
             Method setAutoDisable = Class.forName(Control.getClass().getName()).getMethod("setAutoDisable", Boolean.TYPE);
             setAutoDisable.invoke(Control, AutoDisable.isSelected());
@@ -366,17 +368,14 @@ public class CommonController implements Initializable, Runnable, DataListener, 
                 } catch (Exception e) {
                     count = null;
                 }
-                final long tio = timeout;
                 final Integer datacount = count;
-                boolean equal = count == null ? oldcount == null : count.equals(oldcount);
+                boolean equal = Objects.equals(count, oldcount);
                 if (!equal) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            DataCount.setText(datacount == null ? "" : "DataCount: " + datacount);
-                            updateGui();
-                        }
+                    Platform.runLater(() -> {
+                        DataCount.setText(datacount == null ? "" : "DataCount: " + datacount);
+                        updateGui();
                     });
+                    oldcount = count;
                 }
             }
         }
@@ -385,7 +384,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     private DataCountUpdater TheDataCountUpdater;
 
     @FXML
-    public void setDeviceEnabled(ActionEvent actionEvent) {
+    public void setDeviceEnabled(ActionEvent ignore) {
         try {
             Control.setDeviceEnabled(DeviceEnabled.isSelected());
             if (DataCount != null)
@@ -397,7 +396,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void setAsyncMode(ActionEvent actionEvent) {
+    public void setAsyncMode(ActionEvent ignore) {
         try {
             Method setAsyncMode = Class.forName(Control.getClass().getName()).getMethod("setAsyncMode", Boolean.TYPE);
             setAsyncMode.invoke(Control, AsyncMode.isSelected());
@@ -408,7 +407,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void setFreezeEvents(ActionEvent actionEvent) {
+    public void setFreezeEvents(ActionEvent ignore) {
         try {
             Control.setFreezeEvents(FreezeEvents.isSelected());
         } catch (JposException e) {
@@ -418,7 +417,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void setPowerNotify(ActionEvent actionEvent) {
+    public void setPowerNotify(ActionEvent ignore) {
         if (!InUpdateGui) {
             try {
                 Method setPowerNotify = Class.forName(Control.getClass().getName()).getMethod("setPowerNotify", Integer.TYPE);
@@ -431,7 +430,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void setDataEventEnabled(ActionEvent actionEvent) {
+    public void setDataEventEnabled(ActionEvent ignore) {
         try {
             Method setDataEventEnabled = Class.forName(Control.getClass().getName()).getMethod("setDataEventEnabled", Boolean.TYPE);
             setDataEventEnabled.invoke(Control, DataEventEnabled.isSelected());
@@ -502,12 +501,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             } catch (JposException e) {
                 getFullErrorMessageAndPrintTrace(e);
             }
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    finish();
-                }
-            });
+            Platform.runLater(this::finish);
             CurrentMethod = null;
         }
 
@@ -547,7 +541,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             Timeout = timeout;
         }
 
-        private int Timeout;
+        private final int Timeout;
 
         @Override
         public void runIt() throws JposException {
@@ -556,7 +550,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void claim(ActionEvent actionEvent) {
+    public void claim(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         Integer timeout = new TimeoutValues().getInteger(claim_timeout.getValue());
@@ -565,7 +559,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void release(ActionEvent actionEvent) {
+    public void release(ActionEvent ignore) {
         try {
             Control.release();
         } catch (JposException e) {
@@ -587,7 +581,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             Level = level;
         }
 
-        private int Level;
+        private final int Level;
 
         @Override
         public void runIt() throws JposException {
@@ -596,7 +590,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void checkHealth(ActionEvent actionEvent) {
+    public void checkHealth(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         Integer level = new CH_levelValues().getInteger(CH_level.getValue());
@@ -605,7 +599,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void clearInput(ActionEvent actionEvent) {
+    public void clearInput(ActionEvent ignore) {
         try {
             Method clearInput = Class.forName(Control.getClass().getName()).getMethod("clearInput");
             clearInput.invoke(Control);
@@ -616,7 +610,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void clearInputProperties(ActionEvent actionEvent) {
+    public void clearInputProperties(ActionEvent ignore) {
         try {
             Method clearInputProperties = Class.forName(Control.getClass().getName()).getMethod("clearInputProperties");
             clearInputProperties.invoke(Control);
@@ -627,7 +621,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void clearOutput(ActionEvent actionEvent) {
+    public void clearOutput(ActionEvent ignore) {
         try {
             Method clearOutput = Class.forName(Control.getClass().getName()).getMethod("clearOutput");
             clearOutput.invoke(Control);
@@ -654,9 +648,9 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             Obj = object;
         }
 
-        private int Command;
-        private int[] Data;
-        private Object[] Obj;
+        private final int Command;
+        private final int[] Data;
+        private final Object[] Obj;
 
         @Override
         public void runIt() throws JposException {
@@ -674,7 +668,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void directIO(ActionEvent actionEvent) {
+    public void directIO(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         Integer cmd = new IntValues().getInteger(DIO_command.getText());
@@ -690,7 +684,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void compareFirmwareVersion(ActionEvent actionEvent) {
+    public void compareFirmwareVersion(ActionEvent ignore) {
         try {
             Method compareFirmwareVersion = Class.forName(Control.getClass().getName()).getMethod("compareFirmwareVersion", String.class, int[].class);
             int[] result = new int[1];
@@ -703,7 +697,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void browseCFVName(ActionEvent actionEvent) {
+    public void browseCFVName(ActionEvent ignore) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Select Firmware File");
         chooser.setInitialDirectory(new File("."));
@@ -713,7 +707,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void updateFirmware(ActionEvent actionEvent) {
+    public void updateFirmware(ActionEvent ignore) {
         try {
             Method updateFirmware = Class.forName(Control.getClass().getName()).getMethod("updateFirmware", String.class);
             updateFirmware.invoke(Control, UF_firmwareFileName.getText());
@@ -724,7 +718,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void browseUFName(ActionEvent actionEvent) {
+    public void browseUFName(ActionEvent ignore) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Select Firmware File");
         chooser.setInitialDirectory(new File("."));
@@ -746,7 +740,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             StatisticsBuffer = statisticsBuffer;
         }
 
-        private String StatisticsBuffer;
+        private final String StatisticsBuffer;
 
         @Override
         public void runIt() throws JposException {
@@ -766,7 +760,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void updateStatistics(ActionEvent actionEvent) {
+    public void updateStatistics(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         new UpdateStatisticsHandler(_statisticsBuffer.getText()).start();
@@ -791,16 +785,10 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         @Override
         public void runIt() throws JposException {
             try {
-                /*
-                ATTENTION: This is a workaround due to awful type mismatch in Java reflection when working with arrays.
-                Solution: Use a copy of the array, created by Array class via reflection and set the necessary entries
-                as expected:
-                 */
-                Object array = Array.newInstance(String.class, 1);      // Create the array
-                Array.set(array, 0, StatisticsBuffer);                  // Set the statisticsBuffer input element
+                String[] array = {StatisticsBuffer};
                 Method retrieveStatistics = Class.forName(Control.getClass().getName()).getMethod("retrieveStatistics", String[].class);
-                retrieveStatistics.invoke(Control, array);
-                StatisticsBuffer = (String)Array.get(array, 0);         // Retrieve statisticsBuffer output element
+                retrieveStatistics.invoke(Control, (Object) array);
+                StatisticsBuffer = array[0];
             } catch (Exception e) {
                 if (e instanceof InvocationTargetException) {
                     Exception ee = (Exception)((InvocationTargetException) e).getTargetException();
@@ -820,7 +808,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void retrieveStatistics(ActionEvent actionEvent) {
+    public void retrieveStatistics(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         new RetrieveStatisticsHandler(_statisticsBuffer.getText()).start();
@@ -839,7 +827,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             StatisticsBuffer = statisticsBuffer;
         }
 
-        private String StatisticsBuffer;
+        private final String StatisticsBuffer;
 
         @Override
         public void runIt() throws JposException {
@@ -859,7 +847,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     @FXML
-    public void resetStatistics(ActionEvent actionEvent) {
+    public void resetStatistics(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         new ResetStatisticsHandler(_statisticsBuffer.getText()).start();
@@ -868,15 +856,14 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     /**
      * Enumerator for possible conversions for binary properties.
      */
-    public static enum ByteConversion {
+    public enum ByteConversion {
         Hexadecimal,
         Ascii,
         Decoded,
         Length
     }
 
-
-    class ByteConversionValues extends Values {
+    static class ByteConversionValues extends Values {
         ByteConversionValues() {
             ValueList = new Object[]{
                     ByteConversion.Hexadecimal, "Hexadecimal",
@@ -895,7 +882,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     public String BinaryEncoding = null;
     public boolean InUpdateGui = false;
 
-    public void setByteConversion(ActionEvent actionEvent) {
+    public void setByteConversion(ActionEvent ignore) {
         Conversion = ByteArrayConversion.getValue();
         updateGui();
     }
@@ -907,7 +894,6 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         if (!InUpdateGui) {
             InUpdateGui = true;
             if (ByteArrayConversion != null) {
-                ByteConversionValues bcv = new ByteConversionValues();
                 if (ByteArrayConversion.getItems().size() == 0) {
                     ByteArrayConversion.getItems().add(ByteConversion.Hexadecimal);
                     ByteArrayConversion.getItems().add(ByteConversion.Ascii);
@@ -1030,20 +1016,20 @@ public class CommonController implements Initializable, Runnable, DataListener, 
      * @return Hexadecimal string
      */
     public String byteArrayToHexString(byte[] data, int limit, boolean separator, int bytesPerLine) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         int i;
         for (i = 0; i < limit && i < data.length; i++) {
             if (!separator) {
-                result += String.format("%02X", 0xff & (int)data[i]);
+                result.append(String.format("%02X", 0xff & (int) data[i]));
             } else {
                 if (result.length() > 0)
-                    result += (bytesPerLine > 0 && i % bytesPerLine == 0) ? "\n" : " ";
-                result += String.format("%02X", 0xff & (int) data[i]);
+                    result.append((bytesPerLine > 0 && i % bytesPerLine == 0) ? "\n" : " ");
+                result.append(String.format("%02X", 0xff & (int) data[i]));
             }
         }
         if (i < data.length)
-            result += "...";
-        return result;
+            result.append("...");
+        return result.toString();
     }
 
     /**
@@ -1109,7 +1095,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
      * @return Resulting ASCII string with escape sequences.
      */
     public String byteArrayToAsciiString(byte[]data, int maxLineLength) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         int len = 0;
         for (int i = 0; i < data.length; i++) {
             String c;
@@ -1120,13 +1106,13 @@ public class CommonController implements Initializable, Runnable, DataListener, 
             else
                 c = new String(data, i, 1);
             if (len + c.length() + 1 > maxLineLength && maxLineLength > 5) {
-                result += "\\\n";
+                result.append("\\\n");
                 len = c.length();
             } else
                 len += c.length();
-            result += c;
+            result.append(c);
         }
-        return result;
+        return result.toString();
     }
 
     /**
@@ -1178,12 +1164,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     }
 
     public void updateGuiLater() {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                updateGui();
-            }
-        });
+        Platform.runLater(this::updateGui);
     }
 
     @Override
@@ -1236,20 +1217,17 @@ public class CommonController implements Initializable, Runnable, DataListener, 
 
     @Override
     public void dataOccurred(DataEvent dataEvent) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                gotData(dataEvent);
-                if (LockDataEventEnabled.isSelected()) {
-                    try {
-                        Method setDataEventEnabled = Class.forName(Control.getClass().getName()).getMethod("setDataEventEnabled", Boolean.TYPE);
-                        setDataEventEnabled.invoke(Control, true);
-                        DataEventEnabled.setSelected(true);
-                    } catch (Exception e) {
-                        getFullErrorMessageAndPrintTrace(e);
-                    }
-                    updateGui();
+        Platform.runLater(() -> {
+            gotData(dataEvent);
+            if (LockDataEventEnabled.isSelected()) {
+                try {
+                    Method setDataEventEnabled = Class.forName(Control.getClass().getName()).getMethod("setDataEventEnabled", Boolean.TYPE);
+                    setDataEventEnabled.invoke(Control, true);
+                    DataEventEnabled.setSelected(true);
+                } catch (Exception e) {
+                    getFullErrorMessageAndPrintTrace(e);
                 }
+                updateGui();
             }
         });
     }
@@ -1270,12 +1248,10 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     @Override
     public void directIOOccurred(DirectIOEvent event) {
         SyncObject diowaiter = new SyncObject();
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                gotDirectIO(event);
-                diowaiter.signal();
-            }
+        Platform.runLater(() -> {
+            gotDirectIO(event);
+            diowaiter.signal();
+
         });
         diowaiter.suspend(SyncObject.INFINITE);
     }
@@ -1288,43 +1264,38 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     String getLogString(DirectIOEvent event) {
         if (event instanceof JposDirectIOEvent)
             return ((JposDirectIOEvent) event).toLogString();
-        String add = event.getEventNumber() + " - " + event.getData() + ":";
+        StringBuilder add = new StringBuilder(event.getEventNumber() + " - " + event.getData() + ":");
         String[] object = event.getObject().toString().split("\n");
         for (String line : object) {
-            add += "\n  " + line;
+            add.append("\n  ").append(line);
         }
-        return add;
+        return add.toString();
     }
 
     @Override
     public void errorOccurred(ErrorEvent errorEvent) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                preGotError(errorEvent);
-            }
+        Platform.runLater(() -> {
+            preGotError(errorEvent);
         });
         String message = getLogString(errorEvent);
-        int doit = myOptionDialog("Error occurred:\n" + message + "\nClear error?", "Processing Error",JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+        int doit = myOptionDialog("Error occurred:\n" + message + "\nClear error?");
         if (doit == JOptionPane.YES_OPTION)
             errorEvent.setErrorResponse(JposConst.JPOS_ER_CLEAR);
         else if (doit == JOptionPane.NO_OPTION && errorEvent.getErrorLocus() != JposConst.JPOS_EL_INPUT_DATA)
             errorEvent.setErrorResponse(JposConst.JPOS_ER_RETRY);
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                gotError(errorEvent);
-            }
+        Platform.runLater(() -> {
+            gotError(errorEvent);
         });
     }
 
     static void myMessageDialog(String message) {
-        JposDevice.synchronizedMessageBox(message, "Message", JOptionPane.INFORMATION_MESSAGE);
+        synchronizedMessageBox(message, "Message", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    static int myOptionDialog(String message, String title, int optionType, int messageType) {
+    static int myOptionDialog(String message) {
         SynchronizedMessageBox box = new SynchronizedMessageBox();
-        box.synchronizedConfirmationBox(message, title, null, String.valueOf(optionType), messageType, JposConst.JPOS_FOREVER);
+        box.synchronizedConfirmationBox(message, "Processing Error", null,
+                "" + JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, JposConst.JPOS_FOREVER);
         return box.Result;
     }
 
@@ -1344,7 +1315,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         return errorcodes;
     }
 
-    public void gotError(ErrorEvent event) {
+    public void gotError(ErrorEvent ignore) {
         updateGui();
     }
 
@@ -1355,11 +1326,8 @@ public class CommonController implements Initializable, Runnable, DataListener, 
 
     @Override
     public void outputCompleteOccurred(OutputCompleteEvent event) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                gotOutputComplete(event);
-            }
+        Platform.runLater(() -> {
+            gotOutputComplete(event);
         });
     }
 
@@ -1376,11 +1344,8 @@ public class CommonController implements Initializable, Runnable, DataListener, 
 
     @Override
     public void statusUpdateOccurred(StatusUpdateEvent event) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                gotStatusUpdate(event);
-            }
+        Platform.runLater(() -> {
+            gotStatusUpdate(event);
         });
     }
 
@@ -1447,7 +1412,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         return true;
     }
 
-    class ErrorCodeValues extends Values {
+    static class ErrorCodeValues extends Values {
         ErrorCodeValues() {
             ValueList = new Object[]{
                     JposConst.JPOS_E_CLOSED, "E_CLOSED",
@@ -1469,7 +1434,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         }
     }
 
-    class ErrorLocusValues extends Values {
+    static class ErrorLocusValues extends Values {
         ErrorLocusValues() {
             ValueList = new Object[]{
                     JposConst.JPOS_EL_INPUT, "EL_INPUT",
@@ -1479,7 +1444,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         }
     }
 
-    class StatusUpdateValues extends Values {
+    static class StatusUpdateValues extends Values {
         StatusUpdateValues() {
             ValueList = new Object[]{
                     JposConst.JPOS_SUE_POWER_ONLINE, "SUE_POWER_ONLINE",
@@ -1596,7 +1561,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         }
     }
 
-    class IntValues extends Values {
+    static class IntValues extends Values {
         IntValues() {
             ValueList = new Object[]{
                     0, "0"
@@ -1604,7 +1569,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
         }
     }
 
-    class HexValues extends IntValues {
+    static class HexValues extends IntValues {
         @Override
         public String getSymbol(Object value) {
             for (int i = 0; i < ValueList.length - 1; i += 2) {
@@ -1622,15 +1587,14 @@ public class CommonController implements Initializable, Runnable, DataListener, 
                 if (ValueList[0].getClass() == Integer.class) {
                     try {
                         return Integer.parseInt(symbol, 16);
-                    } catch (Exception e) {
-                    }
+                    } catch (Exception ignored) {}
                 }
             }
             return (Integer) obj;
         }
     }
 
-    private class DataEventStatusValues extends Values {
+    private static class DataEventStatusValues extends Values {
         DataEventStatusValues() {
             ValueList = new Object[]{
                     0, ""

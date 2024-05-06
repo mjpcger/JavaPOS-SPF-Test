@@ -458,7 +458,7 @@ public class LineDisplayController extends CommonController {
             for (int i = 0; i < DG_glyph.getText().length(); i++) {
                 char c = DG_glyph.getText().toUpperCase().charAt(i);
                 if ("0123456789ABCDEF".indexOf(c) < 0) {
-                    int doit = myOptionDialog("Character " + (i + 1) + " not hexadecimal.\nClear?", "Processing Error", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+                    int doit = myOptionDialog("Character " + (i + 1) + " not hexadecimal.\nClear?");
                     if (doit == JOptionPane.YES_OPTION) {
                         DG_glyph.setText("");
                     }
@@ -467,7 +467,7 @@ public class LineDisplayController extends CommonController {
             }
             ValidGlyph = true;
         } else {
-            int doit = myOptionDialog("Odd number of characters.\nClear?", "Processing Error", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+            int doit = myOptionDialog("Odd number of characters.\nClear?");
             if (doit == JOptionPane.YES_OPTION) {
                 DG_glyph.setText("");
             }

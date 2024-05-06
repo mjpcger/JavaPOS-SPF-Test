@@ -539,12 +539,10 @@ public class CATController extends CommonController {
         public void run() {
             try {
                 sleep(100);
-            } catch (InterruptedException e) {}
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    runit();
-                }
+            } catch (InterruptedException e) {
+            }
+            Platform.runLater(() -> {
+                runit();
             });
         }
 
@@ -559,13 +557,10 @@ public class CATController extends CommonController {
     private void updateDirectIOTextArea(Event event, TextArea area) {
         if (((Tab)event.getSource()).isSelected()) {
             area.setText(DirectIOText);
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    area.positionCaret(DirectIOTextPosition);
-                    area.setScrollLeft(DirectIOHScroll);
-                    area.setScrollTop(DirectIOVScroll);
-                }
+            Platform.runLater(() -> {
+                area.positionCaret(DirectIOTextPosition);
+                area.setScrollLeft(DirectIOHScroll);
+                area.setScrollTop(DirectIOVScroll);
             });
         }
         else {

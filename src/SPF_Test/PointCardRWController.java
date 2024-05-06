@@ -29,9 +29,10 @@ import java.lang.reflect.Method;
 import java.net.*;
 import java.util.*;
 
+import static de.gmxhome.conrad.jpos.jpos_base.JposBaseDevice.stringArrayToLongArray;
+
 public class PointCardRWController extends CommonController {
     private PointCardRW ThePointCardRW;
-    private PropertyTableRow DataCountRow;
     private PropertyTableRow CharacterSetRow;
     private PropertyTableRow CharacterSetListRow;
     private PropertyTableRow LineCharsRow;
@@ -40,7 +41,6 @@ public class PointCardRWController extends CommonController {
     private PropertyTableRow LineSpacingRow;
     private PropertyTableRow MapCharacterSetRow;
     private PropertyTableRow MapModeRow;
-    private PropertyTableRow MaxLineRow;
     private PropertyTableRow TracksToReadRow;
     private PropertyTableRow TracksToWriteRow;
     private PropertyTableRow Track1DataRow;
@@ -59,7 +59,6 @@ public class PointCardRWController extends CommonController {
     private PropertyTableRow CapRotate180Row;
     private PropertyTableRow CapLeft90Row;
     private PropertyTableRow CapPrintRow;
-    private PropertyTableRow CapCleanCardRow;
     private PropertyTableRow CapClearPrintRow;
     private PropertyTableRow CapPrintModeRow;
 
@@ -117,12 +116,12 @@ public class PointCardRWController extends CommonController {
         Properties.getItems().add(new PropertyTableRow("Claimed", ""));
         Properties.getItems().add(new PropertyTableRow("CheckHealthText", ""));
         Properties.getItems().add(new PropertyTableRow("CardState", "", new CardStateValues()));
-        Properties.getItems().add(DataCountRow = new PropertyTableRow("DataCount", ""));
+        Properties.getItems().add(new PropertyTableRow("DataCount", ""));
         Properties.getItems().add(new PropertyTableRow("DataEventEnabled", ""));
         Properties.getItems().add(new PropertyTableRow("CapBold", ""));
         Properties.getItems().add(new PropertyTableRow("CapCardEntranceSensor", "", new BoolAsIntValues()));
         Properties.getItems().add(new PropertyTableRow("CapCharacterSet", "", new CapCharacterSetValues()));
-        Properties.getItems().add(CapCleanCardRow = new PropertyTableRow("CapCleanCard", ""));
+        Properties.getItems().add(new PropertyTableRow("CapCleanCard", ""));
         Properties.getItems().add(CapClearPrintRow = new PropertyTableRow("CapClearPrint", ""));
         Properties.getItems().add(new PropertyTableRow("CapDhigh", ""));
         Properties.getItems().add(new PropertyTableRow("CapDwide", ""));
@@ -146,7 +145,7 @@ public class PointCardRWController extends CommonController {
         Properties.getItems().add(new PropertyTableRow("LineWidth", ""));
         Properties.getItems().add(MapCharacterSetRow = new PropertyTableRow("MapCharacterSet", ""));
         Properties.getItems().add(MapModeRow = new PropertyTableRow("MapMode", "", new MapModeValues()));
-        Properties.getItems().add(MaxLineRow = new PropertyTableRow("MaxLine", ""));
+        Properties.getItems().add(new PropertyTableRow("MaxLine", ""));
         Properties.getItems().add(new PropertyTableRow("PrintHeight", ""));
         Properties.getItems().add(new PropertyTableRow("ReadState1", "", hex));
         Properties.getItems().add(new PropertyTableRow("ReadState2", "", hex));
@@ -190,8 +189,8 @@ public class PointCardRWController extends CommonController {
         DataHelp.getItems().add("");
         DataHelp.getItems().add("Valid text may contain ASCII characters and");
         DataHelp.getItems().add("byte values specified as 3-digit octal numbers");
-        DataHelp.getItems().add("preceeded by '\'. A backslash ('\') can be");
-        DataHelp.getItems().add("passed as '\\'.");
+        DataHelp.getItems().add("preceeded by '\\'. A backslash ('\\') can be");
+        DataHelp.getItems().add("passed as '\\\\'.");
         DataHelp.setValue("Help");
         setPropertyOnFocusLost(LineHeight, "LineHeight");
         setPropertyOnFocusLost(LineSpacing, "LineSpacing");
@@ -232,7 +231,7 @@ public class PointCardRWController extends CommonController {
                 val = CharacterSetRow.getValueConverter();
                 CharacterSet.getItems().clear();
                 if (CharacterSetListRow.getValue().length() > 0) {
-                    long[] valid = JposDevice.stringArrayToLongArray(CharacterSetListRow.getValue().split(","));
+                    long[] valid = stringArrayToLongArray(CharacterSetListRow.getValue().split(","));
                     for (long cset : valid) {
                         String s = val.getSymbol((int) cset);
                         CharacterSet.getItems().add(s);
@@ -341,12 +340,12 @@ public class PointCardRWController extends CommonController {
         Write6Data.setText(Track6DataRow.getValue());
     }
 
-    public void dataHelp(ActionEvent actionEvent) {
+    public void dataHelp(ActionEvent ignore) {
         DataHelp.setValue("Help");
         updateGuiLater();
     }
 
-    public void trackToWrite(ActionEvent actionEvent) {
+    public void trackToWrite(ActionEvent ignore) {
         if (!InUpdateGui) {
             int ttw = 0;
             if (TTW1.isSelected())
@@ -386,7 +385,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void trackToRead(ActionEvent actionEvent) {
+    public void trackToRead(ActionEvent ignore) {
         if (!InUpdateGui) {
             int ttr = 0;
             if (TTR1.isSelected())
@@ -413,7 +412,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void setCharacterSet(ActionEvent actionEvent) {
+    public void setCharacterSet(ActionEvent ignore) {
         if (!InUpdateGui) {
             if (!CharacterSetRow.getValue().equals(CharacterSet.getValue())) {
                 try {
@@ -426,7 +425,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void setMapCharacterSet(ActionEvent actionEvent) {
+    public void setMapCharacterSet(ActionEvent ignore) {
         if (!InUpdateGui) {
             if (MapCharacterSetRow.getValue().equals("true") != MapCharacterSet.isSelected()) {
                 try {
@@ -439,7 +438,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void setMapMode(ActionEvent actionEvent) {
+    public void setMapMode(ActionEvent ignore) {
         if (!InUpdateGui) {
             if (!MapModeRow.getValue().equals(MapMode.getValue())) {
                 try {
@@ -452,7 +451,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void setLineChars(ActionEvent actionEvent) {
+    public void setLineChars(ActionEvent ignore) {
         if (!InUpdateGui) {
             if (!LineCharsRow.getValue().equals(LineChars.getValue())) {
                 try {
@@ -465,7 +464,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void setLineHeight(ActionEvent actionEvent) {
+    public void setLineHeight(ActionEvent ignore) {
         if (!InUpdateGui) {
             if (!LineHeightRow.getValue().equals(LineHeight.getText())) {
                 try {
@@ -478,7 +477,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void setLineSpacing(ActionEvent actionEvent) {
+    public void setLineSpacing(ActionEvent ignore) {
         if (!InUpdateGui) {
             if (!LineSpacingRow.getValue().equals(LineSpacing.getText())) {
                 try {
@@ -491,7 +490,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void setWrite1Data(ActionEvent actionEvent) {
+    public void setWrite1Data(ActionEvent ignore) {
         if (!InUpdateGui) {
             if (!Write1DataRow.getValue().equals(Write1Data.getText())) {
                 try {
@@ -504,7 +503,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void setWrite2Data(ActionEvent actionEvent) {
+    public void setWrite2Data(ActionEvent ignore) {
         if (!InUpdateGui) {
             if (!Write2DataRow.getValue().equals(Write2Data.getText())) {
                 try {
@@ -517,7 +516,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void setWrite3Data(ActionEvent actionEvent) {
+    public void setWrite3Data(ActionEvent ignore) {
         if (!InUpdateGui) {
             if (!Write3DataRow.getValue().equals(Write3Data.getText())) {
                 try {
@@ -530,7 +529,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void setWrite4Data(ActionEvent actionEvent) {
+    public void setWrite4Data(ActionEvent ignore) {
         if (!InUpdateGui) {
             if (!Write4DataRow.getValue().equals(Write4Data.getText())) {
                 try {
@@ -543,7 +542,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void setWrite5Data(ActionEvent actionEvent) {
+    public void setWrite5Data(ActionEvent ignore) {
         if (!InUpdateGui) {
             if (!Write5DataRow.getValue().equals(Write5Data.getText())) {
                 try {
@@ -556,7 +555,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void setWrite6Data(ActionEvent actionEvent) {
+    public void setWrite6Data(ActionEvent ignore) {
         if (!InUpdateGui) {
             if (!Write6DataRow.getValue().equals(Write6Data.getText())) {
                 try {
@@ -580,14 +579,14 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void cleanCard(ActionEvent actionEvent) {
+    public void cleanCard(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         new CleanCardHandler().start();
     }
 
     private class BeginInsertionHandler extends MethodProcessor {
-        private int Timeout;
+        private final int Timeout;
         public BeginInsertionHandler(Integer timeout) {
             super(null);
             Timeout = timeout;
@@ -599,7 +598,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void beginInsertion(ActionEvent actionEvent) {
+    public void beginInsertion(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         Integer timeout = new TimeoutValues().getInteger(BI_timeout.getValue());
@@ -618,14 +617,14 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void endInsertion(ActionEvent actionEvent) {
+    public void endInsertion(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         new EndInsertionHandler().start();
     }
 
     private class BeginRemovalHandler extends MethodProcessor {
-        private int Timeout;
+        private final int Timeout;
         public BeginRemovalHandler(Integer timeout) {
             super(null);
             Timeout = timeout;
@@ -637,7 +636,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void beginRemoval(ActionEvent actionEvent) {
+    public void beginRemoval(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         Integer timeout = new TimeoutValues().getInteger(BR_timeout.getValue());
@@ -656,14 +655,14 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void endRemoval(ActionEvent actionEvent) {
+    public void endRemoval(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         new EndRemovalHandler().start();
     }
 
     private class RotatePrintHandler extends MethodProcessor {
-        private int Rotation;
+        private final int Rotation;
         public RotatePrintHandler(Integer rotation) {
             super(null);
             Rotation = rotation;
@@ -675,7 +674,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void rotatePrint(ActionEvent actionEvent) {
+    public void rotatePrint(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         Integer rotation = new RP_rotationValues().getInteger(RP_rotation.getValue());
@@ -708,7 +707,7 @@ public class PointCardRWController extends CommonController {
     }
 
     private class ValidateDataHandler extends MethodProcessor {
-        private String Data;
+        private final String Data;
         public ValidateDataHandler(String data) {
             super(null);
             Data = data;
@@ -720,7 +719,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void validateData(ActionEvent actionEvent) {
+    public void validateData(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         String data = dataToString();
@@ -729,10 +728,10 @@ public class PointCardRWController extends CommonController {
     }
 
     private class PrintWriteHandler extends MethodProcessor {
-        private String Data;
-        private int Kind;
-        private int HPos;
-        private int VPos;
+        private final String Data;
+        private final int Kind;
+        private final int HPos;
+        private final int VPos;
         public PrintWriteHandler(int kind, int hpos, int vpos, String data) {
             super(null);
             Kind = kind;
@@ -747,7 +746,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void printWrite(ActionEvent actionEvent) {
+    public void printWrite(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         Integer kind = new PW_kindValues().getInteger(PW_kind.getValue());
@@ -759,10 +758,7 @@ public class PointCardRWController extends CommonController {
     }
 
     private class ClearPrintWriteHandler extends MethodProcessor {
-        private int Width, Height;
-        private int Kind;
-        private int HPos;
-        private int VPos;
+        private final int Kind, HPos, VPos, Width, Height;
         public ClearPrintWriteHandler(int kind, int hpos, int vpos, int width, int height) {
             super(null);
             Kind = kind;
@@ -778,7 +774,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    public void clearPrintWrite(ActionEvent actionEvent) {
+    public void clearPrintWrite(ActionEvent ignore) {
         if (isMethodRunning())
             return;
         Integer kind = new PW_kindValues().getInteger(CPW_kind.getValue());
@@ -790,7 +786,7 @@ public class PointCardRWController extends CommonController {
             new ClearPrintWriteHandler(kind, hposition, vposition, width, height).start();
     }
 
-    private class CardStateValues extends Values {
+    private static class CardStateValues extends Values {
         CardStateValues() {
             ValueList = new Object[]{
                     PointCardRWConst.PCRW_STATE_NOCARD, "NOCARD",
@@ -800,7 +796,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    private class BoolAsIntValues extends Values {
+    private static class BoolAsIntValues extends Values {
         BoolAsIntValues() {
             ValueList = new Object[]{
                     JposConst.JPOS_TRUE, "TRUE",
@@ -809,7 +805,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    private class CapCharacterSetValues extends Values {
+    private static class CapCharacterSetValues extends Values {
         CapCharacterSetValues() {
             ValueList = new Object[]{
                     PointCardRWConst.PCRW_CCS_ALPHA, "ALPHA",
@@ -821,7 +817,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    private class CharacterSetValues extends Values {
+    private static class CharacterSetValues extends Values {
         CharacterSetValues() {
             ValueList = new Object[]{
                     PointCardRWConst.PCRW_CS_UNICODE, "UNICODE",
@@ -831,7 +827,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    private class MapModeValues extends Values {
+    private static class MapModeValues extends Values {
         MapModeValues() {
             ValueList = new Object[]{
                     PointCardRWConst.PCRW_MM_DOTS, "DOTS",
@@ -842,7 +838,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    private class PW_kindValues extends Values {
+    private static class PW_kindValues extends Values {
         PW_kindValues() {
             ValueList = new Object[]{
                     1, "Print",
@@ -852,7 +848,7 @@ public class PointCardRWController extends CommonController {
         }
     }
 
-    private class RP_rotationValues extends Values {
+    private static class RP_rotationValues extends Values {
         RP_rotationValues() {
             ValueList = new Object[]{
                     PointCardRWConst.PCRW_RP_NORMAL, "NORMAL",

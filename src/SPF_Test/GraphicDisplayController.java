@@ -509,6 +509,7 @@ public class GraphicDisplayController extends CommonController {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private class StorageValues extends IntValues {
         StorageValues() {
             ValueList = new Object[]{

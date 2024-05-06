@@ -36,7 +36,7 @@ public class DeviceControl {
     /**
      * Map of JavaFX controls, each representing a JavaPOS control. One entry per JavaPOS logical name in jpos.xml.
      */
-    public static Map<String, DeviceControl> Devices = new HashMap<String, DeviceControl>(0);
+    public static Map<String, DeviceControl> Devices = new HashMap<>(0);
 
     private BaseJposControl Control;
 
@@ -83,7 +83,7 @@ public class DeviceControl {
      * @return List containing all logical names specified in jpos.xml.
      */
     public static ArrayList<String> getNames() {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         for (DeviceControl actdev : Devices.values()) {
             result.add(actdev.Name);
         }
@@ -96,7 +96,7 @@ public class DeviceControl {
      * @return List containing all locical names specified in jpos.xml for devices ofthe given category.
      */
     public static ArrayList<String> getNames(String category) {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         category = "jpos." + category;
         for (DeviceControl actdev : Devices.values()) {
             String clsname = actdev.Control.getClass().getName();
@@ -112,10 +112,10 @@ public class DeviceControl {
      * @return List containing all devicecategories specified in jpos.xml.
      */
     public static ArrayList<String> getCategories() {
-        ArrayList<String> result = new ArrayList<String>();
-        ArrayList<Class> help = new ArrayList<Class>();
+        ArrayList<String> result = new ArrayList<>();
+        ArrayList<Class<?>> help = new ArrayList<>();
         for (DeviceControl actdev : Devices.values()) {
-            Class clact = actdev.Control.getClass();
+            Class<?> clact = actdev.Control.getClass();
             if (!help.contains(clact)) {
                 help.add(clact);
                 result.add(clact.getName().substring(5));
@@ -158,6 +158,7 @@ public class DeviceControl {
      * @param jposXml Path of the jpos.xml file containing the JavaPOS configuration.
      * @param control JavaFX control of the calling application.
      */
+    @SuppressWarnings("unchecked")
     static void loadDevices(Controller control) {
 
         JposRegPopulator devicegetter = JposServiceLoader.getManager().getRegPopulator();
@@ -236,6 +237,9 @@ public class DeviceControl {
                     } else if (category.equals("ImageScanner")) {
                         actdev.Control = new ImageScanner();
                         actdev.Gui = FXMLLoader.load(control.getClass().getResource("ImageScanner.fxml"), new DeviceResources(actdev));
+                    } else if (category.equals("IndividualRecognition")) {
+                        actdev.Control = new IndividualRecognition();
+                        actdev.Gui = FXMLLoader.load(control.getClass().getResource("IndividualRecognition.fxml"), new DeviceResources(actdev));
                     } else if (category.equals("ItemDispenser")) {
                         actdev.Control = new ItemDispenser();
                         actdev.Gui = FXMLLoader.load(control.getClass().getResource("ItemDispenser.fxml"), new DeviceResources(actdev));
