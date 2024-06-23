@@ -1219,7 +1219,7 @@ public class CommonController implements Initializable, Runnable, DataListener, 
     public void dataOccurred(DataEvent dataEvent) {
         Platform.runLater(() -> {
             gotData(dataEvent);
-            if (LockDataEventEnabled.isSelected()) {
+            if (LockDataEventEnabled != null && LockDataEventEnabled.isSelected()) {
                 try {
                     Method setDataEventEnabled = Class.forName(Control.getClass().getName()).getMethod("setDataEventEnabled", Boolean.TYPE);
                     setDataEventEnabled.invoke(Control, true);
@@ -1227,8 +1227,8 @@ public class CommonController implements Initializable, Runnable, DataListener, 
                 } catch (Exception e) {
                     getFullErrorMessageAndPrintTrace(e);
                 }
-                updateGui();
             }
+            updateGui();
         });
     }
 
