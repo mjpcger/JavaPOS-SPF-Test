@@ -306,6 +306,9 @@ public class DeviceControl {
                     } else if (category.equals("VideoCapture")) {
                         actdev.Control = new VideoCapture();
                         actdev.Gui = FXMLLoader.load(control.getClass().getResource("VideoCapture.fxml"), new DeviceResources(actdev));
+                    } else if (category.equals("VoiceRecognition")) {
+                        actdev.Control = new VoiceRecognition();
+                        actdev.Gui = FXMLLoader.load(control.getClass().getResource("VoiceRecognition.fxml"), new DeviceResources(actdev));
                     } else
                         continue;
                     Devices.put(actdev.Name, actdev);
