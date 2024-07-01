@@ -12,12 +12,11 @@ must be present in the jar folder:
 <ul>
     <li/>JavaPOS-SPF.jar
 </ul>
-and as long as JavaPOS 1.16 is not available, the following jar file from the JavaPOS-SPF project must be present in the jar
-folder as well:
-<ul>
-    <li/>Jpos116Dummy.jar
-</ul>
-Keep in mind: When a JavaPOS version 1.16 becomes available, remove <b>Jpos116Dummy.jar</b> from the jar folder.<p/>
+As long as a single jar file for JavaPOS 1.16 is not available, the snapshot jar files for javapos-contracts,
+javapos-controls and javapos-config-loader must be present in the jar folder as well. See the JavaPOS-SPF wiki for
+details, downloads can be made from the corresponding sub-folders of <a href="https://oss.sonatype.org/content/repositories/snapshots/org/javapos/">
+    https://oss.sonatype.org/content/repositories/snapshots/org/javapos/</a>.
+<p/>
 If the device you like to test uses COM ports for communication (no matter if real COM ports, via Usb2Serial or Bluetooth)
 via the specific JavaPOS-SPF interfaces, you need one of
 <ul>
