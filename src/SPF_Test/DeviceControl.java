@@ -300,6 +300,9 @@ public class DeviceControl {
                     } else if (category.equals("SoundRecorder")) {
                         actdev.Control = new SoundRecorder();
                         actdev.Gui = FXMLLoader.load(control.getClass().getResource("SoundRecorder.fxml"), new DeviceResources(actdev));
+                    } else if (category.equals("SpeechSynthesis")) {
+                        actdev.Control = new SpeechSynthesis();
+                        actdev.Gui = FXMLLoader.load(control.getClass().getResource("SpeechSynthesis.fxml"), new DeviceResources(actdev));
                     } else if (category.equals("ToneIndicator")) {
                         actdev.Control = new ToneIndicator();
                         actdev.Gui = FXMLLoader.load(control.getClass().getResource("ToneIndicator.fxml"), new DeviceResources(actdev));
