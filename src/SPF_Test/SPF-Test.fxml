@@ -41,8 +41,7 @@
  Even if designed to test JavaPOS service implementations based on JavaPOS-SPF, it can be used to test any JavaPOS
  service supported by this program."/>
         <Label layoutX="20" layoutY="130" wrapText="true" prefWidth="850" text="All device classes specified in the UPOS
- 1.15 manual and the following device classe specified within the UPOS 1.16.1 manual are currently supported:
- DeviceMonitor, GraphicDisplay, IndividualRecognition, SoundPlayer, SoundRecorder, VideoCapture and VoiceRecognition."/>
+ 1.15 manual and the UPOS 1.16.1 manual are supported."/>
         <Label layoutX="20" layoutY="170" text="To integrate a service into the test program, follow these steps:"/>
         <Label layoutX="40" layoutY="200" text="● Add the necessary entries to jpos.xml, located in the working directory of the test program."/>
         <Label layoutX="40" layoutY="230" text="● Add the necessary jar files to the classpath. You can adjust the startup script to do this."/>

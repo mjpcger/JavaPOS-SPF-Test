@@ -49,7 +49,7 @@ public class SpeechSynthesisController extends CommonController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-          PropertyNameColumnWidth = 165;
+        PropertyNameColumnWidth = 165;
         PropertyValueColumnWidth = 229;
         super.initialize(url, resourceBundle);
         TheSpeechSynthesis = (SpeechSynthesis) Control;
@@ -73,7 +73,6 @@ public class SpeechSynthesisController extends CommonController {
         Properties.getItems().add(VoiceRow = new PropertyTableRow("Voice", ""));
         Properties.getItems().add(VoiceListRow = new PropertyTableRow("VoiceList", ""));
         Properties.getItems().add(VolumeRow = new PropertyTableRow("Volume", ""));
-        Properties.getItems().add(new PropertyTableRow("CheckHealthText", ""));
         Properties.getItems().add(new PropertyTableRow("CheckHealthText", ""));
         Properties.getItems().add(new PropertyTableRow("DeviceServiceDescription", ""));
         Properties.getItems().add(new PropertyTableRow("DeviceServiceVersion", ""));
