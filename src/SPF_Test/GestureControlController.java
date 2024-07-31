@@ -176,10 +176,13 @@ public class GestureControlController extends CommonController {
     @Override
     public void gotOutputComplete(OutputCompleteEvent event) {
         String outputID = new IntValues().getSymbol(event.getOutputID());
-        for (int i = 0; i < SC_outputID.getItems().size(); i++) {
-            if (outputID.equals(SC_outputID.getItems().get(i))) {
-                SC_outputID.getItems().remove(i);
+        while (SC_outputID.getItems().size() > 0) {
+            // Must be the first, except after disable / enable of device
+            if (outputID.equals(SC_outputID.getItems().get(0))) {
+                SC_outputID.getItems().remove(0);
                 break;
+            } else {
+                SC_outputID.getItems().remove(0);
             }
         }
         super.gotOutputComplete(event);
